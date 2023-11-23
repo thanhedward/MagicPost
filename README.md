@@ -1,5 +1,5 @@
-# Examination online webapp
-> Build a web application for online test in ISC Quang Trung
+# MAGIC POST
+> Build a web application for courier management
 
 ## Table of contents
 * [General info](#general-info)
