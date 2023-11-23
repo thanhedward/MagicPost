@@ -29,7 +29,7 @@ public class ProfileController {
     }
 
   @GetMapping("/profiles")
-  @PreAuthorize("hasRole('ADMIN')")
+  @PreAuthorize("hasRole('CEO')")
   public ResponseEntity<?> getAllProfiles() {
 
     List<Profile> profiles = profileService.getAllProfiles();

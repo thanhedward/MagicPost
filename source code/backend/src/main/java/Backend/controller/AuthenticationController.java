@@ -88,9 +88,9 @@ public class AuthenticationController {
             roles));
 
 //        List<String> roles = new ArrayList<>();
-//    roles.add("ROLE_ADMIN");
-//    roles.add("ROLE_STUDENT");
-//    roles.add("ROLE_LECTURER");
+//    roles.add("ROLE_CEO");
+//    roles.add("ROLE_USER");
+//    roles.add("ROLE_BRANCH_MANAGER");
 //    return ResponseEntity.ok(new JwtResponse("234l2ioj45", 35123441L, "thanhtam28ss", "ngocthanh123@gmail.com", roles));
   }
 

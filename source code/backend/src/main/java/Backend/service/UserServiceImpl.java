@@ -86,20 +86,20 @@ public class UserServiceImpl implements UserService {
         Set<Role> roles = new HashSet<>();
 
         if (reqRoles == null) {
-            Role userRole = roleService.findByName(ERole.ROLE_STUDENT).orElseThrow(() -> new RuntimeException("Error: Role is not found"));
+            Role userRole = roleService.findByName(ERole.ROLE_USER).orElseThrow(() -> new RuntimeException("Error: Role is not found"));
             roles.add(userRole);
         } else {
             reqRoles.forEach(role -> {
                 switch (role.getName()) {
-                    case ROLE_ADMIN: {
-                        addRoles(ERole.ROLE_ADMIN, roles);
+                    case ROLE_CEO: {
+                        addRoles(ERole.ROLE_CEO, roles);
                     }
 
-                    case ROLE_LECTURER: {
-                        addRoles(ERole.ROLE_LECTURER, roles);
+                    case ROLE_BRANCH_MANAGER: {
+                        addRoles(ERole.ROLE_BRANCH_MANAGER, roles);
                     }
                     default: {
-                        addRoles(ERole.ROLE_STUDENT, roles);
+                        addRoles(ERole.ROLE_USER, roles);
                     }
                 }
 

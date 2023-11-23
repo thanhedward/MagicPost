@@ -41,7 +41,7 @@ public class QuestionController {
     }
 
     @GetMapping(value = "/questions")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('LECTURER')")
+    @PreAuthorize("hasRole('CEO') or hasRole('BRANCH_MANAGER')")
 
     public ResponseEntity<ServiceResult> getAllQuestion() {
         List<Question> questionList = questionService.getQuestionList();
@@ -50,7 +50,7 @@ public class QuestionController {
     }
 
     @GetMapping(value = "/questions/{id}")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('LECTURER')")
+    @PreAuthorize("hasRole('CEO') or hasRole('BRANCH_MANAGER')")
 
     public ResponseEntity<?> getQuestionById(@PathVariable Long id) {
         Optional<Question> questionOptional = questionService.getQuestionById(id);
@@ -62,11 +62,11 @@ public class QuestionController {
 
     //    Get list of question by part
     @GetMapping(value = "/parts/{partId}/questions")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('LECTURER')")
+    @PreAuthorize("hasRole('CEO') or hasRole('BRANCH_MANAGER')")
     public PageResult getQuestionsByPart(@PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable, @PathVariable Long partId) {
         String username = userService.getUserName();
         User user = userService.getUserByUsername(username).get();
-        Role role = roleService.findByName(ERole.ROLE_ADMIN).get();
+        Role role = roleService.findByName(ERole.ROLE_CEO).get();
         boolean isAdmin = user.getRoles().contains(role);
 
         Page<Question> questions;
@@ -91,11 +91,11 @@ public class QuestionController {
     }
 
     @GetMapping(value = "/parts/{partId}/questions/false/deleted")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('LECTURER')")
+    @PreAuthorize("hasRole('CEO') or hasRole('BRANCH_MANAGER')")
     public PageResult getQuestionsByPartNotDeleted(@PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable, @PathVariable Long partId) {
         String username = userService.getUserName();
         User user = userService.getUserByUsername(username).get();
-        Role role = roleService.findByName(ERole.ROLE_ADMIN).get();
+        Role role = roleService.findByName(ERole.ROLE_CEO).get();
         boolean isAdmin = user.getRoles().contains(role);
         Page<Question> questions;
         if (isAdmin) {
@@ -110,7 +110,7 @@ public class QuestionController {
 //    Get list of question by question type
 
     @GetMapping(value = "/question-types/{typeId}/questions")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('LECTURER')")
+    @PreAuthorize("hasRole('CEO') or hasRole('BRANCH_MANAGER')")
 
     public ResponseEntity<?> getQuestionByQuestionType(@PathVariable Long typeId) {
         if (questionTypeService.existsById(typeId)) {
@@ -123,7 +123,7 @@ public class QuestionController {
     }
 
     @PostMapping(value = "/questions")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('LECTURER')")
+    @PreAuthorize("hasRole('CEO') or hasRole('BRANCH_MANAGER')")
     public Question createQuestion(@Valid @RequestBody Question question, @RequestParam String questionType, @RequestParam Long partId) {
         EQTypeCode eqTypeCode = EQTypeCode.valueOf(questionType);
         QuestionType questionType1 = questionTypeService.getQuestionTypeByCode(eqTypeCode).get();
@@ -142,7 +142,7 @@ public class QuestionController {
     }
 
     @PutMapping(value = "/questions/{id}")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('LECTURER')")
+    @PreAuthorize("hasRole('CEO') or hasRole('BRANCH_MANAGER')")
 
     public ResponseEntity<?> updateQuestion(@Valid @RequestBody Question question, @PathVariable Long id) {
         Optional<Question> questionReq = questionService.getQuestionById(id);
@@ -154,7 +154,7 @@ public class QuestionController {
         return ResponseEntity.ok().body(new ServiceResult(HttpStatus.OK.value(), "Get question with id: " + id, question));
     }
 
-    @PreAuthorize("hasRole('ADMIN') or hasRole('LECTURER')")
+    @PreAuthorize("hasRole('CEO') or hasRole('BRANCH_MANAGER')")
     @GetMapping(value = "/questions/{id}/deleted/{deleted}")
     public ResponseEntity<?> deleteTempQuestion(@PathVariable Long id, @PathVariable boolean deleted) {
         log.error("Deleted");

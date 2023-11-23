@@ -69,11 +69,11 @@ public class ExamController {
 //    }
 
     @GetMapping(value = "/exams")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('LECTURER')")
+    @PreAuthorize("hasRole('CEO') or hasRole('BRANCH_MANAGER')")
     public PageResult getExamsByPage(@PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable) {
         String username = userService.getUserName();
         User user = userService.getUserByUsername(username).get();
-        boolean isAdmin = user.getRoles().contains(ERole.ROLE_ADMIN);
+        boolean isAdmin = user.getRoles().contains(ERole.ROLE_CEO);
         Page<Exam> examPage;
         if (isAdmin) {
             examPage = examService.findAll(pageable);

@@ -135,7 +135,7 @@ public class UserController {
         return false;
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('CEO')")
     @GetMapping("/{id}/deleted/{deleted}")
     public ResponseEntity<?> deleteTempUser(@PathVariable Long id, @PathVariable boolean deleted) {
         User user = userService.findUserById(id).get();
@@ -146,14 +146,14 @@ public class UserController {
 
 
     @GetMapping()
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('CEO')")
     public PageResult getUsersByPage(@PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable) {
         Page<User> userPage = userService.findUsersByPage(pageable);
         return new PageResult(userPage);
     }
 
 //    @GetMapping("/deleted/{status}")
-//    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('CEO')")
 //    public PageResult getUsersByPage(@PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable) {
 //        Page<User> userPage = userService.findUsersByPage(pageable);
 //        return new PageResult(userPage);
@@ -168,7 +168,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('CEO')")
         public ResponseEntity<?> updateUser(@Valid @RequestBody UserUpdate userReq, @PathVariable Long id) {
         User userUpdate = userService.findUserById(id).get();
         if (userReq.getPassword() != null) {
@@ -188,7 +188,7 @@ public class UserController {
 
 
     @PostMapping()
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('CEO')")
     public ResponseEntity<?> createUser(@Valid @RequestBody User user) {
 
 //        Check username is exists?
@@ -209,13 +209,13 @@ public class UserController {
 //        Set<Role> roles = new HashSet<>();
 //
 //        if (reqRoles == null) {
-//            Role userRole = roleService.findByName(ERole.ROLE_STUDENT).orElseThrow(() -> new RuntimeException("Error: Role is not found"));
+//            Role userRole = roleService.findByName(ERole.ROLE_USER).orElseThrow(() -> new RuntimeException("Error: Role is not found"));
 //            roles.add(userRole);
 //        } else {
 //            reqRoles.forEach(role -> {
 //                switch (role.getName()) {
-//                    case ROLE_ADMIN: {
-//                        addRoles(ERole.ROLE_ADMIN, roles);
+//                    case ROLE_CEO: {
+//                        addRoles(ERole.ROLE_CEO, roles);
 //                    }
 //                    case ROLE_MANAGER: {
 //                        addRoles(ERole.ROLE_MANAGER, roles);
@@ -224,7 +224,7 @@ public class UserController {
 //                        addRoles(ERole.ROLE_LECTURE, roles);
 //                    }
 //                    default:{
-//                        addRoles(ERole.ROLE_STUDENT, roles);
+//                        addRoles(ERole.ROLE_USER, roles);
 //                    }
 //                }
 //
