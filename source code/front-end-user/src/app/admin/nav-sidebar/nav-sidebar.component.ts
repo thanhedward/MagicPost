@@ -21,11 +21,11 @@ export class NavSidebarComponent implements OnInit {
 
   ngOnInit() {
     this.userRoles = this.tokenStorageService.getUser().roles;
-    if (this.userRoles.includes(UserRole.ROLE_ADMIN.toString())) {
+    if (this.userRoles.includes(UserRole.ROLE_CEO.toString())) {
       this.roleAdmin = true;
-    } else if (this.userRoles.includes(UserRole.ROLE_LECTURE.toString())) {
+    } else if (this.userRoles.includes(UserRole.ROLE_BRANCH_MANAGER.toString())) {
       this.roleLecturer = false;
-    } else if (this.userRoles.includes(UserRole.ROLE_STUDENT.toString())) {
+    } else if (this.userRoles.includes(UserRole.ROLE_USER.toString())) {
       this.tokenStorageService.signOut();
       window.location.reload();
     }

@@ -48,27 +48,27 @@ export class LoginComponent implements OnInit {
       const user = this.tokenStorageService.getUser();
       this.roles = user.roles;
       console.log(user);
-      if (this.roles.includes(UserRole.ROLE_ADMIN)) {
-        this.toLogin(UserRole.ROLE_ADMIN);
-      } else if (this.roles.includes(UserRole.ROLE_LECTURE)) {
-        this.toLogin(UserRole.ROLE_ADMIN);
-      } else if (this.roles.includes(UserRole.ROLE_STUDENT)) {
-        this.toLogin(UserRole.ROLE_STUDENT);
+      if (this.roles.includes(UserRole.ROLE_CEO)) {
+        this.toLogin(UserRole.ROLE_CEO);
+      } else if (this.roles.includes(UserRole.ROLE_BRANCH_MANAGER)) {
+        this.toLogin(UserRole.ROLE_CEO);
+      } else if (this.roles.includes(UserRole.ROLE_USER)) {
+        this.toLogin(UserRole.ROLE_USER);
       }
     }
   }
 
   toLogin(role: string) {
     switch (role) {
-      case UserRole.ROLE_STUDENT: {
+      case UserRole.ROLE_USER: {
         this.router.navigateByUrl(this.returnUrl);
         break;
       }
-      case UserRole.ROLE_ADMIN: {
+      case UserRole.ROLE_CEO: {
         this.router.navigateByUrl(this.returnUrl);
         break;
       }
-      case UserRole.ROLE_LECTURE: {
+      case UserRole.ROLE_BRANCH_MANAGER: {
         this.router.navigateByUrl(this.returnUrl);
         break;
       }
@@ -87,12 +87,12 @@ export class LoginComponent implements OnInit {
         this.isLoggedIn = true;
 
         this.roles = this.tokenStorageService.getUser().roles;
-        if (this.roles.includes(UserRole.ROLE_ADMIN)) {
-          this.toLogin(UserRole.ROLE_ADMIN);
-        } else if (this.roles.includes(UserRole.ROLE_STUDENT)) {
-          this.toLogin(UserRole.ROLE_STUDENT);
-        } else if (this.roles.includes(UserRole.ROLE_LECTURE)) {
-          this.toLogin(UserRole.ROLE_LECTURE);
+        if (this.roles.includes(UserRole.ROLE_CEO)) {
+          this.toLogin(UserRole.ROLE_CEO);
+        } else if (this.roles.includes(UserRole.ROLE_USER)) {
+          this.toLogin(UserRole.ROLE_USER);
+        } else if (this.roles.includes(UserRole.ROLE_BRANCH_MANAGER)) {
+          this.toLogin(UserRole.ROLE_BRANCH_MANAGER);
         }
       },
       err => {
