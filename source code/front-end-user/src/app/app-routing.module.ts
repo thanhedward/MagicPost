@@ -28,7 +28,7 @@ import {AdminProfileComponent} from './admin/admin-profile/admin-profile.compone
 import {DetailTestComponent} from './admin/manage-test/detail-test/detail-test.component';
 import {UserTestResultComponent} from './admin/manage-test/user-test-result/user-test-result.component';
 import {ResetPasswordComponent} from './reset-password/reset-password.component';
-
+import { ManageGatheringPointComponent } from './admin/manage-gathering-point/manage-gathering-point.component';
 
 const routes: Routes = [
   {
@@ -88,6 +88,7 @@ const routes: Routes = [
           {path: 'question-bank', component: QuestionBankComponent},
           {path: 'question-bank/question/:questionId', component: QuestionDetailComponent},
           {path: 'courses', component: ManageCourseComponent},
+          {path: 'gathering-point', component: ManageGatheringPointComponent},
           {path: 'tests', component: ManageTestComponent},
           {path: 'tests/:id/preview', component: DetailTestComponent},
           {path: 'tests/:id/users', component: UserTestComponent},

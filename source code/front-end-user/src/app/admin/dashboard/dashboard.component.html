@@ -10,7 +10,7 @@
               <div class="flex flex-wrap">
                 <div class="relative w-full pr-4 max-w-full flex-grow flex-1">
                   <h5 class="text-gray-500 uppercase font-bold text-xs">
-                    Người dùng
+                    Số điểm tập kết
                   </h5>
                   <span class="font-semibold text-xl text-gray-800">
                       {{statistics.accountTotal}}
@@ -19,7 +19,7 @@
                 <div class="relative w-auto pl-4 flex-initial">
                   <div
                     class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full bg-red-500">
-                    <i class="fa fa-user"></i>
+                    <i class="fa fa-map-marker"></i>
                   </div>
                 </div>
               </div>
@@ -56,7 +56,7 @@
               <div class="flex flex-wrap">
                 <div class="relative w-full pr-4 max-w-full flex-grow flex-1">
                   <h5 class="text-gray-500 uppercase font-bold text-xs">
-                    Đề kiểm tra
+                    Số hàng gửi
                   </h5>
                   <span class="font-semibold text-xl text-gray-800">
                       {{statistics.examTotal}}
@@ -65,7 +65,7 @@
                 <div class="relative w-auto pl-4 flex-initial">
                   <div
                     class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full bg-orange-500">
-                    <i class="fa fa-book"></i>
+                    <i class="fa-solid fa-truck-fast"></i>
                   </div>
                 </div>
               </div>
@@ -99,7 +99,7 @@
               <div class="flex flex-wrap">
                 <div class="relative w-full pr-4 max-w-full flex-grow flex-1">
                   <h5 class="text-gray-500 uppercase font-bold text-xs">
-                    Câu hỏi
+                    Số hàng nhận
                   </h5>
                   <span class="font-semibold text-xl text-gray-800">
                       {{statistics.questionTotal}}
@@ -108,7 +108,7 @@
                 <div class="relative w-auto pl-4 flex-initial">
                   <div
                     class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full bg-pink-500">
-                    <i class="fa fa-question-circle"></i>
+                    <i class="fa-solid fa-box-open"></i>
                   </div>
                 </div>
               </div>
@@ -142,7 +142,7 @@
               <div class="flex flex-wrap">
                 <div class="relative w-full pr-4 max-w-full flex-grow flex-1">
                   <h5 class="text-gray-500 uppercase font-bold text-xs">
-                    Bài làm
+                    Số khách hàng
                   </h5>
                   <span class="font-semibold text-xl text-gray-800">
                       {{statistics.examUserTotal}}
@@ -183,33 +183,190 @@
     </div>
   </div>
 </div>
+
 <div class="px-4 md:px-10 mx-auto w-full -m-24">
   <div class="flex flex-wrap">
-<!--    <app-line-chart class="w-full mb-12 xl:mb-0 px-4" [data]="statistics"></app-line-chart>-->
-    <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded bg-gray-900">
-      <div class="rounded-t mb-0 px-4 py-3 bg-transparent">
-        <div class="flex flex-wrap items-center">
-          <div class="relative w-full max-w-full flex-grow flex-1">
-
-            <h2 class="text-white text-xl font-semibold">
-              Thống kê bài kiểm tra
-            </h2>
-            <h5 class="text-white text-md">
-              7 ngày gần nhất
-            </h5>
-          </div>
-        </div>
+   <app-line-chart class="w-full xl:b0 px-4" [data]="statistics"></app-line-chart>
+   <div class="w-full xl:-b0 px-4">
+    <div class="relative flex flex-col min-w-0 break-words w-full mb-8 shadow-lg rounded-lg bg-white text-blueGray-700">
+      <div class="px-6 py-4 border-0">
+         <div class="flex flex-wrap items-center">
+            <div class="relative w-full max-w-full flex-grow flex-1">
+               <h3 class="font-bold text-lg text-blueGray-700">Thống kê hàng hóa tại điểm tập kết</h3>
+            </div>
+         </div>
       </div>
-      <div class="p-4 flex-auto">
-
-        <!-- Chart -->
-        <div class="relative" style="height:350px">
-          <canvas id="line-chart"></canvas>
-        </div>
+      <div class="block w-full overflow-x-auto overflow-y-auto max-h-[calc(7*3rem)]">
+         <table class="items-center w-full bg-transparent border-collapse">
+            <thead>
+               <tr>
+                  <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left bg-blueGray-100 text-blueGray-500 border-blueGray-200">Tên điểm tập kết</th>
+                  <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left bg-blueGray-100 text-blueGray-500 border-blueGray-200">Địa chỉ</th>
+                  <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left bg-blueGray-100 text-blueGray-500 border-blueGray-200">Đã nhận</th>
+                  <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left bg-blueGray-100 text-blueGray-500 border-blueGray-200">Đã gửi</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr>
+                  <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                     <div class="flex items-center"><span class="ml-3 font-bold NaN">/argon/</span></div>
+                  </td>
+                  <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                     <div class="flex items-center">4,569</div>
+                  </td>
+                  <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                     <div class="flex items-center">340</div>
+                  </td>
+                  <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                     <div class="flex items-center">46,53%</div>
+                  </td>
+               </tr>
+               <tr>
+                  <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                     <div class="flex items-center"><span class="ml-3 font-bold NaN">/argon/index.html</span></div>
+                  </td>
+                  <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                     <div class="flex items-center">3,985</div>
+                  </td>
+                  <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                     <div class="flex items-center">319</div>
+                  </td>
+                  <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                     <div class="flex items-center"><i class="fas fa-arrow-down mr-2 text-orange-500"></i>46,53%</div>
+                  </td>
+               </tr>
+               <tr>
+                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                   <div class="flex items-center"><span class="ml-3 font-bold NaN">/argon/index.html</span></div>
+                </td>
+                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                   <div class="flex items-center">3,985</div>
+                </td>
+                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                   <div class="flex items-center">319</div>
+                </td>
+                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                   <div class="flex items-center"><i class="fas fa-arrow-down mr-2 text-orange-500"></i>46,53%</div>
+                </td>
+             </tr>
+             <tr>
+              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                 <div class="flex items-center"><span class="ml-3 font-bold NaN">/argon/index.html</span></div>
+              </td>
+              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                 <div class="flex items-center">3,985</div>
+              </td>
+              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                 <div class="flex items-center">319</div>
+              </td>
+              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                 <div class="flex items-center"><i class="fas fa-arrow-down mr-2 text-orange-500"></i>46,53%</div>
+              </td>
+           </tr>
+           <tr>
+            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+               <div class="flex items-center"><span class="ml-3 font-bold NaN">/argon/index.html</span></div>
+            </td>
+            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+               <div class="flex items-center">3,985</div>
+            </td>
+            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+               <div class="flex items-center">319</div>
+            </td>
+            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+               <div class="flex items-center"><i class="fas fa-arrow-down mr-2 text-orange-500"></i>46,53%</div>
+            </td>
+         </tr>
+         <tr>
+          <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+             <div class="flex items-center"><span class="ml-3 font-bold NaN">/argon/index.html</span></div>
+          </td>
+          <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+             <div class="flex items-center">3,985</div>
+          </td>
+          <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+             <div class="flex items-center">319</div>
+          </td>
+          <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+             <div class="flex items-center"><i class="fas fa-arrow-down mr-2 text-orange-500"></i>46,53%</div>
+          </td>
+       </tr>
+       <tr>
+        <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+           <div class="flex items-center"><span class="ml-3 font-bold NaN">/argon/index.html</span></div>
+        </td>
+        <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+           <div class="flex items-center">3,985</div>
+        </td>
+        <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+           <div class="flex items-center">319</div>
+        </td>
+        <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+           <div class="flex items-center"><i class="fas fa-arrow-down mr-2 text-orange-500"></i>46,53%</div>
+        </td>
+     </tr>
+     <tr>
+      <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+         <div class="flex items-center"><span class="ml-3 font-bold NaN">/argon/index.html</span></div>
+      </td>
+      <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+         <div class="flex items-center">3,985</div>
+      </td>
+      <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+         <div class="flex items-center">319</div>
+      </td>
+      <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+         <div class="flex items-center"><i class="fas fa-arrow-down mr-2 text-orange-500"></i>46,53%</div>
+      </td>
+   </tr>
+               <tr>
+                  <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                     <div class="flex items-center"><span class="ml-3 font-bold NaN">/argon/charts.html</span></div>
+                  </td>
+                  <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                     <div class="flex items-center">3,513</div>
+                  </td>
+                  <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                     <div class="flex items-center">294</div>
+                  </td>
+                  <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                     <div class="flex items-center">36,49%</div>
+                  </td>
+               </tr>
+               <tr>
+                  <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                     <div class="flex items-center"><span class="ml-3 font-bold NaN">/argon/tables.html</span></div>
+                  </td>
+                  <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                     <div class="flex items-center">2,050</div>
+                  </td>
+                  <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                     <div class="flex items-center">147</div>
+                  </td>
+                  <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                     <div class="flex items-center"><i class="fas fa-arrow-up mr-2 text-emerald-500"></i>50,87%</div>
+                  </td>
+               </tr>
+               <tr>
+                  <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                     <div class="flex items-center"><span class="ml-3 font-bold NaN">/argon/profile.html</span></div>
+                  </td>
+                  <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                     <div class="flex items-center">1,795</div>
+                  </td>
+                  <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                     <div class="flex items-center">190</div>
+                  </td>
+                  <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                     <div class="flex items-center">46,53%</div>
+                  </td>
+               </tr>
+            </tbody>
+         </table>
       </div>
-    </div>
-
+   </div>
+   </div>
   </div>
-
   <app-admin-footer></app-admin-footer>
 </div>
+
