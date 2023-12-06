@@ -13,8 +13,14 @@ export class NavSidebarComponent implements OnInit {
   userCollapseShow = false;
   questionBankCollapseShow = false;
   userRoles: string[] = [];
-  roleAdmin: boolean;
-  roleLecturer: boolean;
+  // roleAdmin: boolean;
+  // roleLecturer: boolean;
+  roleCEO: boolean;
+  roleBranchManager: boolean;
+  roleTransactionClerk: boolean;
+  roleWarehouseManager: boolean;
+  roleWarehouseClerk: boolean;
+  roleUser: boolean;
 
   constructor(private tokenStorageService: TokenStorageService) {
   }
@@ -22,9 +28,9 @@ export class NavSidebarComponent implements OnInit {
   ngOnInit() {
     this.userRoles = this.tokenStorageService.getUser().roles;
     if (this.userRoles.includes(UserRole.ROLE_CEO.toString())) {
-      this.roleAdmin = true;
+      this.roleCEO = true;
     } else if (this.userRoles.includes(UserRole.ROLE_BRANCH_MANAGER.toString())) {
-      this.roleLecturer = false;
+      this.roleBranchManager = false;
     } else if (this.userRoles.includes(UserRole.ROLE_USER.toString())) {
       this.tokenStorageService.signOut();
       window.location.reload();
