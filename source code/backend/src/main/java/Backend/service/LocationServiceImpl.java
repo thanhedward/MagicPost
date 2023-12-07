@@ -59,12 +59,15 @@ public class LocationServiceImpl implements LocationService {
     }
 
 
+//    @Override
+//    public List<Location> getLocationByType(String type) {
+//        return locationRepository.findAllByType(type);
+//    }
+
     @Override
-    public List<Location> getLocationByType(String type) {
-        return locationRepository.findAllByType(type);
+    public Page<Location> getLocationByTypePage(String type, Pageable pageable) {
+        return locationRepository.findAllByType(type, pageable);
     }
-
-
 
 
 }

@@ -60,18 +60,25 @@ public class LocationController {
         }
     }
 
+//    @PreAuthorize("hasRole('CEO')")
+//    @GetMapping(value = "/location/get-list-warehouse")
+//    public List<Location> getAllLocationWarehouse(){
+//        List<Location> res = locationService.getLocationByType(ELocationType.WAREHOUSE.toString());
+//        return res;
+//    }
+
     @PreAuthorize("hasRole('CEO')")
     @GetMapping(value = "/location/get-list-warehouse")
-    public List<Location> getAllLocationWarehouse(){
-        List<Location> res = locationService.getLocationByType(ELocationType.WAREHOUSE.toString());
-        return res;
+    public PageResult getAllLocationWarehouseByPage(@PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable){
+        Page<Location> resWarehouse = locationService.getLocationByTypePage(ELocationType.WAREHOUSE.toString(), pageable);
+        return new PageResult(resWarehouse);
     }
 
     @PreAuthorize("hasRole('CEO')")
     @GetMapping(value = "/location/get-list-transaction-office")
-    public List<Location> getAllLocationTransactionOffice(){
-        List<Location> res = locationService.getLocationByType(ELocationType.TRANSACTION_OFFICE.toString());
-        return res;
+    public PageResult getAllLocationTransactionOfficeByPage(@PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable){
+        Page<Location> resTransactionOffice = locationService.getLocationByTypePage(ELocationType.TRANSACTION_OFFICE.toString(), pageable);
+        return new PageResult(resTransactionOffice);
     }
 
     @GetMapping(value = "/location")

@@ -24,5 +24,8 @@ public interface LocationService {
 
     boolean existsById(Long id);
 
-    List<Location> getLocationByType (String type);
+//    List<Location> getLocationByType (String type);
+
+    public Page<Location> getLocationByTypePage (String type, Pageable pageable);
 }
+

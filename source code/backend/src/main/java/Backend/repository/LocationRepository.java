@@ -22,10 +22,11 @@ public interface LocationRepository extends JpaRepository<Location, Long> {
 //    @Query(value = "select * from location c join course_intake c_i on c.id = c_i.course_id where c_i.intake_id=:intakeId", nativeQuery = true)
 //    List<Course> findAllByIntakeId(Long intakeId);
 
-    List<Location> findAllByType(String type);
+//    List<Location> findAllByType(String type);
 
 //    @Query(value="select * from course c join part p on c.id = p.course_id where p.id=:partId", nativeQuery=true)
 //    Course findCourseByPartId(Long partId);
 
+    public Page<Location> findAllByType(String type, Pageable pageable);
 
 }
