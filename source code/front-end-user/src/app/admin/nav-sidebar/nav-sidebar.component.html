@@ -39,40 +39,12 @@
       <!-- Navigation -->
       <ul class="md:flex-col md:min-w-full flex flex-col list-none">
         <li class="items-center">
-<<<<<<< HEAD
           <a [routerLink]="['dashboard']" routerLinkActive="text-blue-500 hover:text-blue-600" class="text-gray-800 hover:text-gray-600 text-xs uppercase py-3 font-bold block">
             <i class="fa fa-line-chart opacity-75 mr-2 text-sm"></i>Thống kê hàng hóa </a>
         </li>
-        <li class="items-center" *ngIf="roleAdmin">
+        <li class="items-center" *ngIf="roleCEO">
           <a [routerLink]="['users']" routerLinkActive="text-blue-500 hover:text-blue-600" class="text-gray-800 hover:text-gray-600 text-xs uppercase py-3 font-bold block">
             <i class="fa fa-users opacity-75 mr-2 text-sm"></i>Quản lý tài khoản </a>
-=======
-          <a [routerLink]="['dashboard']"
-             routerLinkActive="text-blue-500 hover:text-blue-600"
-             class="text-gray-800 hover:text-gray-600 text-xs uppercase py-3 font-bold block"
-
-          ><i class="fa fa-tv opacity-75 mr-2 text-sm"></i>
-            Dashboard</a
-          >
-        </li>
-
-        <li class="items-center" *ngIf="roleCEO">
-          <a [routerLink]="['users']" routerLinkActive="text-blue-500 hover:text-blue-600"
-             class="text-gray-800 hover:text-gray-600 text-xs uppercase py-3 font-bold block"><i class="fa fa-users opacity-75 mr-2 text-sm"></i>Quản trị tài khoản</a>
-        </li>
-        <li class="items-center">
-            <a [routerLink]="['question-bank']" routerLinkActive="text-blue-500 hover:text-blue-600"
-               class="text-gray-800 hover:text-gray-600 text-xs uppercase py-3 font-bold block"><i class="fa fa-question-circle opacity-75 mr-2 text-sm"></i>Ngân hàng câu hỏi</a>
-        </li>
-        <li class="items-center" *ngIf="roleCEO">
-          <a [routerLink]="['courses']"
-             routerLinkActive="text-blue-500 hover:text-blue-600"
-             class="text-gray-800 hover:text-gray-600 text-xs uppercase py-3 font-bold block"
-
-          ><i class="fa fa-book opacity-75 mr-2 text-sm"></i>
-            Quản trị môn học</a
-          >
->>>>>>> auth_branch
         </li>
         <li class="items-center">
           <a [routerLink]="['gathering-point']" routerLinkActive="text-blue-500 hover:text-blue-600" class="text-gray-800 hover:text-gray-600 text-xs uppercase py-3 font-bold block">
