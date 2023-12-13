@@ -62,45 +62,31 @@
           <table class="items-center w-full bg-transparent border-collapse whitespace-no-wrap user-list block lg:table overflow-x-auto overflow-y-auto">
             <thead>
               <tr>
-                <th class="row-title px-6 bg-gray-100 text-gray-600 align-middle border border-solid border-gray-200 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left"> Mã điểm giao dịch </th>
+                <th class="row-title px-6 bg-gray-100 text-gray-600 align-middle border border-solid border-gray-200 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left"> ID </th>
                 <th class="row-name px-6 bg-gray-100 text-gray-600 align-middle border border-solid border-gray-200 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left"> Tên điểm giao dịch </th>
                 <th class="row-name px-6 bg-gray-100 text-gray-600 align-middle border border-solid border-gray-200 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left"> Trạng thái </th>
                 <th class="row-name px-6 bg-gray-100 text-gray-600 align-middle border border-solid border-gray-200 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left"> Số điện thoại </th>
                 <th class="row-action px-6 bg-gray-100 text-gray-600 align-middle border border-solid border-gray-200 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left"></th>
-              </tr>
             </thead>
             <tbody>
-              <ng-container *ngFor="let exam of examList; trackBy: trackById">
+              <ng-container *ngFor="let transaction of transactionList">
                 <tr class="border hover:bg-gray-300">
-                  <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-md font-semibold text-gray-800 whitespace-no-wrap p-4">
-                    <a [routerLink]="[exam.id, 'preview']" [tooltip]="'Xem chi tiết'" class="hover:text-blue-700">
-                      <span *ngIf="exam.canceled" class="mx-2 text-gray-600 text-sm">(Đã huỷ)</span>{{exam.title}}
-                    </a>
+                  <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs text-gray-800 whitespace-no-wrap p-4">
+                    {{ transaction.id }}
                   </td>
-                  <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-no-wrap p-4 text-left">
-                    {{exam.beginExam | date: 'medium'}}
+                  <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4 text-left">
+                    {{ transaction.name }}
                   </td>
                   <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
-                    <ng-container *ngIf="!exam.canceled && getStatusExam(exam)==0">
-                      <span class="text-gray-700 bg-gray-200 rounded px-2 py-1">Chưa bắt đầu</span>
-                    </ng-container>
-                    <ng-container *ngIf="!exam.canceled && getStatusExam(exam)==-1">
-                      <span class="text-red-700 bg-red-200 rounded px-2 py-1">Kết thúc</span>
-                    </ng-container>
-                    <ng-container *ngIf="!exam.canceled && getStatusExam(exam)==1">
-                      <span class="text-green-700 bg-green-200 rounded px-2 py-1">Đang diễn ra</span>
-                    </ng-container>
-                    <ng-container *ngIf="exam.canceled">
-                      <span class="text-red-900 bg-red-400 rounded px-2 py-1">Đã huỷ</span>
-                    </ng-container>
+                    {{ transaction.name }}
                   </td>
                   <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
-                    {{exam.intake.name}}
+                    {{ transaction.name }}
                   </td>
                   <td class="border-t-0 px-6 align-middle flex justify-between border-l-0 border-r-0 text-xs whitespace-no-wrap p-4 w-full">
-                    <a [routerLink]="[exam.id, 'users']" *ngIf="!exam.canceled" [tooltip]="'Kết quả người dùng'" class="bg-white shadow-md hover:bg-blue-500 hover:text-gray-200 cursor-pointer transition duration-200 ease-in-out text-xs font-bold uppercase rounded outline-none focus:outline-none px-2 py-1">
+                    <a [routerLink]="" [tooltip]="'Chỉnh sửa thông tin'" class="bg-white shadow-md hover:bg-blue-500 hover:text-gray-200 cursor-pointer transition duration-200 ease-in-out text-xs font-bold uppercase rounded outline-none focus:outline-none px-2 py-1">
                       <span>
-                        <i class="fa fa-users"></i>
+                        <i class="fa-regular fa-pen-to-square"></i>
                       </span>
                     </a>
                   </td>
@@ -114,7 +100,7 @@
             <app-table-skeleton [type]="'exam'"></app-table-skeleton>
           </ng-container>
         </div>
-        <div *ngIf="examList.length!==0" class="px-4 py-3 bg-white border-t flex flex-row justify-between xs:flex-row items-center xs:justify-between">
+        <div *ngIf="transactionList.length!==0" class="px-4 py-3 bg-white border-t flex flex-row justify-between xs:flex-row items-center xs:justify-between">
           <span class="text-xs xs:text-sm text-gray-700 px-4"> Hiển thị {{paginationDetail?.isLastPage ? paginationDetail?.totalCount - paginationDetail.pageCount + 1 : paginationDetail?.pageNumber * paginationDetail?.pageCount + 1}} đến {{paginationDetail?.isLastPage ? paginationDetail.totalCount : (paginationDetail?.pageNumber + 1) * paginationDetail?.pageCount}} trong số {{paginationDetail?.totalCount}} kết quả </span>
           <div class="inline-flex mt-2 px-4 xs:mt-0">
             <button class="text-sm bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-l focus:outline-none" (click)="goPreviousPage()">
@@ -131,7 +117,7 @@
             </button>
           </div>
         </div>
-        <ng-container *ngIf="examList.length==0 && !skeleton">
+        <ng-container *ngIf="transactionList.length==0 && !skeleton">
           <div class="px-4 py-3 bg-white border-t flex flex-row justify-between xs:flex-row items-center xs:justify-between">
             <p class="mx-auto text-gray-700 text-sm">Nội dung chưa được tạo</p>
           </div>

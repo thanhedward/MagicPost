@@ -3,6 +3,9 @@ import {StatisticsService} from '../../_services/statistics.service';
 import {Statistics} from '../../models/statistics';
 import Chart from 'chart.js';
 import * as moment from 'moment';
+import { LocationService } from 'src/app/_services/location.service';
+import { Location } from 'src/app/models/location';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -13,14 +16,22 @@ export class AdminDashboardComponent implements OnInit {
 
   statistics: Statistics;
   lastSevenDays: any[] = [];
+  transactionList: Location[] = [];
 
-  constructor(private statisticsService: StatisticsService) {
-  }
+  constructor(private statisticsService: StatisticsService, private locationService: LocationService) {}
 
   ngOnInit(): void {
+    this.fetchTransactionList();
     this.fetchStatistics();
   }
 
+  fetchTransactionList() {
+    this.locationService.getTransaction(0, 20).subscribe(res => {
+      this.transactionList = res.data;
+      console.log(res.data);
+    });
+  };
+  
   fetchStatistics() {
     this.getLastSevenDays();
     this.statisticsService.getStatistics().subscribe(res => {
