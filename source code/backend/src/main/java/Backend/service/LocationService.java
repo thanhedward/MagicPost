@@ -20,6 +20,7 @@ public interface LocationService {
 
     void delete(Long id);
 
+    // TODO: Validation location name
     boolean existsByName(String name);
 
     boolean existsById(Long id);
