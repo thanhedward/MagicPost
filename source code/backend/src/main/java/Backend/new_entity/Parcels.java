@@ -45,6 +45,10 @@ public class Parcels implements Serializable {
     @JoinColumn(name = "end_post_office_id")
     private PostOffice endPostOffice;
 
+    @ManyToOne
+    @JoinColumn(name = "accepted_by")
+    private Employee employee;
+
     @Column(name = "status")
     private ParcelStatus status;
 
