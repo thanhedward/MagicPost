@@ -1,6 +1,6 @@
 package Backend.service;
 
-import Backend.entity.Role;
+import Backend.new_entity.Role;
 import Backend.repository.RoleRepository;
 import Backend.utilities.ERole;
 import org.springframework.beans.factory.annotation.Autowired;

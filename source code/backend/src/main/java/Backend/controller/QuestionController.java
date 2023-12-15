@@ -3,6 +3,7 @@ package Backend.controller;
 import Backend.dto.PageResult;
 import Backend.dto.ServiceResult;
 import Backend.entity.*;
+import Backend.new_entity.Role;
 import Backend.service.*;
 import Backend.utilities.EQTypeCode;
 import Backend.utilities.ERole;

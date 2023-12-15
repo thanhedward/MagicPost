@@ -3,7 +3,7 @@ package Backend.controller;
 import Backend.dto.*;
 import Backend.entity.Intake;
 import Backend.entity.Profile;
-import Backend.entity.Role;
+import Backend.new_entity.Role;
 import Backend.entity.User;
 import Backend.service.IntakeService;
 import Backend.service.RoleService;
