@@ -36,6 +36,7 @@ public class Invoice implements Serializable {
     @JoinColumn(name = "second_depot")
     private Depot secondDepot;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "type")
     private InvoiceType type;
 

@@ -49,6 +49,7 @@ public class Parcels implements Serializable {
     @JoinColumn(name = "accepted_by")
     private Employee employee;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private ParcelStatus status;
 
