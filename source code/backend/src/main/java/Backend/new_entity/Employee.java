@@ -1,6 +1,5 @@
 package Backend.new_entity;
 
-import Backend.entity.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,6 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.io.Serializable;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Entity
@@ -48,14 +48,12 @@ public class Employee implements Serializable {
     private boolean deleted = false;
 
     @CreationTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_date", updatable = false, nullable = false)
-    private Date createdDate;
+    private LocalDateTime createdDate;
 
     @UpdateTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "lastest_login_date")
-    private Date lastLoginDate;
+    @Column(name = "latest_login_date")
+    private LocalDateTime lastLoginDate;
 
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)

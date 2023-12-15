@@ -1,5 +1,6 @@
 package Backend.entity;
 
+import Backend.new_entity.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
