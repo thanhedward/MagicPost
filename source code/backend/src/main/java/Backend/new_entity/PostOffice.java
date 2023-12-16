@@ -19,8 +19,8 @@ public class PostOffice implements Serializable {
     @Column(name = "post_office_id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "district")
+    @OneToOne
+    @JoinColumn(name = "district_id")
     private District district;
 
     @ManyToOne
