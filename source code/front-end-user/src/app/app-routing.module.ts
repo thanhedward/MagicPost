@@ -52,16 +52,16 @@ const routes: Routes = [
     path: 'user',
     component: UserComponent,
     canActivate: [AuthGuard],
-    data: { breadcrumb: 'Home' },
+    data: { breadcrumb: 'MagicPost' },
     children: [
       {
         path: '',
         canActivateChild: [AuthGuard],
         children: [
           {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
-          {path: 'dashboard', component: DashboardComponent, data: { breadcrumb: 'Dashboard' }},
-          {path: 'profile', component: ProfileComponent, data: { breadcrumb: 'Profile' }},
-          {path: 'schedule', component: ScheduleComponent, data: {breadcrumb: 'Schedule'}},
+          {path: 'dashboard', component: DashboardComponent, data: { breadcrumb: 'Tra cứu đơn hàng' }},
+          {path: 'location', component: ProfileComponent, data: { breadcrumb: 'Tra cứu điểm tập kết' }},
+          {path: 'transaction', component: ScheduleComponent, data: {breadcrumb: 'Tra cứ điểm giao dịch'}},
           {path: 'statistics', component: StatisticsComponent, data: {breadcrumb: 'Statistics'}},
           {path: 'exams/:examId', component: ExamDetailComponent, data: {breadcrumb: 'Exam Detail'}},
           {path: 'exams/:examId/start', component: ExamQuestionComponent},

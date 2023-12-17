@@ -26,3 +26,150 @@
   border-radius: 0.25rem;
 
 }
+
+.wrapper {
+  max-width: 800px;
+  margin: 4rem auto;
+}
+
+#tracking-progress .new-tracking-event-list:before {
+  content: "";
+  position: absolute;
+  left: 90px;
+  top: 12px;
+  bottom: 40px;
+  width: 1px;
+  background: #fff;
+  z-index: 2;
+  border-width: 0 0 0 2px;
+  border-style: dotted;
+  border-color: #b4bfc9;
+  border-image-source: url("https://cdn2.hubspot.net/hubfs/2092172/Design%20Elements/images/tracking-dots.svg");
+  border-image-slice: 3;
+  border-image-repeat: repeat;
+}
+
+#tracking-progress .public-type-indicator:after {
+  position: absolute;
+  border-radius: 50%;
+  content: "";
+  height: 16px;
+  width: 16px;
+  border: 2px solid #b4bfc9;
+  left: 98px;
+  top: 3px;
+  background: white;
+  z-index: 3;
+}
+
+#tracking-progress .public-type-indicator:before {
+  content: " ";
+  position: absolute;
+  border-radius: 50%;
+  z-index: 2;
+  height: 16px;
+  width: 16px;
+  left: 94px;
+  top: -1px;
+  border: 12px solid #fff;
+}
+
+#tracking-progress .progress-event-date-day {
+  color: #33424f;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 11px;
+  line-height: 15px;
+  padding-top: 3px;
+}
+
+.row {
+  margin-left: -15px;
+  margin-right: -15px;
+}
+.row:before,
+.row:after {
+  content: " ";
+  display: table;
+}
+.row:after {
+  clear: both;
+}
+
+.col-xs-9{
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  float: left;
+  width: 75%;
+
+}
+
+#tracking-progress #help-centre {
+  margin-top: 4px;
+  padding-left: 0;
+}
+
+.col-xs-3{
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  float: left;
+  width: 25%;
+}
+.text-right {
+  text-align: right;
+}
+
+#tracking-status .tracking-sprite {
+  margin-top: 2px;
+}
+
+a .tracking-sprite-external {
+  height: 16px;
+  width: 16px;
+  background-position: -65px -27px;
+}
+a:hover .tracking-sprite-external {
+  background-position: -81px -27px;
+}
+
+#tracking-progress .new-tracking-event-list {
+  position: relative;
+}
+
+#tracking-progress .progress-event-date-day {
+  color: #33424f;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 11px;
+  line-height: 15px;
+  padding-top: 3px;
+}
+#tracking-progress .progress-event-date-time,
+#tracking-progress .progress-event-date-local-label {
+  color: #7a8792;
+  font-weight: 300;
+  font-size: 11px;
+  line-height: 15px;
+}
+
+#tracking-progress .progress-event-date-time,
+#tracking-progress .progress-event-date-local-label {
+    color: #7a8792;
+    font-weight: 300;
+    font-size: 11px;
+    line-height: 15px;
+}
+
+#tracking-progress .delivered .public-type-indicator:after {
+  border-color: #01d277;
+}
+
+#tracking-progress .public-type-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #2a3a47;
+}

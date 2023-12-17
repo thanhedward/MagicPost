@@ -22,7 +22,6 @@ import { StatCardExamComponent } from './statistics/stat-card-exam/stat-card-exa
 import { TableSkeletonComponent } from './table-skeleton/table-skeleton.component';
 import {RouterModule} from '@angular/router';
 
-
 @NgModule({
   declarations: [
     PreLoadingComponent,
@@ -40,7 +39,7 @@ import {RouterModule} from '@angular/router';
     UpdateAvatarComponent,
     StatCardExamComponent,
     TableSkeletonComponent,
-
+    
   ],
     exports: [
         PreLoadingComponent,
@@ -59,6 +58,7 @@ import {RouterModule} from '@angular/router';
         UpdateAvatarComponent,
         StatCardExamComponent,
         TableSkeletonComponent,
+        
     ],
     imports: [
         CommonModule,

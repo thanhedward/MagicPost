@@ -1,61 +1,130 @@
-<xng-breadcrumb></xng-breadcrumb>
 <div class="py-3">
-  <div class="flex justify-between items-center mb-3 px-2">
-    <div class="current-exam lg:text-2xl font-semibold text-gray-800">
-      <h2 class="select-none list-title title-coming flex items-center">Coming exams <span class="mx-2"> ({{listComing.length}})</span></h2>
+  <h2 class="lg:text-2xl font-semibold text-gray-800 mb-6 mx-auto text-center">Định vị bưu gửi</h2>
+  <div class="my-2 flex w-full items-center">
+    <!-- Ô tìm kiếm với ô đầu vào và nút tìm kiếm -->
+    <div class="grid grid-cols-6 gap-4 w-full">
+      <!-- Ô đầu vào cho tìm kiếm -->
+      <div class="col-span-1 "></div>
+      <div class="col-span-3">
+        <input id="searchInput" class="w-full p-2 border rounded" type="text" placeholder="Nhập mã bưu gửi">
+      </div>
+      <!-- Nút tìm kiếm -->
+      <div class="col-span-1">
+        <button class="w-full bg-blue-500 hover:bg-blue-600 text-white p-2 rounded">Tìm kiếm</button>
+      </div>
+      <div class="col-span-1 "></div>
     </div>
     
   </div>
-  <div class="list-current-exam flex flex-wrap w-full">
-    <!-- Column -->
-    <ng-container *ngFor="let examComing of listComing">
-      <div class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3" *ngIf="!skeletonLoading">
-        <app-exam-card [examUser]="examComing"></app-exam-card>
+  <div class="my-2 flex w-full items-center">
+    <!-- Ô tìm kiếm với ô đầu vào và nút tìm kiếm -->
+    <div class="grid grid-cols-6 gap-4 w-full">
+      <!-- Ô đầu vào cho tìm kiếm -->
+      <div class="col-span-1 "></div>
+      <div class="col-span-4 ">
+        <div class="flex items-center mt-5">
+          <div id="tracking-progress">
+            <div class="row mb-3">
+                <div class="col-xs-9">
+                  <h3> Tracking history </h3>
+                </div>
+                <div id="help-centre" class="col-xs-3 text-right">
+                  <a target="_blank" href="https://support.sendle.com"> Help <span class="tracking-sprite tracking-sprite-external"></span>
+                  </a>
+                </div>
+            </div>
+              <div class="new-tracking-event-list">
+                <div class="row progress-event mb-2">
+                  <div class="col-xs-3 col-md-2">
+                    <div class="progress-event-date-day">
+                      <span>20 Mar</span>
+                    </div>
+                    <div class="progress-event-date-time">
+                      <span>05:25pm</span>
+                    </div>
+                    <div class="progress-event-date-local-label"></div>
+                    <div class="public-type-indicator"></div>
+                  </div>
+                  <div class="col-xs-9 col-md-10" data-hj-masked="">
+                    <div class="public-type-name"> Info </div>
+                    <p> Parcel has been reported as damaged. If not yet delivered, any salvageable items will be returned to the sender. </p>
+                    <div class="secondary-text">
+                      <p>Damaged</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="row progress-event mb-2 delivered">
+                  <div class="col-xs-3 col-md-2">
+                    <div class="progress-event-date-day">
+                      <span>22 Oct</span>
+                    </div>
+                    <div class="progress-event-date-time">
+                      <span>07:43am</span>
+                    </div>
+                    <div class="progress-event-date-local-label"></div>
+                    <div class="public-type-indicator"></div>
+                  </div>
+                  <div class="col-xs-9 col-md-10" data-hj-masked="">
+                    <div class="public-type-name"> Delivered </div>
+                    <p> Parcel delivered </p>
+                  </div>
+                </div>
+                <div class="row progress-event mb-2">
+                  <div class="col-xs-3 col-md-2">
+                    <div class="progress-event-date-day">
+                      <span>22 Oct</span>
+                    </div>
+                    <div class="progress-event-date-time">
+                      <span>06:53am</span>
+                    </div>
+                    <div class="progress-event-date-local-label"></div>
+                    <div class="public-type-indicator"></div>
+                  </div>
+                  <div class="col-xs-9 col-md-10" data-hj-masked="">
+                    <div class="public-type-name"> In Transit </div>
+                    <p> Parcel is loaded for delivery </p>
+                  </div>
+                </div>
+                <div class="row progress-event mb-2">
+                  <div class="col-xs-3 col-md-2">
+                    <div class="progress-event-date-day">
+                      <span>21 Oct</span>
+                    </div>
+                    <div class="progress-event-date-time">
+                      <span>11:16am</span>
+                    </div>
+                    <div class="progress-event-date-local-label"></div>
+                    <div class="public-type-indicator"></div>
+                  </div>
+                  <div class="col-xs-9 col-md-10" data-hj-masked="">
+                    <div class="public-type-name"> Pickup </div>
+                    <p> Parcel picked up </p>
+                  </div>
+                </div>
+                <div class="row progress-event mb-2">
+                  <div class="col-xs-3 col-md-2">
+                    <div class="progress-event-date-day">
+                      <span>21 Oct</span>
+                    </div>
+                    <div class="progress-event-date-time">
+                      <span>11:16am</span>
+                    </div>
+                    <div class="progress-event-date-local-label"></div>
+                    <div class="public-type-indicator"></div>
+                  </div>
+                  <div class="col-xs-9 col-md-10" data-hj-masked="">
+                    <div class="public-type-name"> Success </div>
+                    <p> Parcel picked up </p>
+                  </div>
+                </div>
+              </div>
+        </div>
+        </div>
+        
+        
       </div>
-
-    </ng-container>
-    <p *ngIf="listComing.length==0 &&!skeletonLoading" class="mx-10 text-gray-700 text-sm">None of new exam is found!</p>
-    <div class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3" *ngIf="skeletonLoading">
-      <app-skeleton></app-skeleton>
+      <div class="col-span-1 "></div>
     </div>
-    <div class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3" *ngIf="skeletonLoading">
-      <app-skeleton></app-skeleton>
-    </div>
-    <div class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3" *ngIf="skeletonLoading">
-      <app-skeleton></app-skeleton>
-    </div>
+    
   </div>
-
 </div>
-
-<div class="py-3">
-  <div class="flex justify-between items-center mb-3 px-2">
-    <div class="current-exam lg:text-2xl font-semibold text-gray-800">
-      <h2 class="select-none list-title title-complete flex items-center">Recent exams
-        <span class="mx-2">({{listComplete.length}})</span></h2>
-    </div>
-
-  </div>
-  <div class="list-current-exam flex flex-wrap">
-    <!-- Column -->
-    <ng-container *ngFor="let examComplete of listComplete">
-      <div class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
-        <app-exam-card [examUser]="examComplete"></app-exam-card>
-      </div>
-    </ng-container>
-    <p *ngIf="listComplete.length==0 &&!skeletonLoading" class="mx-10 text-gray-700 text-sm">There are no exams available!</p>
-
-    <div class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3" *ngIf="skeletonLoading">
-      <app-skeleton></app-skeleton>
-    </div>
-    <div class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3" *ngIf="skeletonLoading">
-      <app-skeleton></app-skeleton>
-    </div>
-    <div class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3" *ngIf="skeletonLoading">
-      <app-skeleton></app-skeleton>
-    </div>
-  </div>
-
-</div>
-
-

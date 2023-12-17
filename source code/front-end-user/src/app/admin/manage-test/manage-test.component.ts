@@ -11,6 +11,7 @@ import * as moment from 'moment';
   styleUrls: ['./manage-test.component.scss']
 })
 export class ManageTestComponent implements OnInit {
+  
   examList: Exam[] = [];
   transactionList: Location[] = [];
   paginationDetail: PaginationDetail;
@@ -18,13 +19,14 @@ export class ManageTestComponent implements OnInit {
   now = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
 
   pageOptions: any = [
-    {display: 1, num: 1},
+    {display: 5, num: 5},
+    {display: 10, num: 10},
     {display: 20, num: 20},
     {display: 50, num: 50},
     {display: 100, num: 100},
     {display: 'Tất cả', num: ''},
   ];
-  pageCountShowing = 20;
+  pageCountShowing = 5;
 
   constructor(private locationService: LocationService) {
   }
@@ -34,9 +36,9 @@ export class ManageTestComponent implements OnInit {
   }
 
   fetchTransactionList() {
-    this.locationService.getTransaction(0, 20).subscribe(res => {
+    this.locationService.getTransaction(0, 5).subscribe(res => {
       this.transactionList = res.data;
-      console.log(res.data);
+      this.paginationDetail = res.paginationDetails;
       this.skeleton = false;
     });
   };
@@ -79,6 +81,7 @@ export class ManageTestComponent implements OnInit {
         ).subscribe(res => {
           this.transactionList = res.data;
           this.paginationDetail = res.paginationDetails;
+          console.log(this.pageCountShowing)
         });
     }
   }

@@ -7,6 +7,8 @@ import {UserAccount} from '../../models/user-account';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ToastrService} from 'ngx-toastr';
 import {TokenStorageService} from '../../_services/token-storage.service';
+import { HttpClient } from '@angular/common/http';
+import { AddressService } from 'src/app/_services/address.service';
 
 @Component({
   selector: 'app-profile',
@@ -19,6 +21,10 @@ export class ProfileComponent implements OnInit {
   toggleEmail = false;
   toggleAvatar = true;
   imgUpload = '';
+  provinceList: any[] = [];
+  selectedProvince: string;
+  districtList: any[] = [];
+  selectedDistrict: string;
   userProfile: UserAccount;
   @ViewChild(FileUploadComponent) fileUploadViewChild: FileUploadComponent;
   private imgFile: any;
@@ -27,15 +33,23 @@ export class ProfileComponent implements OnInit {
               private userService: UserService,
               private fb: FormBuilder,
               private toast: ToastrService,
-              private tokenStorageService: TokenStorageService) {
+              private tokenStorageService: TokenStorageService,
+              private addressService: AddressService
+              ) {
   }
 
 
   ngOnInit(): void {
     this.getUserInfo();
+    this.getProvince();
   }
 
-
+  getProvince() {
+    this.addressService.getProvinces().subscribe(res => {
+      this.provinceList = res;
+      console.log(res)
+    });
+  }
   getUserInfo() {
     this.userService.getUserInfo('').subscribe(res => {
       this.userProfile = res.data;
@@ -114,5 +128,15 @@ export class ProfileComponent implements OnInit {
     });
 
 
+  
+  }
+  onProvinceChange() {
+    if (this.selectedProvince) {
+      this.addressService.getDistricts(this.selectedProvince).subscribe(res => {
+        this.districtList = res;
+      });
+    } else {
+      this.districtList = [];
+    }
   }
 }

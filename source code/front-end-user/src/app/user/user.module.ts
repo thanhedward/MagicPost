@@ -4,7 +4,6 @@ import {UserComponent} from './user.component';
 import {SharedModule} from '../shared/shared.module';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {ExamCardComponent} from './exam-card/exam-card.component';
-
 import {FooterComponent} from './footer/footer.component';
 import {LeftSideComponent} from './left-side/left-side.component';
 import {RouterModule} from '@angular/router';
@@ -21,6 +20,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import { StatisticsComponent } from './statistics/statistics.component';
 import {NgApexchartsModule} from 'ng-apexcharts';
 import {BreadcrumbModule} from 'xng-breadcrumb';
+
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
   interactionPlugin
@@ -37,7 +37,8 @@ FullCalendarModule.registerPlugins([
     ReactiveFormsModule,
     FullCalendarModule,
     NgApexchartsModule,
-    BreadcrumbModule
+    BreadcrumbModule,
+   
   ]
 })
 export class UserModule {
