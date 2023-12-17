@@ -47,7 +47,7 @@ public class Parcels implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "accepted_by")
-    private Employee employee;
+    private User user;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")

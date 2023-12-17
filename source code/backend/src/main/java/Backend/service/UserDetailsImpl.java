@@ -1,6 +1,6 @@
 package Backend.service;
 
-import Backend.entity.User;
+import Backend.new_entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

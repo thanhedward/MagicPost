@@ -4,7 +4,7 @@ import Backend.dto.PageResult;
 import Backend.dto.ServiceResult;
 import Backend.entity.Location;
 import Backend.entity.Parcel;
-import Backend.entity.User;
+import Backend.new_entity.User;
 import Backend.service.LocationService;
 import Backend.service.ParcelService;
 import Backend.service.UserService;

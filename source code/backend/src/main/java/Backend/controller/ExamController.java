@@ -3,6 +3,7 @@ package Backend.controller;
 
 import Backend.dto.*;
 import Backend.entity.*;
+import Backend.new_entity.User;
 import Backend.service.*;
 import Backend.utilities.ERole;
 import com.fasterxml.jackson.core.JsonProcessingException;

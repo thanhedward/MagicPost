@@ -2,9 +2,9 @@ package Backend.service;
 
 import Backend.config.JwtUtils;
 import Backend.dto.UserExport;
-import Backend.entity.PasswordResetToken;
+import Backend.new_entity.PasswordResetToken;
 import Backend.new_entity.Role;
-import Backend.entity.User;
+import Backend.new_entity.User;
 import Backend.repository.PasswordResetTokenRepository;
 import Backend.repository.UserRepository;
 import Backend.utilities.ERole;

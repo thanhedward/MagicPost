@@ -1,5 +1,6 @@
-package Backend.entity;
+package Backend.new_entity;
 
+import Backend.new_entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

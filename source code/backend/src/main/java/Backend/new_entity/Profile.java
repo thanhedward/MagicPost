@@ -1,24 +1,21 @@
 package Backend.new_entity;
 
-import Backend.entity.User;
-import Backend.utilities.OfficeType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
-import java.io.Serializable;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "profile")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "employee")
-public class Employee implements Serializable {
+public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "employee_id")
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "first_name")
@@ -30,12 +27,5 @@ public class Employee implements Serializable {
     @Column(name = "image")
     private String image;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "work_at")
-    private OfficeType workAt;
-
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
-
 }
+
