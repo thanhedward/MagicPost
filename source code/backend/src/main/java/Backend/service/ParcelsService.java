@@ -17,12 +17,12 @@ public interface ParcelsService {
 //    List<Parcels> getParcelByStartPostOfficeId(Long start_post_id);
 //    List<Parcels> getParcelByEndPostOfficeId(Long start_post_id);
 
-    void saveParcels(Parcels Parcel);
+    void saveParcels(Parcels parcel);
 
     void delete(Long id);
 
 //    boolean existsByName(String name);
 
-    boolean existsById(Long id);
+//    boolean existsById(Long id);
 
 }
