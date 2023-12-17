@@ -8,7 +8,6 @@ import Backend.entity.User;
 import Backend.service.LocationService;
 import Backend.service.ParcelService;
 import Backend.service.UserService;
-import Backend.utilities.ELocationType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -44,7 +43,7 @@ public class ParcelController {
 
     // TODO: role User
     // Khi tao don hang khong duoc set sender_id
-    @PreAuthorize("hasRole('CEO') or hasRole('BRANCH_MANAGER')")
+    @PreAuthorize("hasRole('CEO') or hasRole('POST_OFFICE_MANAGER')")
     @PostMapping(value = "/parcel/add-parcel")
     public ResponseEntity<?> createParcel(@Valid @RequestBody Parcel parcel, @RequestParam Long start_location_id, @RequestParam Long end_location_id, @RequestParam String sender_username) {
         try {

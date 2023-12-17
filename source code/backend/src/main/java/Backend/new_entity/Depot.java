@@ -18,7 +18,7 @@ public class Depot implements Serializable {
     @Column(name = "depot_id")
     private Long id;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "province")
     private Province province;
 

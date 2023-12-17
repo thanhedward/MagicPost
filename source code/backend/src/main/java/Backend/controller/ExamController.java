@@ -69,7 +69,7 @@ public class ExamController {
 //    }
 
     @GetMapping(value = "/exams")
-    @PreAuthorize("hasRole('CEO') or hasRole('BRANCH_MANAGER')")
+    @PreAuthorize("hasRole('CEO') or hasRole('POST_OFFICE_MANAGER')")
     public PageResult getExamsByPage(@PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable) {
         String username = userService.getUserName();
         User user = userService.getUserByUsername(username).get();

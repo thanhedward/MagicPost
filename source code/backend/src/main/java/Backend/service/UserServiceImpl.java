@@ -95,8 +95,8 @@ public class UserServiceImpl implements UserService {
                         addRoles(ERole.ROLE_CEO, roles);
                     }
 
-                    case ROLE_BRANCH_MANAGER: {
-                        addRoles(ERole.ROLE_BRANCH_MANAGER, roles);
+                    case ROLE_POST_OFFICE_MANAGER: {
+                        addRoles(ERole.ROLE_POST_OFFICE_MANAGER, roles);
                     }
                     default: {
                         addRoles(ERole.ROLE_USER, roles);
