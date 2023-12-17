@@ -23,7 +23,7 @@ public class QuestionTypeController {
     }
 
     @GetMapping(value = "/question-types")
-    @PreAuthorize("hasRole('CEO') or hasRole('BRANCH_MANAGER')")
+    @PreAuthorize("hasRole('CEO') or hasRole('POST_OFFICE_MANAGER')")
 
     public List<QuestionType> getAllQuestionType() {
         List<QuestionType> questionTypeList = questionTypeService.getQuestionTypeList();
@@ -34,7 +34,7 @@ public class QuestionTypeController {
     }
 
     @GetMapping(value = "/question-types/{id}")
-    @PreAuthorize("hasRole('CEO') or hasRole('BRANCH_MANAGER')")
+    @PreAuthorize("hasRole('CEO') or hasRole('POST_OFFICE_MANAGER')")
 
     public QuestionType getQuestionTypeById(@PathVariable Long id) {
         QuestionType questionType = questionTypeService.getQuestionTypeById(id).get();
@@ -42,7 +42,7 @@ public class QuestionTypeController {
     }
 
     @GetMapping(value = "/question-types/{typeCode}")
-    @PreAuthorize("hasRole('CEO') or hasRole('BRANCH_MANAGER')")
+    @PreAuthorize("hasRole('CEO') or hasRole('POST_OFFICE_MANAGER')")
 
     public QuestionType getQuestionTypeByTypeCode(@PathVariable String typeCode) {
         EQTypeCode eqTypeCode = EQTypeCode.valueOf(typeCode);

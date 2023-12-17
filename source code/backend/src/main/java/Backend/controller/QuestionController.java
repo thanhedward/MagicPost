@@ -42,7 +42,7 @@ public class QuestionController {
     }
 
     @GetMapping(value = "/questions")
-    @PreAuthorize("hasRole('CEO') or hasRole('BRANCH_MANAGER')")
+    @PreAuthorize("hasRole('CEO') or hasRole('POST_OFFICE_MANAGER')")
 
     public ResponseEntity<ServiceResult> getAllQuestion() {
         List<Question> questionList = questionService.getQuestionList();
@@ -51,7 +51,7 @@ public class QuestionController {
     }
 
     @GetMapping(value = "/questions/{id}")
-    @PreAuthorize("hasRole('CEO') or hasRole('BRANCH_MANAGER')")
+    @PreAuthorize("hasRole('CEO') or hasRole('POST_OFFICE_MANAGER')")
 
     public ResponseEntity<?> getQuestionById(@PathVariable Long id) {
         Optional<Question> questionOptional = questionService.getQuestionById(id);
@@ -63,7 +63,7 @@ public class QuestionController {
 
     //    Get list of question by part
     @GetMapping(value = "/parts/{partId}/questions")
-    @PreAuthorize("hasRole('CEO') or hasRole('BRANCH_MANAGER')")
+    @PreAuthorize("hasRole('CEO') or hasRole('POST_OFFICE_MANAGER')")
     public PageResult getQuestionsByPart(@PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable, @PathVariable Long partId) {
         String username = userService.getUserName();
         User user = userService.getUserByUsername(username).get();
@@ -92,7 +92,7 @@ public class QuestionController {
     }
 
     @GetMapping(value = "/parts/{partId}/questions/false/deleted")
-    @PreAuthorize("hasRole('CEO') or hasRole('BRANCH_MANAGER')")
+    @PreAuthorize("hasRole('CEO') or hasRole('POST_OFFICE_MANAGER')")
     public PageResult getQuestionsByPartNotDeleted(@PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable, @PathVariable Long partId) {
         String username = userService.getUserName();
         User user = userService.getUserByUsername(username).get();
@@ -111,7 +111,7 @@ public class QuestionController {
 //    Get list of question by question type
 
     @GetMapping(value = "/question-types/{typeId}/questions")
-    @PreAuthorize("hasRole('CEO') or hasRole('BRANCH_MANAGER')")
+    @PreAuthorize("hasRole('CEO') or hasRole('POST_OFFICE_MANAGER')")
 
     public ResponseEntity<?> getQuestionByQuestionType(@PathVariable Long typeId) {
         if (questionTypeService.existsById(typeId)) {
@@ -124,7 +124,7 @@ public class QuestionController {
     }
 
     @PostMapping(value = "/questions")
-    @PreAuthorize("hasRole('CEO') or hasRole('BRANCH_MANAGER')")
+    @PreAuthorize("hasRole('CEO') or hasRole('POST_OFFICE_MANAGER')")
     public Question createQuestion(@Valid @RequestBody Question question, @RequestParam String questionType, @RequestParam Long partId) {
         EQTypeCode eqTypeCode = EQTypeCode.valueOf(questionType);
         QuestionType questionType1 = questionTypeService.getQuestionTypeByCode(eqTypeCode).get();
@@ -143,7 +143,7 @@ public class QuestionController {
     }
 
     @PutMapping(value = "/questions/{id}")
-    @PreAuthorize("hasRole('CEO') or hasRole('BRANCH_MANAGER')")
+    @PreAuthorize("hasRole('CEO') or hasRole('POST_OFFICE_MANAGER')")
 
     public ResponseEntity<?> updateQuestion(@Valid @RequestBody Question question, @PathVariable Long id) {
         Optional<Question> questionReq = questionService.getQuestionById(id);
@@ -155,7 +155,7 @@ public class QuestionController {
         return ResponseEntity.ok().body(new ServiceResult(HttpStatus.OK.value(), "Get question with id: " + id, question));
     }
 
-    @PreAuthorize("hasRole('CEO') or hasRole('BRANCH_MANAGER')")
+    @PreAuthorize("hasRole('CEO') or hasRole('POST_OFFICE_MANAGER')")
     @GetMapping(value = "/questions/{id}/deleted/{deleted}")
     public ResponseEntity<?> deleteTempQuestion(@PathVariable Long id, @PathVariable boolean deleted) {
         log.error("Deleted");

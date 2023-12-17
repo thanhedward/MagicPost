@@ -34,14 +34,14 @@ public class PartController {
     }
 
     @GetMapping(value = "/courses/{courseId}/parts")
-    @PreAuthorize("hasRole('CEO') or hasRole('BRANCH_MANAGER')")
+    @PreAuthorize("hasRole('CEO') or hasRole('POST_OFFICE_MANAGER')")
     public PageResult getPartListByCourse(@PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable, @PathVariable Long courseId) {
         Page<Part> parts = partService.getPartLisByCourse(pageable, courseId);
         return new PageResult(parts);
     }
 
     @GetMapping(value = "/courses/{courseId}/part-list")
-    @PreAuthorize("hasRole('CEO') or hasRole('BRANCH_MANAGER')")
+    @PreAuthorize("hasRole('CEO') or hasRole('POST_OFFICE_MANAGER')")
     public List<Part> getPartListByCourse(@PathVariable Long courseId) {
         Course course = courseService.getCourseById(courseId).get();
         List<Part> parts = partService.getPartListByCourse(course);
@@ -49,7 +49,7 @@ public class PartController {
     }
 
     @GetMapping(value = "/parts/{id}")
-    @PreAuthorize("hasRole('CEO') or hasRole('BRANCH_MANAGER')")
+    @PreAuthorize("hasRole('CEO') or hasRole('POST_OFFICE_MANAGER')")
     public ResponseEntity<?> getPartById(@PathVariable Long id) {
         Optional<Part> part = partService.findPartById(id);
         if (!part.isPresent()) {

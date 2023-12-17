@@ -1,18 +1,14 @@
 package Backend.new_entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import Backend.entity.User;
+import Backend.utilities.OfficeType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 
 import java.io.Serializable;
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import java.time.LocalDateTime;
-import java.util.*;
 
 @Entity
 @Data
@@ -25,16 +21,6 @@ public class Employee implements Serializable {
     @Column(name = "employee_id")
     private Long id;
 
-    @Column(name = "username", nullable = false, unique = true)
-    private String username;
-    @JsonIgnore
-    @Column(name = "password")
-    private String password;
-
-    @Email
-    @Column(name = "email", unique = true, nullable = false)
-    private String email;
-
     @Column(name = "first_name")
     private String firstName;
 
@@ -44,22 +30,12 @@ public class Employee implements Serializable {
     @Column(name = "image")
     private String image;
 
-    @Column(name = "deleted", nullable = false)
-    private boolean deleted = false;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "work_at")
+    private OfficeType workAt;
 
-    @CreationTimestamp
-    @Column(name = "created_date", updatable = false, nullable = false)
-    private LocalDateTime createdDate;
-
-    @UpdateTimestamp
-    @Column(name = "latest_login_date")
-    private LocalDateTime lastLoginDate;
-
-
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinTable(name = "role_user",
-            joinColumns = {@JoinColumn(name = "employee_id", referencedColumnName = "employee_id")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
-    private Set<Role> roles;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 
 }
