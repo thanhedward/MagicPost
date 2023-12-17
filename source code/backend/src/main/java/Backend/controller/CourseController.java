@@ -40,21 +40,21 @@ public class CourseController {
 
 
     @GetMapping(value = "/course-list")
-    @PreAuthorize("hasRole('CEO') or hasRole('BRANCH_MANAGER')")
+    @PreAuthorize("hasRole('CEO') or hasRole('POST_OFFICE_MANAGER')")
     public List<Course> getAllCourse() {
         List<Course> courseList = courseService.getCourseList();
         return courseList;
     }
 
     @GetMapping(value = "/courses")
-    @PreAuthorize("hasRole('CEO') or hasRole('BRANCH_MANAGER')")
+    @PreAuthorize("hasRole('CEO') or hasRole('POST_OFFICE_MANAGER')")
     public PageResult getCourseListByPage(@PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable) {
         Page<Course> courseListByPage = courseService.getCourseListByPage(pageable);
         return new PageResult(courseListByPage);
     }
 
     @GetMapping(value = "/courses/{id}/check-course-code")
-    @PreAuthorize("hasRole('CEO') or hasRole('BRANCH_MANAGER')")
+    @PreAuthorize("hasRole('CEO') or hasRole('POST_OFFICE_MANAGER')")
     public boolean checkCourseCode(@RequestParam String value, @PathVariable Long id) {
         if (courseService.existsByCode(value)) {
             if (courseService.getCourseById(id).get().getCourseCode().equals(value)) {
@@ -66,13 +66,13 @@ public class CourseController {
     }
 
     @GetMapping(value = "/courses/check-course-code")
-    @PreAuthorize("hasRole('CEO') or hasRole('BRANCH_MANAGER')")
+    @PreAuthorize("hasRole('CEO') or hasRole('POST_OFFICE_MANAGER')")
     public boolean checkCode(@RequestParam String value) {
         return courseService.existsByCode(value);
     }
 
     @GetMapping(value = "/courses/{id}")
-    @PreAuthorize("hasRole('CEO') or hasRole('BRANCH_MANAGER')")
+    @PreAuthorize("hasRole('CEO') or hasRole('POST_OFFICE_MANAGER')")
     public ResponseEntity<?> getCourseById(@PathVariable Long id) {
         Optional<Course> course = courseService.getCourseById(id);
         if (!course.isPresent()) {

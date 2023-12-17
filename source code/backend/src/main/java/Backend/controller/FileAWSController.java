@@ -1,6 +1,6 @@
 package Backend.controller;
 
-import Backend.entity.User;
+import Backend.new_entity.User;
 import Backend.service.S3Services;
 import Backend.service.UserService;
 import com.google.common.io.Files;
@@ -18,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayOutputStream;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)

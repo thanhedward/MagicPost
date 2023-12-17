@@ -4,7 +4,7 @@ package Backend.controller;
 import Backend.dto.CourseChart;
 import Backend.entity.Course;
 import Backend.entity.ExamUser;
-import Backend.entity.User;
+import Backend.new_entity.User;
 import Backend.service.CourseService;
 import Backend.service.ExamUserService;
 import Backend.service.UserService;

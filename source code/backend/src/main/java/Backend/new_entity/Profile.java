@@ -1,4 +1,4 @@
-package Backend.entity;
+package Backend.new_entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,7 +1,7 @@
 package Backend.controller;
 
 import Backend.dto.ServiceResult;
-import Backend.entity.Profile;
+import Backend.new_entity.Profile;
 import Backend.service.ProfileService;
 import Backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

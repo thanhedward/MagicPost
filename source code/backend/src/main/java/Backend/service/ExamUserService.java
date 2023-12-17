@@ -2,7 +2,7 @@ package Backend.service;
 
 import Backend.entity.Exam;
 import Backend.entity.ExamUser;
-import Backend.entity.User;
+import Backend.new_entity.User;
 
 import java.util.Date;
 import java.util.List;

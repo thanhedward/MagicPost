@@ -2,14 +2,13 @@ package Backend.service;
 
 import Backend.entity.Exam;
 import Backend.entity.ExamUser;
-import Backend.entity.User;
+import Backend.new_entity.User;
 import Backend.repository.ExamRepository;
 import Backend.repository.ExamUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 

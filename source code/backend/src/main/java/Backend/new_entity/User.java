@@ -1,5 +1,6 @@
-package Backend.entity;
+package Backend.new_entity;
 
+import Backend.entity.Intake;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -37,12 +38,7 @@ public class User implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER )
     @JoinColumn(name = "intake_id")
     private Intake intake;
-//
-//    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-//    private Set<ExamUser> examUsers = new HashSet<>();
 
-    //    @Column(name = "enabled")
-//    private boolean enabled = true;
     @Column(name = "deleted", nullable = false)
     private boolean deleted = false;
 
@@ -56,6 +52,13 @@ public class User implements Serializable {
     @Column(name = "lastest_login_date", updatable = true, nullable = true)
     private Date lastLoginDate;
 
+    @ManyToOne
+    @JoinColumn(name = "depot_id")
+    private Depot depot;
+
+    @ManyToOne
+    @JoinColumn(name = "post_office_id")
+    private PostOffice postOffice;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(name = "role_user", joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},

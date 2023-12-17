@@ -1,6 +1,6 @@
 package Backend.repository;
 
-import Backend.entity.PasswordResetToken;
+import Backend.new_entity.PasswordResetToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

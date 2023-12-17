@@ -1,6 +1,6 @@
 package Backend.service;
 
-import Backend.entity.Role;
+import Backend.new_entity.Role;
 import Backend.utilities.ERole;
 
 import java.util.Optional;

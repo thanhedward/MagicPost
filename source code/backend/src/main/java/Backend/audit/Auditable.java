@@ -1,6 +1,6 @@
 package Backend.audit;
 
-import Backend.entity.User;
+import Backend.new_entity.User;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;

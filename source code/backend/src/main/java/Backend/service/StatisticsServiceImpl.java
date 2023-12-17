@@ -3,7 +3,7 @@ package Backend.service;
 import Backend.entity.Exam;
 import Backend.entity.ExamUser;
 import Backend.entity.Question;
-import Backend.entity.User;
+import Backend.new_entity.User;
 import Backend.repository.ExamRepository;
 import Backend.repository.ExamUserRepository;
 import Backend.repository.QuestionRepository;
@@ -18,9 +18,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-
-import static Backend.controller.ChartController.isLastWeek;
-import static Backend.controller.ChartController.isSameWeek;
 
 @Service
 public class StatisticsServiceImpl implements StatisticsService{
