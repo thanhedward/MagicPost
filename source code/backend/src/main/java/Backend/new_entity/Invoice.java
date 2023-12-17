@@ -5,13 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedBy;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @Table(name = "invoice")
@@ -51,10 +49,10 @@ public class Invoice implements Serializable {
 
     @ManyToOne
     @CreatedBy
-    private Employee createBy;
+    private User createBy;
 
     @ManyToOne
     @JoinColumn(name = "confirm_by")
-    private Employee confirmBy;
+    private User confirmBy;
 
 }

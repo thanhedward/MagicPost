@@ -1,7 +1,7 @@
 package Backend.dto;
 
 import Backend.entity.Exam;
-import Backend.entity.User;
+import Backend.new_entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

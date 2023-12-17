@@ -1,11 +1,11 @@
 package Backend.entity;
 
 import Backend.audit.Auditable;
+import Backend.new_entity.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.Serializable;
