@@ -7,21 +7,23 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "district")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "part")
-public class Part {
-
+public class District {
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "district_id")
     private Long id;
 
     @Column(name = "name")
-    private String name;
+    private String district;
 
     @ManyToOne
-    @JoinColumn(name = "course_id")
-    private Course course;
+    @JoinColumn(name = "province")
+    private Province province;
+
+    @Column(name = "distance_to_province")
+    private Long distanceToProvince;
 }

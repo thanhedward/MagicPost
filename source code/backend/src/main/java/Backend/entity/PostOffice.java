@@ -1,11 +1,12 @@
-package Backend.new_entity;
+package Backend.entity;
 
+import Backend.entity.Depot;
+import Backend.entity.District;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.io.Serial;
 import java.io.Serializable;
 
 @Entity

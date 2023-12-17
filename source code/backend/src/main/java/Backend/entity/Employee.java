@@ -1,4 +1,4 @@
-package Backend.new_entity;
+package Backend.entity;
 
 import Backend.entity.User;
 import Backend.utilities.OfficeType;

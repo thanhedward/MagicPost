@@ -4,27 +4,23 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
-import java.util.Set;
 
 @Entity
+@Table(name = "depot")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "intake")
-public class Intake implements Serializable {
+public class Depot implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "depot_id")
     private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @OneToOne
+    @JoinColumn(name = "province")
+    private Province province;
 
-    @Column(name = "intake_code")
-    private String intakeCode;
+    //TODO: Add more info of Depot (name, phone, address...)
 }
-

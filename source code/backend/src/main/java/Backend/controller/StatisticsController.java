@@ -28,11 +28,11 @@ public class StatisticsController {
         statisticsDashboard.setExamTotal(statisticsService.countExamTotal());
         statisticsDashboard.setExamUserTotal(statisticsService.countExamUserTotal());
         statisticsDashboard.setQuestionTotal(statisticsService.countQuestionTotal());
-        statisticsDashboard.setChangeQuestion(statisticsService.getChangeQuestion());
-        statisticsDashboard.setChangeExam(statisticsService.getChangeExam());
-        statisticsDashboard.setChangeAccount(statisticsService.getChangeAccount());
+//        statisticsDashboard.setChangeQuestion(statisticsService.getChangeQuestion());
+//        statisticsDashboard.setChangeExam(statisticsService.getChangeExam());
+//        statisticsDashboard.setChangeAccount(statisticsService.getChangeAccount());
         statisticsDashboard.setChangeExamUser(statisticsService.getChangeExamUser());
-        statisticsDashboard.setExamUserLastedSevenDaysTotal(statisticsService.countExamUserLastedSevenDaysTotal());
+//        statisticsDashboard.setExamUserLastedSevenDaysTotal(statisticsService.countExamUserLastedSevenDaysTotal());
         return statisticsDashboard;
     }
 }

@@ -1,6 +1,5 @@
 package Backend.entity;
 
-import Backend.new_entity.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,10 +33,6 @@ public class User implements Serializable {
     @Email
     @Column(name = "email", unique = true, nullable = false)
     private String email;
-
-    @ManyToOne(fetch = FetchType.EAGER )
-    @JoinColumn(name = "intake_id")
-    private Intake intake;
 //
 //    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
 //    private Set<ExamUser> examUsers = new HashSet<>();
@@ -68,17 +63,18 @@ public class User implements Serializable {
     @JoinColumn(name = "profile_id", referencedColumnName = "id")
     private Profile profile;
 
+    @ManyToOne()
+    @JoinColumn(name = "post_id")
+    private PostOffice postOffice;
+
+    @ManyToOne
+    @JoinColumn(name = "depot_id")
+    private Depot depot;
+
     public User(String username, String email, Profile profile) {
         this.username = username;
         this.email = email;
         this.profile = profile;
-    }
-
-    public User(String username, String email, Intake intake, Profile profile) {
-        this.username = username;
-        this.email = email;
-        this.profile = profile;
-        this.intake = intake;
     }
 
     public User(boolean deleted) {
@@ -91,13 +87,21 @@ public class User implements Serializable {
         this.email = email;
         this.profile = profile;
     }
-
-    public User(String username, String password, String email, Intake intake, Profile profile) {
+    
+    public User(String username, String password, String email, Profile profile, PostOffice postOffice) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.profile = profile;
-        this.intake = intake;
+        this.postOffice = postOffice;
+    }
+
+    public User(String username, String password, String email, Profile profile, Depot depot) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.profile = profile;
+        this.depot = depot;
     }
 
     public User(String email, Profile profile) {
