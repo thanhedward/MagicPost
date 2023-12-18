@@ -1,18 +1,16 @@
 package Backend.controller;
 
-import Backend.entity.Parcels;
+import Backend.entity.Invoice;
 import Backend.entity.User;
-import Backend.service.ParcelsService;
+import Backend.service.InvoiceService;
 import Backend.service.UserService;
-import Backend.utilities.ParcelStatus;
+import Backend.utilities.InvoiceType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-
 
 import javax.validation.Valid;
 import java.util.List;
@@ -21,41 +19,42 @@ import java.util.List;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping(value = "/api")
 @Slf4j
-public class ParcelController {
-    private ParcelsService parcelsService;
+public class InvoiceController {
+    private InvoiceService invoiceService;
     private UserService userService;
 
     @Autowired
-    public ParcelController(ParcelsService parcelsService, UserService userService){
-        this.parcelsService = parcelsService;
+    public InvoiceController(InvoiceService invoiceService, UserService userService){
+        this.invoiceService = invoiceService;
         this.userService = userService;
     }
 
-    @GetMapping(value = "/parcels")
+    @GetMapping(value = "/invoice")
     @PreAuthorize("hasRole('CEO')")
-    public List<Parcels> getAllParcels() {
-        return parcelsService.getParcelList();
+    public List<Invoice> getAllInvoice(){
+        return invoiceService.getInvoiceList();
     }
 
-    @PostMapping(value = "/parcels/create-parcel")
+    // TODO: add a parameter for api to choose type of invoice
+    @PostMapping(value = "/invoice/create-invoice")
     @PreAuthorize("hasRole('CEO')")
-    public ResponseEntity<Object> createParcel(@Valid @RequestBody Parcels parcel){
+    public ResponseEntity<Object> createInvoice(@Valid @RequestBody Invoice invoice){
         try {
+            invoice.setType(InvoiceType.DEPOT_TO_DEPOT);
             String username = userService.getUserName();
             User user = userService.getUserByUsername(username).get();
-            parcel.setAcceptedBy(user);
-            parcel.setStatus(ParcelStatus.START_POS);
-            parcelsService.saveParcels(parcel);
-            return ResponseEntity.ok(parcel);
+            invoice.setCreateBy(user);
+            invoiceService.saveInvoice(invoice);
+            return ResponseEntity.ok(invoice);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);
         }
     }
 
 
-    @GetMapping(value = "/parcels/get-parcels-by-sender")
+    @GetMapping(value = "/invoice/get-invoice-by-create-user")
     @PreAuthorize("hasRole('CEO')")
-    public List<Parcels> getAllParcelsBySender(@RequestParam String username) {
-        return parcelsService.getParcelByAcceptedUserUsername(username);
+    public List<Invoice> getAllInvoiceByCreater(@RequestParam String username) {
+        return invoiceService.getInvoiceByCreateUsername(username);
     }
 }

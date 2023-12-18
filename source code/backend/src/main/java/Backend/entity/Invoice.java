@@ -41,6 +41,7 @@ public class Invoice implements Serializable {
     @CreationTimestamp
     private LocalDateTime createdDate;
 
+    // Set when confirm
     @Column(name = "confirm_date")
     private LocalDateTime confirmDate;
 
