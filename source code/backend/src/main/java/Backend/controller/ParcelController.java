@@ -1,6 +1,6 @@
 package Backend.controller;
 
-import Backend.entity.Parcels;
+import Backend.entity.Parcel;
 import Backend.entity.User;
 import Backend.service.ParcelsService;
 import Backend.service.UserService;
@@ -31,15 +31,15 @@ public class ParcelController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "/parcels")
+    @GetMapping(value = "/parcel")
     @PreAuthorize("hasRole('CEO')")
-    public List<Parcels> getAllParcels() {
+    public List<Parcel> getAllParcels() {
         return parcelsService.getParcelList();
     }
 
-    @PostMapping(value = "/parcels/create-parcel")
+    @PostMapping(value = "/parcel/create-parcel")
     @PreAuthorize("hasRole('CEO')")
-    public ResponseEntity<Object> createParcel(@Valid @RequestBody Parcels parcel){
+    public ResponseEntity<Object> createParcel(@Valid @RequestBody Parcel parcel){
         try {
             String username = userService.getUserName();
             User user = userService.getUserByUsername(username).get();
@@ -53,9 +53,9 @@ public class ParcelController {
     }
 
 
-    @GetMapping(value = "/parcels/get-parcels-by-sender")
+    @GetMapping(value = "/parcel/get-parcels-by-sender")
     @PreAuthorize("hasRole('CEO')")
-    public List<Parcels> getAllParcelsBySender(@RequestParam String username) {
+    public List<Parcel> getAllParcelsBySender(@RequestParam String username) {
         return parcelsService.getParcelByAcceptedUserUsername(username);
     }
 }

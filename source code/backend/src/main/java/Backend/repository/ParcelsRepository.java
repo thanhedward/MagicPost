@@ -1,6 +1,6 @@
 package Backend.repository;
 
-import Backend.entity.Parcels;
+import Backend.entity.Parcel;
 import Backend.utilities.ParcelStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -8,9 +8,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ParcelsRepository extends JpaRepository<Parcels, Long> {
-    List<Parcels> findAllByAcceptedBy_Username(String username);
+public interface ParcelsRepository extends JpaRepository<Parcel, Long> {
+    List<Parcel> findAllByAcceptedBy_Username(String username);
 
-    List<Parcels> findAllByStatus(ParcelStatus parcelStatus);
+    List<Parcel> findAllByStatus(ParcelStatus parcelStatus);
 
 }

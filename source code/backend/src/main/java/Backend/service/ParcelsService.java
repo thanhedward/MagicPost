@@ -1,7 +1,7 @@
 package Backend.service;
 
 
-import Backend.entity.Parcels;
+import Backend.entity.Parcel;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,15 +9,15 @@ import java.util.Optional;
 
 public interface ParcelsService {
 
-    Optional<Parcels> getParcelById(Long id);
-    List<Parcels> getParcelList();
+    Optional<Parcel> getParcelById(Long id);
+    List<Parcel> getParcelList();
 
-    List<Parcels> getParcelByAcceptedUserUsername(String username);
+    List<Parcel> getParcelByAcceptedUserUsername(String username);
 //    List<Parcels> getParcelsByParcelStatus(String parcelStatus);
 //    List<Parcels> getParcelByStartPostOfficeId(Long start_post_id);
 //    List<Parcels> getParcelByEndPostOfficeId(Long start_post_id);
 
-    void saveParcels(Parcels parcel);
+    void saveParcels(Parcel parcel);
 
     void delete(Long id);
 

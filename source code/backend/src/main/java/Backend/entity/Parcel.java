@@ -10,11 +10,11 @@ import java.io.Serializable;
 import java.util.Set;
 
 @Entity
-@Table(name = "parcels")
+@Table(name = "parcel")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Parcels implements Serializable {
+public class Parcel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,6 +44,14 @@ public class Parcels implements Serializable {
     @ManyToOne
     @JoinColumn(name = "end_post_office_id")
     private PostOffice endPostOffice;
+
+    @ManyToOne
+    @JoinColumn(name = "start_depot_id")
+    private PostOffice startDepot;
+
+    @ManyToOne
+    @JoinColumn(name = "end_depot_id")
+    private PostOffice endDepot;
 
     @ManyToOne
     @JoinColumn(name = "accepted_by")

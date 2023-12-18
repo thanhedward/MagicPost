@@ -18,7 +18,7 @@ public class District {
     private Long id;
 
     @Column(name = "name")
-    private String district;
+    private String name;
 
     @ManyToOne
     @JoinColumn(name = "province")

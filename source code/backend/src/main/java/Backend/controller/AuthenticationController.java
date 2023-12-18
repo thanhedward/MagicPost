@@ -18,13 +18,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -53,10 +54,10 @@ public class AuthenticationController {
 
     String username = loginUser.getUsername();
     Optional<User> user= userService.getUserByUsername(username);
-    if(!user.isPresent()){
+    if(user.isEmpty()){
       return ResponseEntity.badRequest().build();
     }
-    else if(user.get().isDeleted()==true){
+    else if(user.get().isDeleted()){
       return ResponseEntity.badRequest().build();
     }
 
@@ -68,13 +69,13 @@ public class AuthenticationController {
 
     UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
     List<String> roles = userDetails.getAuthorities().stream()
-            .map(item -> item.getAuthority())
+            .map(GrantedAuthority::getAuthority)
             .collect(Collectors.toList());
     User userLog = userService.getUserByUsername(userDetails.getUsername()).get();
-    userLog.setLastLoginDate(new Date());
+    userLog.setLastLoginDate(LocalDateTime.now());
     userService.updateUser(userLog);
     logger.warn(userLog.toString());
-    if (userLog.isDeleted() == true) {
+    if (userLog.isDeleted()) {
       return ResponseEntity.badRequest().build();
     }
     return ResponseEntity.ok(new JwtResponse(jwt,

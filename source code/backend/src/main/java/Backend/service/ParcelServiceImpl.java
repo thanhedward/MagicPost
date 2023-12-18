@@ -1,6 +1,6 @@
 package Backend.service;
 
-import Backend.entity.Parcels;
+import Backend.entity.Parcel;
 import Backend.repository.ParcelsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,17 +22,17 @@ public class ParcelServiceImpl implements ParcelsService{
     }
 
     @Override
-    public Optional<Parcels> getParcelById(Long id) {
+    public Optional<Parcel> getParcelById(Long id) {
         return parcelsRepository.findById(id);
     }
 
     @Override
-    public List<Parcels> getParcelList() {
+    public List<Parcel> getParcelList() {
         return parcelsRepository.findAll();
     }
 
     @Override
-    public void saveParcels(Parcels parcel){
+    public void saveParcels(Parcel parcel){
         parcelsRepository.save(parcel);
     }
 
@@ -42,7 +42,7 @@ public class ParcelServiceImpl implements ParcelsService{
     }
 
     @Override
-    public List<Parcels> getParcelByAcceptedUserUsername(String username) {
+    public List<Parcel> getParcelByAcceptedUserUsername(String username) {
         return parcelsRepository.findAllByAcceptedBy_Username(username);
     }
 }
