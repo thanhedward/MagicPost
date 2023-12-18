@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProvinceServiceImpl implements ProvinceService{
@@ -16,6 +17,11 @@ public class ProvinceServiceImpl implements ProvinceService{
         this.provinceRepository = provinceRepository;
     }
 
+
+    @Override
+    public Optional<Province> getProvinceById(String id){
+        return provinceRepository.findById(id);
+    }
     @Override
     public List<Province> getProvinceList() {
         return provinceRepository.findAll();

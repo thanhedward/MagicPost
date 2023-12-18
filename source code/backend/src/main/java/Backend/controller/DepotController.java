@@ -2,6 +2,7 @@ package Backend.controller;
 
 import Backend.dto.ServiceResult;
 import Backend.entity.Depot;
+import Backend.entity.Province;
 import Backend.service.DepotService;
 import Backend.service.ProvinceService;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,7 @@ public class DepotController {
     private final DepotService depotService;
     private final ProvinceService provinceService;
 
+
     @Autowired
     public DepotController(DepotService depotService, ProvinceService provinceService) {
         this.depotService = depotService;
@@ -33,10 +35,13 @@ public class DepotController {
         return depotService.getDepotList();
     }
 
-    @PostMapping(value = "/create-depot")
+    @GetMapping(value = "/create-depot")
     @PreAuthorize("hasRole('CEO')")
-    public ResponseEntity<Object> createDepot(@Valid @RequestBody Depot depot){
+    public ResponseEntity<Object> createDepot(@RequestParam String province_name){
         try {
+            Depot depot = new Depot();
+            Province province = provinceService.getProvinceById(province_name).get();
+            depot.setProvince(province);
             if(!provinceService.getProvinceList().contains(depot.getProvince())) {
                 return ResponseEntity.badRequest().body(new ServiceResult(HttpStatus.CONFLICT.value(), "Không có địa danh này!", ""));
             }

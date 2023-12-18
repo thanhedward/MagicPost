@@ -1,6 +1,8 @@
 package Backend.controller;
 
 import Backend.dto.ServiceResult;
+import Backend.entity.Depot;
+import Backend.entity.District;
 import Backend.entity.PostOffice;
 import Backend.service.DepotService;
 import Backend.service.DistrictService;
@@ -39,10 +41,16 @@ public class PostOfficeController {
         return postOfficeService.getPostOfficeList();
     }
 
-    @PostMapping(value = "/create-post-office")
+    @GetMapping(value = "/create-post-office")
     @PreAuthorize("hasRole('CEO')")
-    public ResponseEntity<Object> createPostOffice(@Valid @RequestBody PostOffice postOffice){
+    public ResponseEntity<Object> createPostOffice(@RequestParam Long depot_id, @RequestParam Long district_id){
         try {
+            PostOffice postOffice = new PostOffice();
+            Depot depot = depotService.getDepotByID(depot_id).get();
+            District district = districtService.getDistrictById(district_id).get();
+            postOffice.setDepot(depot);
+            postOffice.setDistrict(district);
+            // TODO: Validate district must be in province of depot
             if(!depotService.existsByProvince(postOffice.getDepot().getProvince())) {
                 return ResponseEntity.badRequest().body(new ServiceResult(HttpStatus.CONFLICT.value(), "Không có điểm tập kết này!", ""));
             } else if(!districtService.existsById(postOffice.getDistrict().getId())) {
