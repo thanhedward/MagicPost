@@ -1,6 +1,6 @@
 package Backend.service;
 
-import Backend.new_entity.Profile;
+import Backend.entity.Profile;
 import Backend.repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

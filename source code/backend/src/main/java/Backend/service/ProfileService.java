@@ -1,6 +1,6 @@
 package Backend.service;
 
-import Backend.new_entity.Profile;
+import Backend.entity.Profile;
 
 import java.util.List;
 

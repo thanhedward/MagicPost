@@ -1,6 +1,6 @@
 package Backend.repository;
 
-import Backend.new_entity.Profile;
+import Backend.entity.Profile;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,7 +1,7 @@
 package Backend.service;
 
 
-import Backend.new_entity.User;
+import Backend.entity.User;
 import Backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

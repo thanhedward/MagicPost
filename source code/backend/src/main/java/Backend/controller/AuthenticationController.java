@@ -5,7 +5,7 @@ import Backend.dto.LoginUser;
 import Backend.dto.OperationStatusDto;
 import Backend.dto.PasswordResetDto;
 import Backend.dto.PasswordResetRequest;
-import Backend.new_entity.User;
+import Backend.entity.User;
 import Backend.payload.JwtResponse;
 import Backend.service.UserDetailsImpl;
 import Backend.service.UserService;

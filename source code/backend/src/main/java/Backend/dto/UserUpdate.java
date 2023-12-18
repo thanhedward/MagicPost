@@ -1,6 +1,6 @@
 package Backend.dto;
 
-import Backend.new_entity.Profile;
+import Backend.entity.Profile;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

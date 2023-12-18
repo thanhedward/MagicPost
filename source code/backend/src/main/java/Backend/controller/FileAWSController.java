@@ -1,6 +1,6 @@
 package Backend.controller;
 
-import Backend.new_entity.User;
+import Backend.entity.User;
 import Backend.service.S3Services;
 import Backend.service.UserService;
 import com.google.common.io.Files;
