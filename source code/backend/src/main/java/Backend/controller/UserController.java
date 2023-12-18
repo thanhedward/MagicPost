@@ -1,11 +1,9 @@
 package Backend.controller;
 
 import Backend.dto.*;
-import Backend.entity.Intake;
-import Backend.new_entity.Profile;
-import Backend.new_entity.Role;
-import Backend.new_entity.User;
-import Backend.service.IntakeService;
+import Backend.entity.Profile;
+import Backend.entity.Role;
+import Backend.entity.User;
 import Backend.service.RoleService;
 import Backend.service.UserService;
 import Backend.utilities.ERole;
@@ -38,7 +36,7 @@ public class UserController {
     private PasswordEncoder passwordEncoder;
     private RoleService roleService;
 
-    private IntakeService intakeService;
+//    private IntakeService intakeService;
 //    private ExcelService excelService;
 //    FilesStorageService filesStorageService;
 
@@ -52,11 +50,10 @@ public class UserController {
 //    }
 
         @Autowired
-        public UserController(UserService userService, RoleService roleService, PasswordEncoder passwordEncoder, IntakeService intakeService) {
+        public UserController(UserService userService, RoleService roleService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.roleService = roleService;
         this.passwordEncoder = passwordEncoder;
-        this.intakeService = intakeService;
     }
 
 
@@ -179,8 +176,8 @@ public class UserController {
         profile.setId(userUpdate.getProfile().getId());
         profile.setFirstName(userReq.getProfile().getFirstName());
         profile.setLastName(userReq.getProfile().getLastName());
-        Intake intakeInstance = intakeService.findByCode(userReq.getIntakeCode());
-        userUpdate.setIntake(intakeInstance);
+//        Intake intakeInstance = intakeService.findByCode(userReq.getIntakeCode());
+//        userUpdate.setIntake(intakeInstance);
         userUpdate.setProfile(profile);
         userService.updateUser(userUpdate);
         return ResponseEntity.ok().body(new ServiceResult(HttpStatus.OK.value(), "Cập nhật thành công!", userUpdate));

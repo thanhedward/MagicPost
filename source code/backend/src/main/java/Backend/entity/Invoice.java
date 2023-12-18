@@ -1,4 +1,4 @@
-package Backend.new_entity;
+package Backend.entity;
 
 import Backend.utilities.InvoiceType;
 import lombok.AllArgsConstructor;

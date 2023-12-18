@@ -2,9 +2,9 @@ package Backend.service;
 
 import Backend.config.JwtUtils;
 import Backend.dto.UserExport;
-import Backend.new_entity.PasswordResetToken;
-import Backend.new_entity.Role;
-import Backend.new_entity.User;
+import Backend.entity.PasswordResetToken;
+import Backend.entity.Role;
+import Backend.entity.User;
 import Backend.repository.PasswordResetTokenRepository;
 import Backend.repository.UserRepository;
 import Backend.utilities.ERole;
@@ -130,10 +130,10 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
-    @Override
-    public List<User> findAllByIntakeId(Long id) {
-        return userRepository.findAllByIntakeId(id);
-    }
+//    @Override
+//    public List<User> findAllByIntakeId(Long id) {
+//        return userRepository.findAllByIntakeId(id);
+//    }
 
     @Override
     public boolean requestPasswordReset(String email) throws MessagingException {

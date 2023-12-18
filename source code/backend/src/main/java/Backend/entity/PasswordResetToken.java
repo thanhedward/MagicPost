@@ -5,23 +5,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
-@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "part")
-public class Part {
+@Entity(name = "password_reset_tokens")
+public class PasswordResetToken implements Serializable {
 
-    @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     private Long id;
+    private String token;
 
-    @Column(name = "name")
-    private String name;
-
-    @ManyToOne
-    @JoinColumn(name = "course_id")
-    private Course course;
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }

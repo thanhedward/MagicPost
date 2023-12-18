@@ -6,25 +6,26 @@ import lombok.NoArgsConstructor;
 
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.List;
-import java.util.Set;
 
 @Entity
+@Table(name = "profile")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "intake")
-public class Intake implements Serializable {
+public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "first_name")
+    private String firstName;
 
-    @Column(name = "intake_code")
-    private String intakeCode;
+    @Column(name = "last_name")
+    private String lastName;
+
+    @Column(name = "image")
+    private String image;
+
 }
 

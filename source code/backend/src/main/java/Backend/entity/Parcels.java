@@ -1,4 +1,4 @@
-package Backend.new_entity;
+package Backend.entity;
 
 import Backend.utilities.ParcelStatus;
 import lombok.AllArgsConstructor;
@@ -47,7 +47,7 @@ public class Parcels implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "accepted_by")
-    private User user;
+    private User acceptedBy;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")

@@ -1,26 +1,29 @@
-package Backend.new_entity;
+package Backend.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
-@Table(name = "depot")
+@Table(name = "district")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Depot implements Serializable {
+public class District {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "depot_id")
+    @Column(name = "district_id")
     private Long id;
 
-    @OneToOne
+    @Column(name = "name")
+    private String district;
+
+    @ManyToOne
     @JoinColumn(name = "province")
     private Province province;
 
-    //TODO: Add more info of Depot (name, phone, address...)
+    @Column(name = "distance_to_province")
+    private Long distanceToProvince;
 }

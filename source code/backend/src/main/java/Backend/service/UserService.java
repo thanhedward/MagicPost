@@ -34,7 +34,7 @@ public interface UserService {
 
     void updateUser(User user);
 
-    List<User> findAllByIntakeId(Long id);
+//    List<User> findAllByIntakeId(Long id);
 
     boolean requestPasswordReset(String email) throws MessagingException;
 

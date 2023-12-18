@@ -8,21 +8,19 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "choice")
+@Table(name = "depot")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Choice implements Serializable {
+public class Depot implements Serializable {
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "depot_id")
     private Long id;
 
-    @Column(name = "choice_text")
-    private String choiceText;
+    @OneToOne
+    @JoinColumn(name = "province")
+    private Province province;
 
-    @Column(name = "corrected")
-    private int isCorrected;
-
-
+    //TODO: Add more info of Depot (name, phone, address...)
 }
