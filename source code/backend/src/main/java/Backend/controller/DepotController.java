@@ -2,7 +2,6 @@ package Backend.controller;
 
 import Backend.dto.ServiceResult;
 import Backend.entity.Depot;
-import Backend.entity.Province;
 import Backend.service.DepotService;
 import Backend.service.ProvinceService;
 import lombok.extern.slf4j.Slf4j;
