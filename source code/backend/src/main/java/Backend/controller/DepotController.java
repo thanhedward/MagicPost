@@ -35,13 +35,10 @@ public class DepotController {
         return depotService.getDepotList();
     }
 
-    @GetMapping(value = "/create-depot")
+    @PostMapping(value = "/create-depot")
     @PreAuthorize("hasRole('CEO')")
-    public ResponseEntity<Object> createDepot(@RequestParam String province_name){
+    public ResponseEntity<Object> createDepot(@Valid @RequestBody Depot depot){
         try {
-            Depot depot = new Depot();
-            Province province = provinceService.getProvinceById(province_name).get();
-            depot.setProvince(province);
             if(!provinceService.getProvinceList().contains(depot.getProvince())) {
                 return ResponseEntity.badRequest().body(new ServiceResult(HttpStatus.CONFLICT.value(), "Không có địa danh này!", ""));
             }

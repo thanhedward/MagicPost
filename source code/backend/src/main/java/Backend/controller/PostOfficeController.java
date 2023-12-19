@@ -45,18 +45,21 @@ public class PostOfficeController {
     @PreAuthorize("hasRole('CEO')")
     public ResponseEntity<Object> createPostOffice(@RequestParam Long depot_id, @RequestParam Long district_id){
         try {
+            if(depotService.getDepotByID(depot_id).isEmpty()) {
+                return ResponseEntity.badRequest().body(new ServiceResult(HttpStatus.CONFLICT.value(), "Không có điểm tập kết này!", ""));
+            }
+            if(districtService.getDistrictById(district_id).isEmpty()) {
+                return ResponseEntity.badRequest().body(new ServiceResult(HttpStatus.CONFLICT.value(), "Không có địa danh này!", ""));
+            }
             PostOffice postOffice = new PostOffice();
             Depot depot = depotService.getDepotByID(depot_id).get();
             District district = districtService.getDistrictById(district_id).get();
             postOffice.setDepot(depot);
             postOffice.setDistrict(district);
-            // TODO: Validate district must be in province of depot
-            if(!depotService.existsByProvince(postOffice.getDepot().getProvince())) {
-                return ResponseEntity.badRequest().body(new ServiceResult(HttpStatus.CONFLICT.value(), "Không có điểm tập kết này!", ""));
-            } else if(!districtService.existsById(postOffice.getDistrict().getId())) {
-                return ResponseEntity.badRequest().body(new ServiceResult(HttpStatus.CONFLICT.value(), "Không có địa danh này!", ""));
+            if(!district.getProvince().equals(depot.getProvince())) {
+                return ResponseEntity.badRequest().body(new ServiceResult(HttpStatus.CONFLICT.value(), "Không có quận huyện trên trong tỉnh!", ""));
             }
-            if(postOfficeService.existsByDepotAndDistrict(postOffice.getDepot(), postOffice.getDistrict())) {
+            if(postOfficeService.existsByDepotAndDistrict(depot, district)) {
                 return ResponseEntity.badRequest().body(new ServiceResult(HttpStatus.CONFLICT.value(), "Điểm giao dịch đã tồn tại!", ""));
             }
             postOfficeService.savePostOffice(postOffice);
