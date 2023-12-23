@@ -8,7 +8,7 @@
 <!--    </div>-->
 <!--  </aside>-->
 
-  <app-left-side [userProfile]="userProfile" *ngIf="!toggledMenu" [style.display]="'contents'"></app-left-side>
+  <app-left-side *ngIf="!toggledMenu" [style.display]="'contents'"></app-left-side>
   <div class="lg:w-full bg-gray-100 py-2 overflow-hidden overflow-y-scroll">
 
     <div class="flex flex-wrap items-center justify-between mx-4 my-4 overflow-hidden">
@@ -21,9 +21,9 @@
       </div>
       
       
-      <div class="group text-gray-600 text-2xl cursor-pointer flex items-center" (click)="signOut()">
-        <span class="text-base"><i class="fa fa-sign-out mr-2 group-hover:mr-1"></i>Log out</span>
-      </div>
+      <a [routerLink]="['../home']" class="group text-gray-600 text-2xl cursor-pointer flex items-center">
+        <span class="text-base"><i class="fa fa-sign-out mr-2 group-hover:mr-1"></i>Trở về trang chủ</span>
+      </a>
     </div>
     <div class="px-5 py-4 m-6">
       <router-outlet>

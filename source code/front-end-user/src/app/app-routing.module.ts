@@ -46,17 +46,15 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
   },
   {
     path: 'user',
     component: UserComponent,
-    canActivate: [AuthGuard],
     data: { breadcrumb: 'MagicPost' },
     children: [
       {
         path: '',
-        canActivateChild: [AuthGuard],
         children: [
           {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
           {path: 'dashboard', component: DashboardComponent, data: { breadcrumb: 'Tra cứu đơn hàng' }},

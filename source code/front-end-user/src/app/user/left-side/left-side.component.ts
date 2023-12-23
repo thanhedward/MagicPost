@@ -8,25 +8,5 @@ import {UserProfile} from '../../models/user-profile';
   templateUrl: './left-side.component.html',
   styleUrls: ['./left-side.component.scss']
 })
-export class LeftSideComponent implements OnInit, OnChanges {
-  @Input() userProfile: UserProfile;
-
-  currentProfile: UserProfile;
-
-  constructor(private tokenStorageService: TokenStorageService, private userService: UserService) {
-  }
-
-  ngOnInit(): void {
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-
-    const profile = changes.userProfile.currentValue;
-
-    this.currentProfile = profile;
-
-
-    console.log(profile);
-  }
-
+export class LeftSideComponent{
 }
