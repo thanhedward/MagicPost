@@ -1,6 +1,6 @@
 package Backend.dto;
 
-import Backend.new_entity.Profile;
+import Backend.entity.Profile;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,5 +13,4 @@ public class UserUpdate {
     private String email;
     private String password;
     private Profile profile;
-    private String intakeCode;
 }

@@ -1,7 +1,7 @@
 package Backend.service;
 
 import Backend.dto.UserExport;
-import Backend.new_entity.User;
+import Backend.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -34,7 +34,7 @@ public interface UserService {
 
     void updateUser(User user);
 
-    List<User> findAllByIntakeId(Long id);
+//    List<User> findAllByIntakeId(Long id);
 
     boolean requestPasswordReset(String email) throws MessagingException;
 

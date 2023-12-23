@@ -1,55 +1,72 @@
 package Backend.entity;
 
-import Backend.audit.Auditable;
-import Backend.new_entity.User;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import Backend.utilities.ParcelStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "parcel")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Parcel extends Auditable<Long> implements Serializable {
+public class Parcel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "parcel_id")
     private Long id;
 
     @Column(name = "name")
     private String name;
 
-    @ManyToOne()
-    @JoinColumn(name = "sender_id")
-    private User sender;
+    //TODO: Add info of sender (phone,...; for invoice purpose). May create a new User entity
+    @Column(name = "sender_name")
+    private String sender;
 
-    @Column(name = "estimate_received_date")
-//    @DateTimeFormat(pattern = "yyyy/MM/dd hh:mm:ss a")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-//    @Temporal(TemporalType.TIMESTAMP)
-    private Date received_date;
+    @Column(name = "start_address")
+    private String startAddress;
+
+    @Column(name = "end_address")
+    private String endAddress;
+
+    //TODO: Add type of parcel (mail/goods...). Different type may have different fee
+    //TODO: Convert distance of province/district to estimate arrive time
 
     @ManyToOne
-    @JoinColumn(name = "start_location_id")
-    private Location startLocation;
+    @JoinColumn(name = "start_post_office_id")
+    private PostOffice startPostOffice;
 
     @ManyToOne
-    @JoinColumn(name = "end_location_id")
-    private Location endLocation;
+    @JoinColumn(name = "end_post_office_id")
+    private PostOffice endPostOffice;
 
+    @ManyToOne
+    @JoinColumn(name = "start_depot_id")
+    private PostOffice startDepot;
+
+    @ManyToOne
+    @JoinColumn(name = "end_depot_id")
+    private PostOffice endDepot;
+
+    @ManyToOne
+    @JoinColumn(name = "accepted_by")
+    private User acceptedBy;
+
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private int status;
-
-    @Column(name = "canceled")
-    private boolean canceled = false;
+    private ParcelStatus status;
 
     @Column(name = "weight")
     private int weight;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinTable(name = "parcel_invoice",
+            joinColumns = {@JoinColumn(name = "parcel_id", referencedColumnName = "parcel_id")},
+            inverseJoinColumns = {@JoinColumn(name = "invoice_id", referencedColumnName = "invoice_id")})
+    private Set<Invoice> invoices;
 }

@@ -1,77 +1,48 @@
 package Backend.service;
 
 import Backend.entity.Parcel;
-import Backend.repository.ParcelRepository;
+import Backend.repository.ParcelsRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-
 @Service
-public class ParcelServiceImpl implements ParcelService {
-    private ParcelRepository parcelRepository;
+public class ParcelServiceImpl implements ParcelsService{
+    Logger logger = LoggerFactory.getLogger(ParcelServiceImpl.class);
+
+    private ParcelsRepository parcelsRepository;
 
     @Autowired
-    public ParcelServiceImpl(ParcelRepository parcelRepository) {
-        this.parcelRepository = parcelRepository;
+    public ParcelServiceImpl(ParcelsRepository parcelsRepository){
+        this.parcelsRepository = parcelsRepository;
     }
-
 
     @Override
     public Optional<Parcel> getParcelById(Long id) {
-        return parcelRepository.findById(id);
+        return parcelsRepository.findById(id);
     }
 
     @Override
     public List<Parcel> getParcelList() {
-        return parcelRepository.findAll();
+        return parcelsRepository.findAll();
     }
 
     @Override
-    public List<Parcel> getParcelListByStartLocationId(Long start_location_id) {
-        return parcelRepository.findParcelsByStart_Location_Id(start_location_id);
+    public void saveParcels(Parcel parcel){
+        parcelsRepository.save(parcel);
     }
 
     @Override
-    public List<Parcel> getParcelListByEndLocationId(Long end_location_id) {
-        return parcelRepository.findAllByEndLocationId(end_location_id);
+    public void delete(Long id){
+        parcelsRepository.deleteById(id);
     }
 
     @Override
-    public Page<Parcel> getParcelListByPage(Pageable pageable) {
-        return parcelRepository.findAll(pageable);
+    public List<Parcel> getParcelByAcceptedUserUsername(String username) {
+        return parcelsRepository.findAllByAcceptedBy_Username(username);
     }
-
-    @Override
-    public void saveParcel(Parcel Parcel) {
-        parcelRepository.save(Parcel);
-    }
-
-    @Override
-    public void delete(Long id) {
-        parcelRepository.deleteById(id);
-    }
-
-    @Override
-    public boolean existsById(Long id) {
-        return parcelRepository.existsById(id);
-    }
-
-    public Page<Parcel> findAllByCreatedBy_Username(Pageable pageable, String employee_username){
-        return parcelRepository.findAllByCreatedBy_Username(pageable, employee_username);
-    }
-
-    public List<Parcel> findAllBySenderId(Long senderId){
-        return parcelRepository.findAllBySenderId(senderId);
-    }
-
-//    @Override
-//    public Page<Parcel> getParcelByTypePage (String type, Pageable pageable){
-//        return parcel
-//    }
-
 }

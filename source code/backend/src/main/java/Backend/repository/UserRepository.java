@@ -1,6 +1,6 @@
 package Backend.repository;
 
-import Backend.new_entity.User;
+import Backend.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -31,7 +31,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     //    public Page<User> findUsersByDeletedAndUsernameIsContainingOrEmailIsContaining(boolean deleted, String username, String email, Pageable pageable);
     List<User> findAllByDeleted(boolean statusDeleted);
 
-    List<User> findAllByIntakeId(Long id);
+//    List<User> findAllByIntakeId(Long id);
     List<User> findByDeletedIsFalseOrderByCreatedDateDesc();
 
 

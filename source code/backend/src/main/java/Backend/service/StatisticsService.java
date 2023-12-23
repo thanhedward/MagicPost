@@ -7,9 +7,9 @@ public interface StatisticsService {
     long countQuestionTotal();
     long countAccountTotal();
     long countExamUserTotal();
-    Double getChangeExam();
-    Double getChangeQuestion();
-    Double getChangeAccount();
+//    Double getChangeExam();
+//    Double getChangeQuestion();
+//    Double getChangeAccount();
     Double getChangeExamUser();
-    List<Long> countExamUserLastedSevenDaysTotal();
+//    List<Long> countExamUserLastedSevenDaysTotal();
 }
