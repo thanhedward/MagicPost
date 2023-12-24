@@ -25,8 +25,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+
 @RestController
 @CrossOrigin(origins = "http://localhost:4200/")
 @RequestMapping(value = "/api/users")
@@ -186,7 +186,7 @@ public class UserController {
 
     @PostMapping()
     @PreAuthorize("hasRole('CEO')")
-    public ResponseEntity<?> createUser(@Valid @RequestBody User user) {
+    public ResponseEntity<?> createUser(@Valid @RequestBody User user, @RequestParam String role) {
 
 //        Check username is exists?
         if (userService.existsByUsername(user.getUsername())) {
@@ -229,6 +229,26 @@ public class UserController {
 //        }
 //
 //        newUser.setRoles(roles);
+        Role currRole = new Role();
+        switch (role) {
+            case "ROLE_POST_OFFICE_MANAGER":
+                currRole = roleService.findByName(ERole.ROLE_POST_OFFICE_MANAGER).get();
+                break;
+            case "ROLE_POST_OFFICE_EMPLOYEE":
+                currRole = roleService.findByName(ERole.ROLE_POST_OFFICE_EMPLOYEE).get();
+                break;
+            case "ROLE_DEPOT_MANAGER":
+                currRole = roleService.findByName(ERole.ROLE_DEPOT_MANAGER).get();
+                break;
+            case "ROLE_DEPOT_EMPLOYEE":
+                currRole = roleService.findByName(ERole.ROLE_DEPOT_EMPLOYEE).get();
+                break;
+            default:
+                return ResponseEntity.badRequest().body(new ServiceResult(HttpStatus.CONFLICT.value(), "Role không có trong database", ""));
+        }
+        Set<Role> hashSet = new HashSet<>(Arrays.asList(currRole));
+        user.setRoles(hashSet);
+//        System.out.println(user.getRoles());
         userService.createUser(user);
         return ResponseEntity.ok(new ServiceResult(HttpStatus.OK.value(), "User created successfully!", user));
     }

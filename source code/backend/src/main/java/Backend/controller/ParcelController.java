@@ -58,4 +58,6 @@ public class ParcelController {
     public List<Parcel> getAllParcelsBySender(@RequestParam String username) {
         return parcelsService.getParcelByAcceptedUserUsername(username);
     }
+
+
 }

@@ -8,7 +8,7 @@ public enum ERole {
     ROLE_DEPOT_EMPLOYEE("ROLE_DEPOT_EMPLOYEE"),
     ROLE_USER("ROLE_USER");
 
-    private final String type;
+    private final String type   ;
 
     private ERole(String type) {
         this.type = type;

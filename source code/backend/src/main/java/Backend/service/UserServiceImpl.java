@@ -84,22 +84,30 @@ public class UserServiceImpl implements UserService {
 
         Set<Role> reqRoles = user.getRoles();
         Set<Role> roles = new HashSet<>();
-
+        System.out.println(reqRoles);
         if (reqRoles == null) {
-            Role userRole = roleService.findByName(ERole.ROLE_USER).orElseThrow(() -> new RuntimeException("Error: Role is not found"));
-            roles.add(userRole);
+//            Role userRole = roleService.findByName(ERole.ROLE_USER).orElseThrow(() -> new RuntimeException("Error: Role is not found"));
+//            roles.add(userRole);
+            System.out.println("reqRoles == null in user");
         } else {
             reqRoles.forEach(role -> {
                 switch (role.getName()) {
-                    case ROLE_CEO: {
-                        addRoles(ERole.ROLE_CEO, roles);
-                    }
-
+                    // One account has one role
                     case ROLE_POST_OFFICE_MANAGER: {
                         addRoles(ERole.ROLE_POST_OFFICE_MANAGER, roles);
+                        break;
                     }
-                    default: {
-                        addRoles(ERole.ROLE_USER, roles);
+                    case ROLE_POST_OFFICE_EMPLOYEE: {
+                        addRoles(ERole.ROLE_POST_OFFICE_EMPLOYEE, roles);
+                        break;
+                    }
+                    case ROLE_DEPOT_MANAGER: {
+                        addRoles(ERole.ROLE_DEPOT_MANAGER, roles);
+                        break;
+                    }
+                    case ROLE_DEPOT_EMPLOYEE: {
+                        addRoles(ERole.ROLE_DEPOT_EMPLOYEE, roles);
+                        break;
                     }
                 }
 
