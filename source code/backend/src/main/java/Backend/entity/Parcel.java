@@ -64,6 +64,7 @@ public class Parcel implements Serializable {
     @Column(name = "weight")
     private int weight;
 
+    // TODO: mot invoice co nhieu parcel, nen phai goi add invoice vao nhieu lan
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(name = "parcel_invoice",
             joinColumns = {@JoinColumn(name = "parcel_id", referencedColumnName = "parcel_id")},

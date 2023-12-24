@@ -13,4 +13,6 @@ public interface ParcelsRepository extends JpaRepository<Parcel, Long> {
 
     List<Parcel> findAllByStatus(ParcelStatus parcelStatus);
 
+//    void add_invoice
+
 }
