@@ -4,6 +4,8 @@ import Backend.dto.*;
 import Backend.entity.Profile;
 import Backend.entity.Role;
 import Backend.entity.User;
+import Backend.service.DepotService;
+import Backend.service.PostOfficeService;
 import Backend.service.RoleService;
 import Backend.service.UserService;
 import Backend.utilities.ERole;
@@ -14,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
@@ -25,16 +28,19 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.util.*;
-
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 @RestController
 @CrossOrigin(origins = "http://localhost:4200/")
 @RequestMapping(value = "/api/users")
 public class UserController {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
-    private UserService userService;
-    private PasswordEncoder passwordEncoder;
-    private RoleService roleService;
+    private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
+    private final RoleService roleService;
+    private final DepotService depotService;
+    private final PostOfficeService postOfficeService;
 
 //    private IntakeService intakeService;
 //    private ExcelService excelService;
@@ -50,10 +56,12 @@ public class UserController {
 //    }
 
         @Autowired
-        public UserController(UserService userService, RoleService roleService, PasswordEncoder passwordEncoder) {
+        public UserController(UserService userService, RoleService roleService, PasswordEncoder passwordEncoder, DepotService depotService, PostOfficeService postOfficeService) {
         this.userService = userService;
         this.roleService = roleService;
         this.passwordEncoder = passwordEncoder;
+        this.depotService = depotService;
+        this.postOfficeService = postOfficeService;
     }
 
 
@@ -65,7 +73,7 @@ public class UserController {
         } else {
             user = userService.getUserByUsername(username);
         }
-        if (!user.isPresent()) {
+        if (user.isEmpty()) {
             return ResponseEntity.ok(new ServiceResult(HttpStatus.NOT_FOUND.value(), "Tên đăng nhâp " + username + " không tìm thấy!", null));
         }
         return ResponseEntity.ok(new ServiceResult(HttpStatus.OK.value(), "Lấy thông tin user " + username + " thành công!", user));
@@ -96,7 +104,7 @@ public class UserController {
 //    }
 
     @PatchMapping("/{id}/password/updating")
-    public ResponseEntity updatePass(@Valid @RequestBody PasswordUpdate passwordUpdate, @PathVariable Long id) {
+    public ResponseEntity<?> updatePass(@Valid @RequestBody PasswordUpdate passwordUpdate, @PathVariable Long id) {
         try {
 //            log.error(passwordUpdate.toString());
             User user = userService.findUserById(id).get();
@@ -124,10 +132,7 @@ public class UserController {
     public boolean checkExistsEmailUpdate(@RequestParam("value") String value, @PathVariable Long id) {
         if (userService.existsByEmail(value)) {
 //            This is my email
-            if (userService.findUserById(id).get().getEmail().equals(value)) {
-                return false;
-            }
-            return true;
+            return !userService.findUserById(id).get().getEmail().equals(value);
         }
         return false;
     }
@@ -176,84 +181,111 @@ public class UserController {
         profile.setId(userUpdate.getProfile().getId());
         profile.setFirstName(userReq.getProfile().getFirstName());
         profile.setLastName(userReq.getProfile().getLastName());
-//        Intake intakeInstance = intakeService.findByCode(userReq.getIntakeCode());
-//        userUpdate.setIntake(intakeInstance);
         userUpdate.setProfile(profile);
         userService.updateUser(userUpdate);
         return ResponseEntity.ok().body(new ServiceResult(HttpStatus.OK.value(), "Cập nhật thành công!", userUpdate));
     }
 
+    @PostMapping("/create")
+    public ResponseEntity<?> createCEO(@Valid @RequestBody User user) {
+        if(getUsersByPage(PageRequest.of(1,1)).getData().isEmpty()) {
+            Set<Role> roles = new HashSet<>();
+            roles.add(new Role(ERole.ROLE_CEO));
+            user.setRoles(roles);
+            userService.createUser(user);
+            return ResponseEntity.ok(new ServiceResult(HttpStatus.OK.value(), "User created successfully!", user));
+        }
+        return ResponseEntity.badRequest().body(new ServiceResult(HttpStatus.CONFLICT.value(), "Already have a CEO user!", ""));
+    }
 
-    @PostMapping()
-    @PreAuthorize("hasRole('CEO')")
-    public ResponseEntity<?> createUser(@Valid @RequestBody User user, @RequestParam String role) {
+    private ResponseEntity<?> checkDuplicateUsernameAndEmail(User user) {
 
-//        Check username is exists?
+//        Check username if exists?
         if (userService.existsByUsername(user.getUsername())) {
             return ResponseEntity.badRequest().body(new ServiceResult(HttpStatus.CONFLICT.value(), "Tên đăng nhập đã có người sử dụng!", ""));
 
         }
-//        Check email is exists?
+//        Check email if exists?
         if (userService.existsByEmail(user.getEmail())) {
             return ResponseEntity.badRequest().body(new ServiceResult(HttpStatus.CONFLICT.value(), "Email đã có người sử dụng!", ""));
 
         }
+        return null;
+    }
 
-//        Create new user
-//        User newUser = new User(user.getUsername(), passwordEncoder.encode(user.getUsername()), user.getEmail(), user.getProfile());
-//
-//        Set<Role> reqRoles = user.getRoles();
-//        Set<Role> roles = new HashSet<>();
-//
-//        if (reqRoles == null) {
-//            Role userRole = roleService.findByName(ERole.ROLE_USER).orElseThrow(() -> new RuntimeException("Error: Role is not found"));
-//            roles.add(userRole);
-//        } else {
-//            reqRoles.forEach(role -> {
-//                switch (role.getName()) {
-//                    case ROLE_CEO: {
-//                        addRoles(ERole.ROLE_CEO, roles);
-//                    }
-//                    case ROLE_MANAGER: {
-//                        addRoles(ERole.ROLE_MANAGER, roles);
-//                    }
-//                    case ROLE_LECTURE: {
-//                        addRoles(ERole.ROLE_LECTURE, roles);
-//                    }
-//                    default:{
-//                        addRoles(ERole.ROLE_USER, roles);
-//                    }
-//                }
-//
-//            });
-//        }
-//
-//        newUser.setRoles(roles);
-        Role currRole = new Role();
-        switch (role) {
-            case "ROLE_POST_OFFICE_MANAGER":
-                currRole = roleService.findByName(ERole.ROLE_POST_OFFICE_MANAGER).get();
-                break;
-            case "ROLE_POST_OFFICE_EMPLOYEE":
-                currRole = roleService.findByName(ERole.ROLE_POST_OFFICE_EMPLOYEE).get();
-                break;
-            case "ROLE_DEPOT_MANAGER":
-                currRole = roleService.findByName(ERole.ROLE_DEPOT_MANAGER).get();
-                break;
-            case "ROLE_DEPOT_EMPLOYEE":
-                currRole = roleService.findByName(ERole.ROLE_DEPOT_EMPLOYEE).get();
-                break;
-            default:
-                return ResponseEntity.badRequest().body(new ServiceResult(HttpStatus.CONFLICT.value(), "Role không có trong database", ""));
+    @PostMapping("/create/manager/{id}")
+    @PreAuthorize("hasRole('CEO')")
+    public ResponseEntity<?> createManager(@Valid @RequestBody User user, @PathVariable Long id) {
+
+        if(checkDuplicateUsernameAndEmail(user) != null) {
+            return checkDuplicateUsernameAndEmail(user);
         }
-        Set<Role> hashSet = new HashSet<>(Arrays.asList(currRole));
-        user.setRoles(hashSet);
-//        System.out.println(user.getRoles());
+
+        Set<Role> roles = new HashSet<>();
+        for (Role role: user.getRoles()) {
+            if(role.getName() == ERole.ROLE_DEPOT_MANAGER) {
+                roles.add(new Role(ERole.ROLE_DEPOT_MANAGER));
+                if(depotService.getDepotByID(id).isEmpty()) {
+                    return ResponseEntity.badRequest().body(new ServiceResult(HttpStatus.CONFLICT.value(), "Không có điểm tập kết này!", ""));
+                }
+                user.setDepot(depotService.getDepotByID(id).get());
+            }
+            if(role.getName() == ERole.ROLE_POST_OFFICE_MANAGER) {
+                roles.add(new Role(ERole.ROLE_POST_OFFICE_MANAGER));
+                if(postOfficeService.getPostOfficeByID(id).isEmpty()) {
+                    return ResponseEntity.badRequest().body(new ServiceResult(HttpStatus.CONFLICT.value(), "Không có điểm giao dịch này!", ""));
+                }
+                user.setPostOffice(postOfficeService.getPostOfficeByID(id).get());
+            }
+            user.setRoles(roles);
+            userService.createUser(user);
+            return ResponseEntity.ok(new ServiceResult(HttpStatus.OK.value(), "User created successfully!", user));
+
+        }
+
+        return ResponseEntity.badRequest().body(new ServiceResult(HttpStatus.BAD_REQUEST.value(), "Cần chỉ rõ roles người dùng trong request!", ""));
+    }
+
+
+    @PostMapping("/create/depot/{id}")
+    @PreAuthorize("hasAnyRole('CEO','DEPOT_MANAGER')")
+    public ResponseEntity<?> createDepotEmployee(@Valid @RequestBody User user, @PathVariable Long id) {
+
+        if(checkDuplicateUsernameAndEmail(user) != null) {
+            return checkDuplicateUsernameAndEmail(user);
+        }
+
+        Set<Role> roles = new HashSet<>();
+        roles.add(new Role(ERole.ROLE_DEPOT_EMPLOYEE));
+        user.setRoles(roles);
+        if(depotService.getDepotByID(id).isEmpty()) {
+            return ResponseEntity.badRequest().body(new ServiceResult(HttpStatus.CONFLICT.value(), "Không có điểm tập kết này!", ""));
+        }
+        user.setDepot(depotService.getDepotByID(id).get());
+
         userService.createUser(user);
         return ResponseEntity.ok(new ServiceResult(HttpStatus.OK.value(), "User created successfully!", user));
     }
 
+    @PostMapping("/create/post-office/{id}")
+    @PreAuthorize("hasAnyRole('CEO','POST_OFFICE_MANAGER')")
+    public ResponseEntity<?> createPostOfficeEmployee(@Valid @RequestBody User user, @PathVariable Long id) {
 
+        if(checkDuplicateUsernameAndEmail(user) != null) {
+            return checkDuplicateUsernameAndEmail(user);
+        }
+
+        Set<Role> roles = new HashSet<>();
+        roles.add(new Role(ERole.ROLE_POST_OFFICE_EMPLOYEE));
+        user.setRoles(roles);
+        if(postOfficeService.getPostOfficeByID(id).isEmpty()) {
+            return ResponseEntity.badRequest().body(new ServiceResult(HttpStatus.CONFLICT.value(), "Không có điểm giao dịch này!", ""));
+        }
+        user.setPostOffice(postOfficeService.getPostOfficeByID(id).get());
+
+        userService.createUser(user);
+        return ResponseEntity.ok(new ServiceResult(HttpStatus.OK.value(), "User created successfully!", user));
+    }
 
     @GetMapping("deleted/{status}/export/users.csv")
     public void exportUsersToCSV(HttpServletResponse response) throws Exception {

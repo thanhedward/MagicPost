@@ -40,7 +40,7 @@ public interface UserService {
 
     boolean resetPassword(String token, String password);
 
-    public Page<User> findAllByUsernameContainsOrEmailContains(String username, String email, Pageable pageable);
+    Page<User> findAllByUsernameContainsOrEmailContains(String username, String email, Pageable pageable);
 
 
 }

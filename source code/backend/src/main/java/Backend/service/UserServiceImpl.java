@@ -23,12 +23,12 @@ import java.util.*;
 
 @Service(value = "userService")
 public class UserServiceImpl implements UserService {
-    private Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
-    private UserRepository userRepository;
-    private RoleService roleService;
-    private PasswordEncoder passwordEncoder;
-    private PasswordResetTokenRepository passwordResetTokenRepository;
-    private EmailService emailService;
+    private final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+    private final UserRepository userRepository;
+    private final RoleService roleService;
+    private final PasswordEncoder passwordEncoder;
+    private final PasswordResetTokenRepository passwordResetTokenRepository;
+    private final EmailService emailService;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, RoleService roleService, PasswordEncoder passwordEncoder, PasswordResetTokenRepository passwordResetTokenRepository, EmailService emailService) {
@@ -48,8 +48,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public String getUserName() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username = auth.getName();
-        return username;
+        return auth.getName();
     }
 
     @Override
@@ -79,43 +78,42 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(User user) {
-//        Create new user
-        User newUser = new User(user.getUsername(), passwordEncoder.encode(user.getUsername()), user.getEmail(), user.getProfile());
-
+        user.setPassword(passwordEncoder.encode(user.getUsername()));
         Set<Role> reqRoles = user.getRoles();
         Set<Role> roles = new HashSet<>();
-        System.out.println(reqRoles);
+
         if (reqRoles == null) {
-//            Role userRole = roleService.findByName(ERole.ROLE_USER).orElseThrow(() -> new RuntimeException("Error: Role is not found"));
-//            roles.add(userRole);
-            System.out.println("reqRoles == null in user");
+            Role userRole = roleService.findByName(ERole.ROLE_USER).orElseThrow(() -> new RuntimeException("Error: Role is not found"));
+            roles.add(userRole);
         } else {
             reqRoles.forEach(role -> {
                 switch (role.getName()) {
-                    // One account has one role
-                    case ROLE_POST_OFFICE_MANAGER: {
-                        addRoles(ERole.ROLE_POST_OFFICE_MANAGER, roles);
-                        break;
-                    }
-                    case ROLE_POST_OFFICE_EMPLOYEE: {
-                        addRoles(ERole.ROLE_POST_OFFICE_EMPLOYEE, roles);
+                    case ROLE_CEO: {
+                        addRoles(ERole.ROLE_CEO, roles);
                         break;
                     }
                     case ROLE_DEPOT_MANAGER: {
                         addRoles(ERole.ROLE_DEPOT_MANAGER, roles);
                         break;
                     }
-                    case ROLE_DEPOT_EMPLOYEE: {
-                        addRoles(ERole.ROLE_DEPOT_EMPLOYEE, roles);
+                    case ROLE_POST_OFFICE_MANAGER: {
+                        addRoles(ERole.ROLE_POST_OFFICE_MANAGER, roles);
                         break;
+                    }
+                    case ROLE_DEPOT_EMPLOYEE: {
+                        addRoles(ERole.ROLE_POST_OFFICE_EMPLOYEE, roles);
+                        break;
+                    }
+                    case ROLE_POST_OFFICE_EMPLOYEE: {
+                        addRoles(ERole.ROLE_POST_OFFICE_EMPLOYEE, roles);
                     }
                 }
 
             });
         }
 
-        newUser.setRoles(roles);
-        return userRepository.save(newUser);
+        user.setRoles(roles);
+        return userRepository.save(user);
     }
 
     @Override
@@ -127,9 +125,7 @@ public class UserServiceImpl implements UserService {
     public List<UserExport> findAllByDeletedToExport(boolean statusDelete) {
         List<User> userList = userRepository.findAllByDeleted(statusDelete);
         List<UserExport> userExportList = new ArrayList<>();
-        userList.forEach(user -> {
-            userExportList.add(new UserExport(user.getUsername(), user.getEmail(), user.getProfile().getFirstName(), user.getProfile().getLastName()));
-        });
+        userList.forEach(user -> userExportList.add(new UserExport(user.getUsername(), user.getEmail(), user.getProfile().getFirstName(), user.getProfile().getLastName())));
         return userExportList;
     }
 
@@ -138,16 +134,11 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
-//    @Override
-//    public List<User> findAllByIntakeId(Long id) {
-//        return userRepository.findAllByIntakeId(id);
-//    }
 
     @Override
     public boolean requestPasswordReset(String email) throws MessagingException {
-        boolean returnValue = false;
         Optional<User> user = userRepository.findByEmail(email);
-        if (!user.isPresent()) {
+        if (user.isEmpty()) {
             return false;
         }
         String token = new JwtUtils().generatePasswordResetToken(user.get().getId());
@@ -181,7 +172,7 @@ public class UserServiceImpl implements UserService {
         User userSave = userRepository.save(user);
 
 //        verify if password was saved
-        if(userSave !=null && userSave.getPassword().equalsIgnoreCase(encodedPassword)){
+        if(userSave.getPassword().equalsIgnoreCase(encodedPassword)){
             returnValue = true;
         }
         passwordResetTokenRepository.delete(passwordResetToken);

@@ -35,11 +35,11 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/api/auth")
 public class AuthenticationController {
 
-  private Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
+  private final Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
   JwtUtils jwtUtils;
-  private AuthenticationManager authenticationManager;
+  private final AuthenticationManager authenticationManager;
 
-  private UserService userService;
+  private final UserService userService;
 
   @Autowired
   public AuthenticationController(JwtUtils jwtUtils, AuthenticationManager authenticationManager, UserService userService) {
@@ -83,12 +83,6 @@ public class AuthenticationController {
             userDetails.getUsername(),
             userDetails.getEmail(),
             roles));
-
-//        List<String> roles = new ArrayList<>();
-//    roles.add("ROLE_CEO");
-//    roles.add("ROLE_USER");
-//    roles.add("ROLE_BRANCH_MANAGER");
-//    return ResponseEntity.ok(new JwtResponse("234l2ioj45", 35123441L, "thanhtam28ss", "ngocthanh123@gmail.com", roles));
   }
 
 
