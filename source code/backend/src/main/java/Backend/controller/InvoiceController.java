@@ -20,8 +20,8 @@ import java.util.List;
 @RequestMapping(value = "/api")
 @Slf4j
 public class InvoiceController {
-    private InvoiceService invoiceService;
-    private UserService userService;
+    private final InvoiceService invoiceService;
+    private final UserService userService;
 
     @Autowired
     public InvoiceController(InvoiceService invoiceService, UserService userService){
@@ -54,7 +54,7 @@ public class InvoiceController {
 
     @GetMapping(value = "/invoice/get-invoice-by-create-user")
     @PreAuthorize("hasRole('CEO')")
-    public List<Invoice> getAllInvoiceByCreater(@RequestParam String username) {
+    public List<Invoice> getAllInvoiceByCreator(@RequestParam String username) {
         return invoiceService.getInvoiceByCreateUsername(username);
     }
 }

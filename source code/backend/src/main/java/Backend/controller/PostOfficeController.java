@@ -40,7 +40,7 @@ public class PostOfficeController {
         return postOfficeService.getPostOfficeList();
     }
 
-    @GetMapping(value = "/create-post-office")
+    @PostMapping(value = "/create-post-office")
     @PreAuthorize("hasRole('CEO')")
     public ResponseEntity<Object> createPostOffice(@RequestParam Long depot_id, @RequestParam Long district_id){
         try {
