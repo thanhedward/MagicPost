@@ -22,4 +22,8 @@ public class Role implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "name")
     private ERole name;
+
+    public Role(ERole eRole) {
+        this.name = eRole;
+    }
 }
