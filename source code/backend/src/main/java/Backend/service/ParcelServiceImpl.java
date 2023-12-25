@@ -14,7 +14,7 @@ import java.util.Optional;
 public class ParcelServiceImpl implements ParcelsService{
     Logger logger = LoggerFactory.getLogger(ParcelServiceImpl.class);
 
-    private ParcelsRepository parcelsRepository;
+    private final ParcelsRepository parcelsRepository;
 
     @Autowired
     public ParcelServiceImpl(ParcelsRepository parcelsRepository){

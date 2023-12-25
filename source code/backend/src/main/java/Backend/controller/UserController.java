@@ -213,43 +213,39 @@ public class UserController {
         return null;
     }
 
-    @PostMapping("/create/manager/{id}")
+    @PostMapping("/create/manager")
     @PreAuthorize("hasRole('CEO')")
-    public ResponseEntity<?> createManager(@Valid @RequestBody User user, @PathVariable Long id) {
+    public ResponseEntity<?> createManager(@Valid @RequestBody User user, @RequestParam Boolean depot, @RequestParam Long id) {
 
         if(checkDuplicateUsernameAndEmail(user) != null) {
             return checkDuplicateUsernameAndEmail(user);
         }
 
         Set<Role> roles = new HashSet<>();
-        for (Role role: user.getRoles()) {
-            if(role.getName() == ERole.ROLE_DEPOT_MANAGER) {
-                roles.add(new Role(ERole.ROLE_DEPOT_MANAGER));
-                if(depotService.getDepotByID(id).isEmpty()) {
-                    return ResponseEntity.badRequest().body(new ServiceResult(HttpStatus.CONFLICT.value(), "Không có điểm tập kết này!", ""));
-                }
-                user.setDepot(depotService.getDepotByID(id).get());
+        if(depot) {
+            roles.add(new Role(ERole.ROLE_DEPOT_MANAGER));
+            if(depotService.getDepotByID(id).isEmpty()) {
+                return ResponseEntity.badRequest().body(new ServiceResult(HttpStatus.CONFLICT.value(), "Không có điểm tập kết này!", ""));
             }
-            if(role.getName() == ERole.ROLE_POST_OFFICE_MANAGER) {
-                roles.add(new Role(ERole.ROLE_POST_OFFICE_MANAGER));
-                if(postOfficeService.getPostOfficeByID(id).isEmpty()) {
-                    return ResponseEntity.badRequest().body(new ServiceResult(HttpStatus.CONFLICT.value(), "Không có điểm giao dịch này!", ""));
-                }
-                user.setPostOffice(postOfficeService.getPostOfficeByID(id).get());
-            }
-            user.setRoles(roles);
-            userService.createUser(user);
-            return ResponseEntity.ok(new ServiceResult(HttpStatus.OK.value(), "User created successfully!", user));
-
+            user.setDepot(depotService.getDepotByID(id).get());
         }
+        else {
+            roles.add(new Role(ERole.ROLE_POST_OFFICE_MANAGER));
+            if(postOfficeService.getPostOfficeByID(id).isEmpty()) {
+                return ResponseEntity.badRequest().body(new ServiceResult(HttpStatus.CONFLICT.value(), "Không có điểm giao dịch này!", ""));
+            }
+            user.setPostOffice(postOfficeService.getPostOfficeByID(id).get());
+        }
+        user.setRoles(roles);
+        userService.createUser(user);
+        return ResponseEntity.ok(new ServiceResult(HttpStatus.OK.value(), "User created successfully!", user));
 
-        return ResponseEntity.badRequest().body(new ServiceResult(HttpStatus.BAD_REQUEST.value(), "Cần chỉ rõ roles người dùng trong request!", ""));
     }
 
 
-    @PostMapping("/create/depot/{id}")
+    @PostMapping("/create/depot")
     @PreAuthorize("hasAnyRole('CEO','DEPOT_MANAGER')")
-    public ResponseEntity<?> createDepotEmployee(@Valid @RequestBody User user, @PathVariable Long id) {
+    public ResponseEntity<?> createDepotEmployee(@Valid @RequestBody User user, @RequestParam Long id) {
 
         if(checkDuplicateUsernameAndEmail(user) != null) {
             return checkDuplicateUsernameAndEmail(user);
@@ -267,9 +263,9 @@ public class UserController {
         return ResponseEntity.ok(new ServiceResult(HttpStatus.OK.value(), "User created successfully!", user));
     }
 
-    @PostMapping("/create/post-office/{id}")
+    @PostMapping("/create/post-office")
     @PreAuthorize("hasAnyRole('CEO','POST_OFFICE_MANAGER')")
-    public ResponseEntity<?> createPostOfficeEmployee(@Valid @RequestBody User user, @PathVariable Long id) {
+    public ResponseEntity<?> createPostOfficeEmployee(@Valid @RequestBody User user, @RequestParam Long id) {
 
         if(checkDuplicateUsernameAndEmail(user) != null) {
             return checkDuplicateUsernameAndEmail(user);
