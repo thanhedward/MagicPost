@@ -149,17 +149,31 @@ public class UserController {
 
     @GetMapping()
     @PreAuthorize("hasRole('CEO')")
-    public PageResult getUsersByPage(@PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable) {
+    public PageResult getUsersByPage(@PageableDefault(page = 0, size = 10, sort = "roles") Pageable pageable) {
         Page<User> userPage = userService.findUsersByPage(pageable);
         return new PageResult(userPage);
     }
 
-//    @GetMapping("/deleted/{status}")
-//    @PreAuthorize("hasRole('CEO')")
-//    public PageResult getUsersByPage(@PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable) {
-//        Page<User> userPage = userService.findUsersByPage(pageable);
-//        return new PageResult(userPage);
-//    }
+    @GetMapping("/get-manager/depot")
+    @PreAuthorize("hasRole('CEO')")
+    public PageResult getDepotManagersByPage(@PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable) {
+        Page<User> userPage = userService.getUsersByRoleByPage(ERole.ROLE_DEPOT_MANAGER, pageable);
+        return new PageResult(userPage);
+    }
+
+    @GetMapping("/get/depot")
+    @PreAuthorize("hasRole('DEPOT_MANAGER')")
+    public PageResult getUsersByDepotAndPage(@RequestParam Long id, @PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable) {
+        Page<User> userPage = userService.getUsersByDepot(depotService.getDepotByID(id).get(), pageable);
+        return new PageResult(userPage);
+    }
+
+    @GetMapping("/get/post-office")
+    @PreAuthorize("hasRole('POST_OFFICE_MANAGER')")
+    public PageResult getUsersByPostOfficeAndPage(@RequestParam Long id, @PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable) {
+        Page<User> userPage = userService.getUsersByPostOffice(postOfficeService.getPostOfficeByID(id).get(), pageable);
+        return new PageResult(userPage);
+    }
 
     @GetMapping("/search")
     public PageResult searchUsersByUsernameOrEmail(@RequestParam(value = "search-keyword") String info, @PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable) {

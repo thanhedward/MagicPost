@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -32,6 +33,11 @@ public class DepotController {
     @GetMapping(value = "/get-depot")
     public List<Depot> getAllDepot() {
         return depotService.getDepotList();
+    }
+
+    @GetMapping(value = "/find")
+    public Optional<Depot> findDepotByProvince(@RequestParam String name) {
+        return depotService.getDepotByProvince(provinceService.getProvinceById(name).get());
     }
 
     @PostMapping(value = "/create-depot")

@@ -1,7 +1,10 @@
 package Backend.service;
 
 import Backend.dto.UserExport;
+import Backend.entity.Depot;
+import Backend.entity.PostOffice;
 import Backend.entity.User;
+import Backend.utilities.ERole;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -20,6 +23,12 @@ public interface UserService {
     Boolean existsByEmail(String email);
 
     Page<User> findUsersByPage(Pageable pageable);
+
+    Page<User> getUsersByRoleByPage(ERole role, Pageable pageable);
+
+    Page<User> getUsersByDepot(Depot depot, Pageable pageable);
+
+    Page<User> getUsersByPostOffice(PostOffice postOffice, Pageable pageable);
 
     Page<User> findUsersDeletedByPage(Pageable pageable, boolean deleted);
 
