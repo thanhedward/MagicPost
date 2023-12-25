@@ -4,9 +4,11 @@ import Backend.dto.ServiceResult;
 import Backend.entity.Depot;
 import Backend.entity.District;
 import Backend.entity.PostOffice;
+import Backend.entity.Province;
 import Backend.service.DepotService;
 import Backend.service.DistrictService;
 import Backend.service.PostOfficeService;
+import Backend.service.ProvinceService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +19,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -26,18 +29,28 @@ public class PostOfficeController {
     private static final Logger logger = LoggerFactory.getLogger(PostOfficeController.class);
     private final PostOfficeService postOfficeService;
     private final DepotService depotService;
+    private final ProvinceService provinceService;
     private final DistrictService districtService;
 
     @Autowired
-    public PostOfficeController(PostOfficeService postOfficeService, DepotService depotService, DistrictService districtService) {
+    public PostOfficeController(PostOfficeService postOfficeService, DepotService depotService, ProvinceService provinceService, DistrictService districtService) {
         this.postOfficeService = postOfficeService;
         this.depotService = depotService;
+        this.provinceService = provinceService;
         this.districtService = districtService;
     }
 
     @GetMapping(value = "/get-post-office")
     public List<PostOffice> getAllPostOffice() {
         return postOfficeService.getPostOfficeList();
+    }
+
+    @GetMapping(value = "/find")
+    public Optional<PostOffice> findPostOfficeByDepotAndDistrict(@RequestParam String depot, @RequestParam String district) {
+        Province province = provinceService.getProvinceById(depot).get();
+        return postOfficeService.getPostOfficeByDepotAndDistrict(
+                depotService.getDepotByProvince(province).get(),
+                districtService.getDistrictByProvinceAndName(province, district));
     }
 
     @PostMapping(value = "/create-post-office")

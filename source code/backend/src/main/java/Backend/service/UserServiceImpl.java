@@ -2,9 +2,7 @@ package Backend.service;
 
 import Backend.config.JwtUtils;
 import Backend.dto.UserExport;
-import Backend.entity.PasswordResetToken;
-import Backend.entity.Role;
-import Backend.entity.User;
+import Backend.entity.*;
 import Backend.repository.PasswordResetTokenRepository;
 import Backend.repository.UserRepository;
 import Backend.utilities.ERole;
@@ -64,6 +62,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public Page<User> findUsersByPage(Pageable pageable) {
         return userRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<User> getUsersByRoleByPage(ERole role, Pageable pageable) {
+        return userRepository.findAllByRoles_Name(role, pageable);
+    }
+
+    @Override
+    public Page<User> getUsersByDepot(Depot depot, Pageable pageable) {
+        return userRepository.findAllByDepot(depot, pageable);
+    }
+
+    @Override
+    public Page<User> getUsersByPostOffice(PostOffice postOffice, Pageable pageable) {
+        return userRepository.findAllByPostOffice(postOffice, pageable);
     }
 
     @Override

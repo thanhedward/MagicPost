@@ -1,6 +1,9 @@
 package Backend.repository;
 
+import Backend.entity.Depot;
+import Backend.entity.PostOffice;
 import Backend.entity.User;
+import Backend.utilities.ERole;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,12 +24,18 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Boolean existsByEmailOrUsername(String email, String username);
 
-    public Page<User> findAll(Pageable pageable);
+    Page<User> findAll(Pageable pageable);
 
-    public Page<User> findAllByDeleted(boolean deleted, Pageable pageable);
+    Page<User> findAllByRoles_Name(ERole role, Pageable pageable);
 
-    public Page<User> findAllByDeletedAndUsernameContains(boolean deleted, String username, Pageable pageable);
-    public Page<User> findAllByUsernameContainsOrEmailContains(String username, String email, Pageable pageable);
+    Page<User> findAllByDepot(Depot depot, Pageable pageable);
+
+    Page<User> findAllByPostOffice(PostOffice postOffice, Pageable pageable);
+
+    Page<User> findAllByDeleted(boolean deleted, Pageable pageable);
+
+    Page<User> findAllByDeletedAndUsernameContains(boolean deleted, String username, Pageable pageable);
+    Page<User> findAllByUsernameContainsOrEmailContains(String username, String email, Pageable pageable);
 
     //    public Page<User> findUsersByDeletedAndUsernameIsContainingOrEmailIsContaining(boolean deleted, String username, String email, Pageable pageable);
     List<User> findAllByDeleted(boolean statusDeleted);
