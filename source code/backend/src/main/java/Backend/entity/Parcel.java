@@ -47,11 +47,11 @@ public class Parcel implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "start_depot_id")
-    private PostOffice startDepot;
+    private Depot startDepot;
 
     @ManyToOne
     @JoinColumn(name = "end_depot_id")
-    private PostOffice endDepot;
+    private Depot endDepot;
 
     @ManyToOne
     @JoinColumn(name = "accepted_by")
@@ -64,10 +64,6 @@ public class Parcel implements Serializable {
     @Column(name = "weight")
     private int weight;
 
-    // TODO: mot invoice co nhieu parcel, nen phai goi add invoice vao nhieu lan
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinTable(name = "parcel_invoice",
-            joinColumns = {@JoinColumn(name = "parcel_id", referencedColumnName = "parcel_id")},
-            inverseJoinColumns = {@JoinColumn(name = "invoice_id", referencedColumnName = "invoice_id")})
+    @ManyToMany(mappedBy = "parcels")
     private Set<Invoice> invoices;
 }

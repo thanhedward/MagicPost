@@ -10,6 +10,7 @@ import org.springframework.data.annotation.CreatedBy;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "invoice")
@@ -34,6 +35,9 @@ public class Invoice implements Serializable {
     @JoinColumn(name = "second_depot")
     private Depot secondDepot;
 
+    @Column(name = "end_address")
+    private String endAddress;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
     private InvoiceType type;
@@ -56,4 +60,9 @@ public class Invoice implements Serializable {
     @JoinColumn(name = "confirm_by")
     private User confirmBy;
 
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinTable(name = "parcel_invoice",
+            joinColumns = {@JoinColumn(name = "invoice_id", referencedColumnName = "invoice_id")},
+            inverseJoinColumns = {@JoinColumn(name = "parcel_id", referencedColumnName = "parcel_id")})
+    private Set<Parcel> parcels;
 }
