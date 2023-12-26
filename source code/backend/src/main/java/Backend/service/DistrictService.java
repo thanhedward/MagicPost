@@ -13,6 +13,4 @@ public interface DistrictService {
     District getDistrictByProvinceAndName(Province province, String name);
     Boolean existsById(Long id);
     Boolean existsByProvinceAndName(Province province, String name);
-    void saveDistrict(District district);
-    void delete(District district);
 }

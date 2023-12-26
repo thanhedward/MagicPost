@@ -1,13 +1,8 @@
 package Backend.controller;
 
 import Backend.dto.*;
-import Backend.entity.Profile;
-import Backend.entity.Role;
-import Backend.entity.User;
-import Backend.service.DepotService;
-import Backend.service.PostOfficeService;
-import Backend.service.RoleService;
-import Backend.service.UserService;
+import Backend.entity.*;
+import Backend.service.*;
 import Backend.utilities.ERole;
 import com.opencsv.CSVWriter;
 import com.opencsv.bean.StatefulBeanToCsv;
@@ -31,6 +26,7 @@ import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+
 @RestController
 @CrossOrigin(origins = "http://localhost:4200/")
 @RequestMapping(value = "/api/users")
@@ -41,8 +37,8 @@ public class UserController {
     private final RoleService roleService;
     private final DepotService depotService;
     private final PostOfficeService postOfficeService;
+    private final DistrictService districtService;
 
-//    private IntakeService intakeService;
 //    private ExcelService excelService;
 //    FilesStorageService filesStorageService;
 
@@ -56,13 +52,14 @@ public class UserController {
 //    }
 
         @Autowired
-        public UserController(UserService userService, RoleService roleService, PasswordEncoder passwordEncoder, DepotService depotService, PostOfficeService postOfficeService) {
+        public UserController(UserService userService, RoleService roleService, PasswordEncoder passwordEncoder, DepotService depotService, PostOfficeService postOfficeService, DistrictService districtService) {
         this.userService = userService;
         this.roleService = roleService;
         this.passwordEncoder = passwordEncoder;
         this.depotService = depotService;
         this.postOfficeService = postOfficeService;
-    }
+            this.districtService = districtService;
+        }
 
 
     @GetMapping(value = "/profile")
@@ -161,17 +158,30 @@ public class UserController {
         return new PageResult(userPage);
     }
 
+    @GetMapping("/get-manager/post-office")
+    @PreAuthorize("hasRole('CEO')")
+    public PageResult getPostOfficeManagersByPage(@PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable) {
+        Page<User> userPage = userService.getUsersByRoleByPage(ERole.ROLE_POST_OFFICE_MANAGER, pageable);
+        return new PageResult(userPage);
+    }
+
     @GetMapping("/get/depot")
-    @PreAuthorize("hasRole('DEPOT_MANAGER')")
-    public PageResult getUsersByDepotAndPage(@RequestParam Long id, @PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable) {
-        Page<User> userPage = userService.getUsersByDepot(depotService.getDepotByID(id).get(), pageable);
+    @PreAuthorize("hasAnyRole('DEPOT_MANAGER')")
+    public PageResult getUsersByDepotAndPage(@PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable) {
+        String username = userService.getUserName();
+        User currentUser = userService.getUserByUsername(username).get();
+
+        Page<User> userPage = userService.getUsersByDepot(currentUser.getDepot(), pageable);
         return new PageResult(userPage);
     }
 
     @GetMapping("/get/post-office")
-    @PreAuthorize("hasRole('POST_OFFICE_MANAGER')")
-    public PageResult getUsersByPostOfficeAndPage(@RequestParam Long id, @PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable) {
-        Page<User> userPage = userService.getUsersByPostOffice(postOfficeService.getPostOfficeByID(id).get(), pageable);
+    @PreAuthorize("hasAnyRole('POST_OFFICE_MANAGER')")
+    public PageResult getUsersByPostOfficeAndPage(@PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable) {
+        String username = userService.getUserName();
+        User currentUser = userService.getUserByUsername(username).get();
+
+        Page<User> userPage = userService.getUsersByPostOffice(currentUser.getPostOffice(), pageable);
         return new PageResult(userPage);
     }
 
@@ -227,29 +237,21 @@ public class UserController {
         return null;
     }
 
-    @PostMapping("/create/manager")
+    @PostMapping("/create/depot-manager")
     @PreAuthorize("hasRole('CEO')")
-    public ResponseEntity<?> createManager(@Valid @RequestBody User user, @RequestParam Boolean depot, @RequestParam Long id) {
+    public ResponseEntity<?> createDepotManager(@Valid @RequestBody User user, @RequestParam String provinceName) {
 
         if(checkDuplicateUsernameAndEmail(user) != null) {
             return checkDuplicateUsernameAndEmail(user);
         }
 
         Set<Role> roles = new HashSet<>();
-        if(depot) {
-            roles.add(new Role(ERole.ROLE_DEPOT_MANAGER));
-            if(depotService.getDepotByID(id).isEmpty()) {
-                return ResponseEntity.badRequest().body(new ServiceResult(HttpStatus.CONFLICT.value(), "Không có điểm tập kết này!", ""));
-            }
-            user.setDepot(depotService.getDepotByID(id).get());
+        roles.add(new Role(ERole.ROLE_DEPOT_MANAGER));
+        Province province = new Province(provinceName);
+        if(!depotService.existsByProvince(province)) {
+            return ResponseEntity.badRequest().body(new ServiceResult(HttpStatus.CONFLICT.value(), "Không có điểm tập kết này!", ""));
         }
-        else {
-            roles.add(new Role(ERole.ROLE_POST_OFFICE_MANAGER));
-            if(postOfficeService.getPostOfficeByID(id).isEmpty()) {
-                return ResponseEntity.badRequest().body(new ServiceResult(HttpStatus.CONFLICT.value(), "Không có điểm giao dịch này!", ""));
-            }
-            user.setPostOffice(postOfficeService.getPostOfficeByID(id).get());
-        }
+        user.setDepot(depotService.getDepotByProvince(province).get());
         user.setRoles(roles);
         userService.createUser(user);
         return ResponseEntity.ok(new ServiceResult(HttpStatus.OK.value(), "User created successfully!", user));
@@ -257,41 +259,75 @@ public class UserController {
     }
 
 
-    @PostMapping("/create/depot")
-    @PreAuthorize("hasAnyRole('CEO','DEPOT_MANAGER')")
-    public ResponseEntity<?> createDepotEmployee(@Valid @RequestBody User user, @RequestParam Long id) {
+    @PostMapping("/create/post-office-manager")
+    @PreAuthorize("hasRole('CEO')")
+    public ResponseEntity<?> createPostOfficeManager(@Valid @RequestBody User user, @RequestParam String provinceName, @RequestParam String districtName) {
 
         if(checkDuplicateUsernameAndEmail(user) != null) {
             return checkDuplicateUsernameAndEmail(user);
         }
 
         Set<Role> roles = new HashSet<>();
-        roles.add(new Role(ERole.ROLE_DEPOT_EMPLOYEE));
-        user.setRoles(roles);
-        if(depotService.getDepotByID(id).isEmpty()) {
+        roles.add(new Role(ERole.ROLE_POST_OFFICE_MANAGER));
+
+        Province province = new Province(provinceName);
+        if(!depotService.existsByProvince(province)) {
             return ResponseEntity.badRequest().body(new ServiceResult(HttpStatus.CONFLICT.value(), "Không có điểm tập kết này!", ""));
         }
-        user.setDepot(depotService.getDepotByID(id).get());
+        if(!districtService.existsByProvinceAndName(province, districtName)) {
+            return ResponseEntity.badRequest().body(new ServiceResult(HttpStatus.CONFLICT.value(), "Không có quận huyện trên trong tỉnh!", ""));
+        }
+        Depot depot = depotService.getDepotByProvince(new Province(provinceName)).get();
+        District district = districtService.getDistrictByProvinceAndName(province, districtName);
+
+        if(!postOfficeService.existsByDepotAndDistrict(depot, district)) {
+            return ResponseEntity.badRequest().body(new ServiceResult(HttpStatus.CONFLICT.value(), "Không có điểm giao dịch này!", ""));
+        }
+        user.setPostOffice(postOfficeService.getPostOfficeByDepotAndDistrict(depot, district).get());
+
+        user.setRoles(roles);
+        userService.createUser(user);
+        return ResponseEntity.ok(new ServiceResult(HttpStatus.OK.value(), "User created successfully!", user));
+
+    }
+
+    @PostMapping("/create/depot")
+    @PreAuthorize("hasAnyRole('DEPOT_MANAGER')")
+    public ResponseEntity<?> createDepotEmployee(@Valid @RequestBody User user) {
+
+        if(checkDuplicateUsernameAndEmail(user) != null) {
+            return checkDuplicateUsernameAndEmail(user);
+        }
+
+        String username = userService.getUserName();
+        User currentUser = userService.getUserByUsername(username).get();
+
+        Set<Role> roles = new HashSet<>();
+        roles.add(new Role(ERole.ROLE_DEPOT_EMPLOYEE));
+        user.setRoles(roles);
+
+        user.setDepot(currentUser.getDepot());
 
         userService.createUser(user);
         return ResponseEntity.ok(new ServiceResult(HttpStatus.OK.value(), "User created successfully!", user));
     }
 
     @PostMapping("/create/post-office")
-    @PreAuthorize("hasAnyRole('CEO','POST_OFFICE_MANAGER')")
-    public ResponseEntity<?> createPostOfficeEmployee(@Valid @RequestBody User user, @RequestParam Long id) {
+    @PreAuthorize("hasAnyRole('POST_OFFICE_MANAGER')")
+    public ResponseEntity<?> createPostOfficeEmployee(@Valid @RequestBody User user) {
 
         if(checkDuplicateUsernameAndEmail(user) != null) {
             return checkDuplicateUsernameAndEmail(user);
         }
 
+        String username = userService.getUserName();
+        User currentUser = userService.getUserByUsername(username).get();
+
         Set<Role> roles = new HashSet<>();
         roles.add(new Role(ERole.ROLE_POST_OFFICE_EMPLOYEE));
         user.setRoles(roles);
-        if(postOfficeService.getPostOfficeByID(id).isEmpty()) {
-            return ResponseEntity.badRequest().body(new ServiceResult(HttpStatus.CONFLICT.value(), "Không có điểm giao dịch này!", ""));
-        }
-        user.setPostOffice(postOfficeService.getPostOfficeByID(id).get());
+
+        user.setPostOffice(currentUser.getPostOffice());
 
         userService.createUser(user);
         return ResponseEntity.ok(new ServiceResult(HttpStatus.OK.value(), "User created successfully!", user));

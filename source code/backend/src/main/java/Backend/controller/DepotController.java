@@ -2,6 +2,7 @@ package Backend.controller;
 
 import Backend.dto.ServiceResult;
 import Backend.entity.Depot;
+import Backend.entity.Province;
 import Backend.service.DepotService;
 import Backend.service.ProvinceService;
 import lombok.extern.slf4j.Slf4j;
@@ -11,13 +12,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping(value = "/api/depot")
+@RequestMapping(value = "/api")
 @Slf4j
 public class DepotController {
     private final DepotService depotService;
@@ -30,26 +30,44 @@ public class DepotController {
         this.provinceService = provinceService;
     }
 
-    @GetMapping(value = "/get-depot")
+    @GetMapping(value = "/depot/get-depot")
     public List<Depot> getAllDepot() {
         return depotService.getDepotList();
     }
 
-    @GetMapping(value = "/find")
+    @GetMapping(value = "/depot/find")
     public Optional<Depot> findDepotByProvince(@RequestParam String name) {
         return depotService.getDepotByProvince(provinceService.getProvinceById(name).get());
     }
 
-    @PostMapping(value = "/create-depot")
+    @GetMapping(value = "/province")
+    public List<Province> findAllProvince() {
+        return provinceService.getProvinceList();
+    }
+
+    @GetMapping(value = "/province/available")
+    public List<Province> findAllProvinceAvailable() {
+        List<Province> provinces = provinceService.getProvinceList();
+        List<Depot> depots = depotService.getDepotList();
+        for(Depot d: depots) {
+            provinces.remove(d.getProvince());
+        }
+        return provinces;
+    }
+
+    @PostMapping(value = "/depot/create-depot")
     @PreAuthorize("hasRole('CEO')")
-    public ResponseEntity<Object> createDepot(@Valid @RequestBody Depot depot){
+    public ResponseEntity<Object> createDepot(@RequestParam String provinceName){
         try {
-            if(!provinceService.getProvinceList().contains(depot.getProvince())) {
+            Province province = new Province(provinceName);
+            if(!provinceService.getProvinceList().contains(province)) {
                 return ResponseEntity.badRequest().body(new ServiceResult(HttpStatus.CONFLICT.value(), "Không có địa danh này!", ""));
             }
-            if(depotService.existsByProvince(depot.getProvince())) {
+            if(depotService.existsByProvince(province)) {
                 return ResponseEntity.badRequest().body(new ServiceResult(HttpStatus.CONFLICT.value(), "Điểm tập kết đã tồn tại!", ""));
             }
+            Depot depot = new Depot();
+            depot.setProvince(province);
             depotService.saveDepot(depot);
             return ResponseEntity.ok(depot);
         } catch (Exception e) {

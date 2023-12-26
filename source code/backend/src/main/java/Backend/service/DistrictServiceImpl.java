@@ -48,15 +48,4 @@ public class DistrictServiceImpl implements DistrictService{
         return districtRepository.existsByProvinceAndName(province, name);
     }
 
-    @Override
-    public void saveDistrict(District District) {
-        districtRepository.save(District);
-    }
-
-    @Override
-    public void delete(District District) {
-        districtRepository.delete(District);
-    }
-
-
 }

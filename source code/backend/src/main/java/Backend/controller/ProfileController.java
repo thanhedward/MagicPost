@@ -19,7 +19,7 @@ import java.util.List;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping(value = "/api")
 public class ProfileController {
-    private ProfileService profileService;
+    private final ProfileService profileService;
     private UserService userService;
 
     @Autowired

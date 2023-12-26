@@ -95,35 +95,30 @@ public class UserServiceImpl implements UserService {
         Set<Role> reqRoles = user.getRoles();
         Set<Role> roles = new HashSet<>();
 
-        if (reqRoles == null) {
-            Role userRole = roleService.findByName(ERole.ROLE_USER).orElseThrow(() -> new RuntimeException("Error: Role is not found"));
-            roles.add(userRole);
-        } else {
-            reqRoles.forEach(role -> {
-                switch (role.getName()) {
-                    case ROLE_CEO: {
-                        addRoles(ERole.ROLE_CEO, roles);
-                        break;
-                    }
-                    case ROLE_DEPOT_MANAGER: {
-                        addRoles(ERole.ROLE_DEPOT_MANAGER, roles);
-                        break;
-                    }
-                    case ROLE_POST_OFFICE_MANAGER: {
-                        addRoles(ERole.ROLE_POST_OFFICE_MANAGER, roles);
-                        break;
-                    }
-                    case ROLE_DEPOT_EMPLOYEE: {
-                        addRoles(ERole.ROLE_POST_OFFICE_EMPLOYEE, roles);
-                        break;
-                    }
-                    case ROLE_POST_OFFICE_EMPLOYEE: {
-                        addRoles(ERole.ROLE_POST_OFFICE_EMPLOYEE, roles);
-                    }
+        reqRoles.forEach(role -> {
+            switch (role.getName()) {
+                case ROLE_CEO: {
+                    addRoles(ERole.ROLE_CEO, roles);
+                    break;
                 }
+                case ROLE_DEPOT_MANAGER: {
+                    addRoles(ERole.ROLE_DEPOT_MANAGER, roles);
+                    break;
+                }
+                case ROLE_POST_OFFICE_MANAGER: {
+                    addRoles(ERole.ROLE_POST_OFFICE_MANAGER, roles);
+                    break;
+                }
+                case ROLE_DEPOT_EMPLOYEE: {
+                    addRoles(ERole.ROLE_POST_OFFICE_EMPLOYEE, roles);
+                    break;
+                }
+                case ROLE_POST_OFFICE_EMPLOYEE: {
+                    addRoles(ERole.ROLE_POST_OFFICE_EMPLOYEE, roles);
+                }
+            }
 
-            });
-        }
+        });
 
         user.setRoles(roles);
         return userRepository.save(user);

@@ -27,15 +27,4 @@ public class ProvinceServiceImpl implements ProvinceService{
         return provinceRepository.findAll();
     }
 
-    @Override
-    public void saveProvince(Province province) {
-        provinceRepository.save(province);
-    }
-
-    @Override
-    public void delete(Province province) {
-        provinceRepository.delete(province);
-    }
-
-
 }

@@ -5,12 +5,11 @@ public enum ERole {
     ROLE_POST_OFFICE_MANAGER("ROLE_POST_OFFICE_MANAGER"),
     ROLE_POST_OFFICE_EMPLOYEE("ROLE_POST_OFFICE_EMPLOYEE"),
     ROLE_DEPOT_MANAGER("ROLE_DEPOT_MANAGER"),
-    ROLE_DEPOT_EMPLOYEE("ROLE_DEPOT_EMPLOYEE"),
-    ROLE_USER("ROLE_USER");
+    ROLE_DEPOT_EMPLOYEE("ROLE_DEPOT_EMPLOYEE");
 
     private final String type   ;
 
-    private ERole(String type) {
+    ERole(String type) {
         this.type = type;
     }
 

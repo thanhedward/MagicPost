@@ -24,7 +24,7 @@ public class Parcel implements Serializable {
     @Column(name = "name")
     private String name;
 
-    //TODO: Add info of sender (phone,...; for invoice purpose). May create a new User entity
+    //TODO: Add info of sender (phone,...)
     @Column(name = "sender_name")
     private String sender;
 

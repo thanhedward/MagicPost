@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class InvoiceServiceImpl implements InvoiceService{
+public class InvoiceServiceImpl implements InvoiceService {
     Logger logger = LoggerFactory.getLogger(InvoiceServiceImpl.class);
-    private InvoiceRepository invoiceRepository;
+    private final InvoiceRepository invoiceRepository;
 
     @Autowired
     public InvoiceServiceImpl(InvoiceRepository invoiceRepository){

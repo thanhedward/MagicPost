@@ -9,6 +9,4 @@ public interface ProvinceService {
 
     Optional<Province> getProvinceById(String id);
     List<Province> getProvinceList();
-    void saveProvince(Province province);
-    void delete(Province province);
 }

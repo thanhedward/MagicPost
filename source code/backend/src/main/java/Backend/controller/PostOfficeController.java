@@ -18,12 +18,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping(value = "/api/post-office")
+@RequestMapping(value = "/api")
 @Slf4j
 public class PostOfficeController {
     private static final Logger logger = LoggerFactory.getLogger(PostOfficeController.class);
@@ -40,12 +41,12 @@ public class PostOfficeController {
         this.districtService = districtService;
     }
 
-    @GetMapping(value = "/get-post-office")
+    @GetMapping(value = "/post-office/get-post-office")
     public List<PostOffice> getAllPostOffice() {
         return postOfficeService.getPostOfficeList();
     }
 
-    @GetMapping(value = "/find")
+    @GetMapping(value = "/post-office/find")
     public Optional<PostOffice> findPostOfficeByDepotAndDistrict(@RequestParam String depot, @RequestParam String district) {
         Province province = provinceService.getProvinceById(depot).get();
         return postOfficeService.getPostOfficeByDepotAndDistrict(
@@ -53,24 +54,56 @@ public class PostOfficeController {
                 districtService.getDistrictByProvinceAndName(province, district));
     }
 
-    @PostMapping(value = "/create-post-office")
+    @GetMapping(value = "/district")
+    public List<District> findAllDistrict() {
+        return districtService.getDistrictList();
+    }
+
+    @GetMapping(value = "/district/available")
+    public List<District> findAllDistrictAvailable() {
+        List<District> districts = districtService.getDistrictList();
+        List<PostOffice> postOffices = postOfficeService.getPostOfficeList();
+        for(PostOffice p: postOffices) {
+            districts.remove(p.getDistrict());
+        }
+        return districts;
+    }
+
+    @GetMapping(value = "/district/available-by")
+    public List<District> findAllDistrictAvailableByProvince(@RequestParam String provinceName) {
+        if(provinceService.getProvinceById(provinceName).isEmpty()) {
+            return new ArrayList<>();
+        }
+        Province province = provinceService.getProvinceById(provinceName).get();
+        List<District> districts = districtService.getDistrictListByProvince(province);
+
+        if(depotService.getDepotByProvince(province).isEmpty()) {
+            return districts;
+        }
+        Depot depot = depotService.getDepotByProvince(province).get();
+        List<PostOffice> postOffices = postOfficeService.getPostOfficeListByDepot(depot);
+        for(PostOffice p: postOffices) {
+            districts.remove(p.getDistrict());
+        }
+        return districts;
+    }
+
+    @PostMapping(value = "/post-office/create-post-office")
     @PreAuthorize("hasRole('CEO')")
-    public ResponseEntity<Object> createPostOffice(@RequestParam Long depot_id, @RequestParam Long district_id){
+    public ResponseEntity<Object> createPostOffice(@RequestParam String provinceName, @RequestParam String districtName){
         try {
-            if(depotService.getDepotByID(depot_id).isEmpty()) {
+            Province province = new Province(provinceName);
+            if(depotService.getDepotByProvince(province).isEmpty()) {
                 return ResponseEntity.badRequest().body(new ServiceResult(HttpStatus.CONFLICT.value(), "Không có điểm tập kết này!", ""));
             }
-            if(districtService.getDistrictById(district_id).isEmpty()) {
+            if(!districtService.existsByProvinceAndName(province, districtName)) {
                 return ResponseEntity.badRequest().body(new ServiceResult(HttpStatus.CONFLICT.value(), "Không có địa danh này!", ""));
             }
             PostOffice postOffice = new PostOffice();
-            Depot depot = depotService.getDepotByID(depot_id).get();
-            District district = districtService.getDistrictById(district_id).get();
+            Depot depot = depotService.getDepotByProvince(province).get();
+            District district = districtService.getDistrictByProvinceAndName(province, districtName);
             postOffice.setDepot(depot);
             postOffice.setDistrict(district);
-            if(!district.getProvince().equals(depot.getProvince())) {
-                return ResponseEntity.badRequest().body(new ServiceResult(HttpStatus.CONFLICT.value(), "Không có quận huyện trên trong tỉnh!", ""));
-            }
             if(postOfficeService.existsByDepotAndDistrict(depot, district)) {
                 return ResponseEntity.badRequest().body(new ServiceResult(HttpStatus.CONFLICT.value(), "Điểm giao dịch đã tồn tại!", ""));
             }
