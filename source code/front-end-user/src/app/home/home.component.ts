@@ -51,25 +51,25 @@ export class HomeComponent implements OnInit {
       if (user?.roles.includes(UserRole.ROLE_CEO)) {
         this.defaultUrl = '../admin';
       }
-      if (user?.roles.includes(UserRole.ROLE_BRANCH_MANAGER)) {
+      if (user?.roles.includes(UserRole.ROLE_POST_OFFICE_MANAGER)) {
         this.defaultUrl = '../admin';
       }
-      if (user?.roles.includes(UserRole.ROLE_TRANSACTION_CLERK)) {
+      else if (user?.roles.includes(UserRole.ROLE_POST_OFFICE_EMPLOYEE)) {
         this.defaultUrl = '../admin';
       }
-      if (user?.roles.includes(UserRole.ROLE_WAREHOUSE_MANAGER)) {
-        this.defaultUrl = '../admin';
+       if (user?.roles.includes(UserRole.ROLE_DEPOT_MANAGER)) {
+        this.defaultUrl = '../admin/dashboard';
       }
-      if (user?.roles.includes(UserRole.ROLE_WAREHOUSE_CLERK)) {
+      if (user?.roles.includes(UserRole.ROLE_DEPOT_EMPLOYEE)) {
         this.defaultUrl = '../admin';
       }
       if (user?.roles.includes(UserRole.ROLE_USER)) {
         this.defaultUrl = '../user/dashboard';
       }
     }
-
+    console.log(this.defaultUrl)
   }
-
+ 
   sendEmail() {
     const message = new Email(this.email.value, this.subject.value, this.contentBody.value);
     this.emailService.sendEmail(message).subscribe(res => {

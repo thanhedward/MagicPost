@@ -29,13 +29,12 @@ export class NavSidebarComponent implements OnInit {
     this.userRoles = this.tokenStorageService.getUser().roles;
     if (this.userRoles.includes(UserRole.ROLE_CEO.toString())) {
       this.roleCEO = true;
-    } else if (this.userRoles.includes(UserRole.ROLE_POST_OFFICE_MANAGER.toString())) {
+    } else if (this.userRoles.includes(UserRole.ROLE_BRANCH_MANAGER.toString())) {
       this.roleBranchManager = false;
     } else if (this.userRoles.includes(UserRole.ROLE_USER.toString())) {
       this.tokenStorageService.signOut();
       window.location.reload();
     }
-    
   }
 
   toggleCollapseShow(classes) {

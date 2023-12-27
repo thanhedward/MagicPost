@@ -18,7 +18,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     const currentUser = this.tokenStorageService.getUser();
     if (currentUser) {
       console.log('user: ' + currentUser.role);
-      if (next.data.roles && next.data.roles.indexOf(currentUser.role) === -1) {
+      if (next.data.roles && next.data.roles.indexOf(currentUser.role) === -1&&! next.data.roles.includes(currentUser.roles[0]) ) {
         this.router.navigate(['/']);
         return false;
       }

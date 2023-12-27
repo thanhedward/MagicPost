@@ -12,8 +12,6 @@ export class ProfileComponent implements OnInit {
   districtList: any[] = [];
   selectedDistrict: string;
 
-
-
   constructor(private addressService: AddressService) {
   }
 

@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
       console.log(user);
       if (this.roles.includes(UserRole.ROLE_CEO)) {
         this.toLogin(UserRole.ROLE_CEO);
-      } else if (this.roles.includes(UserRole.ROLE_BRANCH_MANAGER)) {
+      } else if (this.roles.includes(UserRole.ROLE_DEPOT_MANAGER)) {
         this.toLogin(UserRole.ROLE_CEO);
       } else if (this.roles.includes(UserRole.ROLE_USER)) {
         this.toLogin(UserRole.ROLE_USER);
@@ -68,7 +68,7 @@ export class LoginComponent implements OnInit {
         this.router.navigateByUrl(this.returnUrl);
         break;
       }
-      case UserRole.ROLE_BRANCH_MANAGER: {
+      case UserRole.ROLE_DEPOT_MANAGER: {
         this.router.navigateByUrl(this.returnUrl);
         break;
       }
@@ -79,20 +79,17 @@ export class LoginComponent implements OnInit {
     this.preLoading = true;
     this.authService.login(this.form).subscribe(
       data => {
-
         this.tokenStorageService.saveToken(data.accessToken);
         this.tokenStorageService.saveUser(data);
-
         this.isLoginFailed = false;
         this.isLoggedIn = true;
-
         this.roles = this.tokenStorageService.getUser().roles;
         if (this.roles.includes(UserRole.ROLE_CEO)) {
           this.toLogin(UserRole.ROLE_CEO);
         } else if (this.roles.includes(UserRole.ROLE_USER)) {
           this.toLogin(UserRole.ROLE_USER);
-        } else if (this.roles.includes(UserRole.ROLE_BRANCH_MANAGER)) {
-          this.toLogin(UserRole.ROLE_BRANCH_MANAGER);
+        } else if (this.roles.includes(UserRole.ROLE_DEPOT_MANAGER)) {
+          this.toLogin(UserRole.ROLE_DEPOT_MANAGER);
         }
       },
       err => {
