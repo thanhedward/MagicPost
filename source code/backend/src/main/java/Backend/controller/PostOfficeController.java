@@ -46,12 +46,18 @@ public class PostOfficeController {
         return postOfficeService.getPostOfficeList();
     }
 
+    @GetMapping(value = "/post-office/find-by-province")
+    public List<PostOffice> findPostOfficeByDepotAndDistrict(@RequestParam String provinceName) {
+        Province province = provinceService.getProvinceById(provinceName).get();
+        return postOfficeService.getPostOfficeListByDepot(depotService.getDepotByProvince(province).get());
+    }
+
     @GetMapping(value = "/post-office/find")
-    public Optional<PostOffice> findPostOfficeByDepotAndDistrict(@RequestParam String depot, @RequestParam String district) {
-        Province province = provinceService.getProvinceById(depot).get();
+    public Optional<PostOffice> findPostOfficeByDepotAndDistrict(@RequestParam String provinceName, @RequestParam String districtName) {
+        Province province = provinceService.getProvinceById(provinceName).get();
         return postOfficeService.getPostOfficeByDepotAndDistrict(
                 depotService.getDepotByProvince(province).get(),
-                districtService.getDistrictByProvinceAndName(province, district));
+                districtService.getDistrictByProvinceAndName(province, districtName));
     }
 
     @GetMapping(value = "/district")
