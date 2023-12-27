@@ -51,6 +51,6 @@ public interface UserService {
     boolean resetPassword(String token, String password);
 
     Page<User> findAllByUsernameContainsOrEmailContains(Role role, String username, String email, Pageable pageable);
-
+    Page<User> findAllByRolesUsernameContainsOrEmailContains(Role role1, Role role2, String username, String email, Pageable pageable);
 
 }

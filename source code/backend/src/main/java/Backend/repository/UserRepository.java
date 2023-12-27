@@ -40,6 +40,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("select u from User u where ?1 member of u.roles and (u.username like CONCAT('%',?2,'%') or u.email like CONCAT('%',?3,'%'))")
     Page<User> findAllByRoleAndUsernameContainsOrEmailContains(Role role, String username, String email, Pageable pageable);
 
+    @Query("select u from User u where (?1 member of u.roles or ?2 member of u.roles) and (u.username like CONCAT('%',?3,'%') or u.email like CONCAT('%',?4,'%'))")
+    Page<User> findAllByRolesAndUsernameContainsOrEmailContains(Role role1, Role role2, String username, String email, Pageable pageable);
+
     List<User> findAllByDeleted(boolean statusDeleted);
 
     List<User> findByDeletedIsFalseOrderByCreatedDateDesc();

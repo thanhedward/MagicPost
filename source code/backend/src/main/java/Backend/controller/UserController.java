@@ -185,19 +185,12 @@ public class UserController {
         return new PageResult(userPage);
     }
 
-    @GetMapping("/search/depot-manager")
+    @GetMapping("/search/manager")
     @PreAuthorize("hasRole('CEO')")
     public PageResult searchDepotManagerByUsernameOrEmail(@RequestParam(value = "search-keyword") String info, @PageableDefault(sort = "id") Pageable pageable) {
-        Role role = new Role(ERole.ROLE_DEPOT_MANAGER);
-        Page<User> userPage = userService.findAllByUsernameContainsOrEmailContains(role, info, info, pageable);
-        return new PageResult(userPage);
-    }
-
-    @GetMapping("/search/post-office-manager")
-    @PreAuthorize("hasRole('CEO')")
-    public PageResult searchPostOfficeManagerByUsernameOrEmail(@RequestParam(value = "search-keyword") String info, @PageableDefault(sort = "id") Pageable pageable) {
-        Role role = new Role(ERole.ROLE_POST_OFFICE_MANAGER);
-        Page<User> userPage = userService.findAllByUsernameContainsOrEmailContains(role, info, info, pageable);
+        Role role1 = new Role(ERole.ROLE_DEPOT_MANAGER);
+        Role role2 = new Role(ERole.ROLE_POST_OFFICE_MANAGER);
+        Page<User> userPage = userService.findAllByRolesUsernameContainsOrEmailContains(role1, role2, info, info, pageable);
         return new PageResult(userPage);
     }
 

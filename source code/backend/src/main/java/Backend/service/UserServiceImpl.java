@@ -193,6 +193,13 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAllByRoleAndUsernameContainsOrEmailContains(role, username, email, pageable);
     }
 
+    @Override
+    public Page<User> findAllByRolesUsernameContainsOrEmailContains(Role role1, Role role2, String username, String email, Pageable pageable) {
+        role1.setId(roleService.findByName(role1.getName()).get().getId());
+        role2.setId(roleService.findByName(role2.getName()).get().getId());
+        return userRepository.findAllByRolesAndUsernameContainsOrEmailContains(role1, role2, username, email, pageable);
+    }
+
     public void addRoles(ERole roleName, Set<Role> roles) {
         Role userRole = roleService.findByName(roleName).orElseThrow(() -> new RuntimeException("Error: Role is not found"));
         roles.add(userRole);
