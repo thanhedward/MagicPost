@@ -4,6 +4,7 @@ import {ToastrService} from 'ngx-toastr';
 import {Router} from '@angular/router';
 import { LocationService } from 'src/app/_services/location.service';
 import { Location } from 'src/app/models/location';
+import { AddressService } from 'src/app/_services/address.service';
 
 @Component({
   selector: 'app-add-test',
@@ -13,40 +14,53 @@ import { Location } from 'src/app/models/location';
 export class AddTestComponent implements OnInit {
 
   rfAdd: FormGroup;
+  districtList: any[] = [];
+  depotProvinceList: any[] = [];
   constructor(
     private fb: FormBuilder,
     private locationService: LocationService,
     private toast: ToastrService,
-    private router: Router) {
+    private router: Router,
+    private addressService: AddressService) {
   }
-
-  get name() {
-    return this.rfAdd.get('name');
+  get provincePost(){
+    return this.rfAdd.get('provincePost');
   }
-
-  get id(){
-    return this.rfAdd.get('id');
+  get districtPost(){
+    return this.rfAdd.get('districtPost');
   }
   ngOnInit(): void {
     this.rfAdd = this.fb.group({
-        name: [''],
-        id: [''],
+      provincePost: [''],
+      districtPost: [''],
       }
     );
+    this.getDepotProvince();
   }
-
+  onProvinceChange() {
+    console.log("yes")
+    if (this.provincePost.value) {
+      this.addressService.getNewDistrict(this.provincePost.value).subscribe(res => {
+        this.districtList = res;
+      });
+    } else {
+      this.districtList = [];
+    }
+  }
   onSubmit() {
-     const newTransactionLocation = new Location(
-      this.name.value,
-      "TRANSACTION_OFFICE"
-    );
-    this.locationService.addTransactionLocation(newTransactionLocation).subscribe(res => {
+    this.locationService.addPostOffice(this.provincePost.value, this.districtPost.value).subscribe(res => {
       this.toast.success('Đã thêm điểm giao dịch', 'Thành công');
       setTimeout(() => this.goToExamManagePage(), 1000);
     });
   }
 goToExamManagePage() {
     this.router.navigate(['/admin/tests']);
+  }
+  getDepotProvince() {
+    this.addressService.getDepot().subscribe(res => {
+      this.depotProvinceList = res;
+      console.log(res)
+    });
   }
 }
 

@@ -25,4 +25,10 @@ export class AddressService {
   getPostOffice(): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/post-office/get-post-office`);
   }
+  getPostDistricts(province: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/post-office/find-by-province?provinceName=${province}`);
+  }
+  getNewDistrict(province: string): Observable<any[]>{
+    return this.http.get<any[]>(`${this.baseUrl}/district/available-by?provinceName=${province}`);
+  }
 }

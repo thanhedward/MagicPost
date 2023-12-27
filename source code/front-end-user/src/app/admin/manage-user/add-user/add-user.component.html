@@ -126,6 +126,26 @@
                             <p class="text-red-500 text-xs italic" *ngIf="email?.hasError('emailExists') && (email?.dirty || email.touched)"> Email đã tồn tại</p>
                           </div>
                         </div>
+                        <div class="-mx-3 md:flex mb-2 w-full">
+                          <div class="md:w-full px-3">
+                            <label class="block uppercase tracking-wide text-gray-600 text-xs font-bold mb-2" for="frm-add-province"> Tỉnh</label>
+                            <select class="w-full p-2 border rounded bg-gray-200" id="frm-add-province" formControlName="provincePost" (change)="onProvinceChange()" ng-model="selectedProvince" required>
+                              <option class= "bg-white" *ngFor="let province of depotProvinceList" [value]="province.province.name">
+                                {{province.province.name}}
+                              </option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="-mx-3 md:flex mb-2 w-full">
+                          <div class="md:w-full px-3">
+                            <label class="block uppercase tracking-wide text-gray-600 text-xs font-bold mb-2" for="frm-add-province">Quận huyện</label>
+                            <select id="districtDropdown" class="w-full p-2 border rounded ml-2" formControlName="districtPost">
+                              <option *ngFor="let district of districtList" [value]="district.district.name">
+                                {{ district.district.name }}
+                              </option>
+                            </select>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     <div class="flex items-center justify-end p-6 pb-0 border-t border-solid border-gray-300 rounded-b">

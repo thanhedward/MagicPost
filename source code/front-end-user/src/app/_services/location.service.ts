@@ -24,4 +24,8 @@ export class LocationService {
     return this.http.post<Location>(`${this.baseUrl}/location/add-transaction-office`, location);
   }
 
+  public addPostOffice(province:string, district:string): Observable<any>{
+    return this.http.post<any>(`${this.baseUrl}/post-office/create-post-office?provinceName=${province}&districtName=${district}`,'');
+  }
+
 }

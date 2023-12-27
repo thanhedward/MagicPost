@@ -42,15 +42,15 @@
           <a [routerLink]="['dashboard']" routerLinkActive="text-blue-500 hover:text-blue-600" class="text-gray-800 hover:text-gray-600 text-xs uppercase py-3 font-bold block">
             <i class="fa fa-line-chart opacity-75 mr-2 text-sm"></i>Thống kê hàng hóa </a>
         </li>
-        <li class="items-center" *ngIf="roleCEO">
+        <li class="items-center">
           <a [routerLink]="['users']" routerLinkActive="text-blue-500 hover:text-blue-600" class="text-gray-800 hover:text-gray-600 text-xs uppercase py-3 font-bold block">
             <i class="fa fa-users opacity-75 mr-2 text-sm"></i>Quản lý tài khoản </a>
         </li>
-        <li class="items-center">
+        <li class="items-center" *ngIf="roleCEO">
           <a [routerLink]="['gathering-point']" routerLinkActive="text-blue-500 hover:text-blue-600" class="text-gray-800 hover:text-gray-600 text-xs uppercase py-3 font-bold block">
           <i class="fa-solid fa-map-location-dot  opacity-75 mr-2 text-sm"></i> Quản lý điểm tập kết </a>
         </li>
-        <li class="items-center">
+        <li class="items-center" *ngIf="roleCEO">
           <a [routerLink]="['tests']" routerLinkActive="text-blue-500 hover:text-blue-600" class="text-gray-800 hover:text-gray-600 text-xs uppercase py-3 font-bold block">
             <i class="fa fa-archive opacity-75 mr-2 text-sm"></i> Quản lý điểm giao dịch </a>
         </li>

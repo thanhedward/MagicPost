@@ -77,17 +77,20 @@ export class AddUserComponent implements OnInit {
   }
 
   get province(){
-    if(this.openTab == 1){
-      return this.rfAddDepotManager.get('province');
-    }
-    else {
-      return this.rfAddPostManager.get('province');
-    }
+    return this.rfAddDepotManager.get('province');
    
+  }
+  get provincePost(){
+    return this.rfAddPostManager.get('provincePost');
+  }
+  get districtPost(){
+    return this.rfAddPostManager.get('districtPost');
   }
 
   ngOnInit(): void {
     this.getDepotProvince();
+    this.rfAddDepotManager?.reset(this.rfAddDepotManager.value);
+    this.rfAddPostManager?.reset(this.rfAddPostManager.value);
     this.rfAddDepotManager = this.fb.group({
       username: ['', {
         validators: [Validators.required, Validators.minLength(6)],
@@ -116,6 +119,8 @@ export class AddUserComponent implements OnInit {
       }],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
+      provincePost: ['', Validators.required],
+      districtPost: ['', Validators.required],
     });
     
 
@@ -146,9 +151,10 @@ export class AddUserComponent implements OnInit {
   }
 
   onPostSubmit(){
+    console.log("post")
     const profile = new UserProfile(this.firstName.value, this.lastName.value);
     const user: UserAccount = new UserAccount(this.username.value, this.email.value, profile);
-    this.userService.addDepotManager(user,this.province.value)
+    this.userService.addPostOfficeManager(user, this.provincePost.value, this.districtPost.value)
       // .pipe(switchMap(res => this.userService.getUserList(0, 20)))
       .subscribe(res => {
         this.closeModal();
@@ -174,8 +180,8 @@ export class AddUserComponent implements OnInit {
   }
 
   onProvinceChange() {
-    if (this.selectedProvince) {
-      this.addressService.getDistricts(this.selectedProvince).subscribe(res => {
+    if (this.provincePost.value) {
+      this.addressService.getPostDistricts(this.provincePost.value).subscribe(res => {
         this.districtList = res;
       });
     } else {

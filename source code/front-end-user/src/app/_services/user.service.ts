@@ -8,6 +8,7 @@ import {environment} from '../../environments/environment';
 import {map} from 'rxjs/operators';
 import {UserUpdate} from '../models/user-update';
 import { Depot } from '../models/depot';
+import { Manager } from '../models/manager';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +27,11 @@ export class UserService {
   getUserList(page: number, size: number): Observable<PageResult<UserAccount>> {
     const pageParams = new HttpParams().set('page', page.toString()).set('size', size.toString());
     return this.http.get<PageResult<UserAccount>>(`${this.baseUrl}/users`, {params: pageParams});
+  }
+
+  getManagerList(page: number, size: number): Observable<PageResult<Manager>> {
+    const pageParams = new HttpParams().set('page', page.toString()).set('size', size.toString());
+    return this.http.get<PageResult<Manager>>(`${this.baseUrl}/users/get-manager/post-office`, {params: pageParams});
   }
 
   // // @ts-ignore
@@ -59,7 +65,9 @@ export class UserService {
   addDepotManager(user: UserAccount, province: string): Observable<UserAccount> {
     return this.http.post<UserAccount>(`${this.baseUrl}/users/create/depot-manager?provinceName=${province}`, user);
   }
-  
+  addPostOfficeManager(user: UserAccount, province: string, district: string){
+    return this.http.post<UserAccount>(`${this.baseUrl}/users/create/post-office-manager?provinceName=${province}&districtName=${district}`, user);
+  }
   deleteUser(id: number, deleted: boolean): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/users/${id}/deleted/${deleted}`);
   }
