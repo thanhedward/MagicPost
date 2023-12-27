@@ -30,15 +30,15 @@ public class InvoiceServiceImpl implements InvoiceService {
         return invoiceRepository.findAll();
     }
 
-    @Override
-    public List<Invoice> getInvoiceByCreateUsername(String username){
-        return invoiceRepository.findAllByCreateByUsername(username);
-    }
-
-    @Override
-    public List<Invoice> getInvoiceByConfirmUsername(String username){
-        return invoiceRepository.findAllByConfirmByUsername(username);
-    }
+//    @Override
+//    public List<Invoice> getInvoiceByCreateUsername(String username){
+//        return invoiceRepository.findAllByCreateByUsername(username);
+//    }
+//
+//    @Override
+//    public List<Invoice> getInvoiceByConfirmUsername(String username){
+//        return invoiceRepository.findAllByConfirmByUsername(username);
+//    }
 
     @Override
     public void saveInvoice(Invoice invoice){

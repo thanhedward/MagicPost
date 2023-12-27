@@ -5,7 +5,6 @@ import Backend.entity.Parcel;
 import Backend.entity.User;
 import Backend.service.*;
 import Backend.utilities.InvoiceType;
-import Backend.utilities.ParcelStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +13,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -26,13 +24,13 @@ import java.util.stream.Collectors;
 public class InvoiceController {
     private final InvoiceService invoiceService;
     private final UserService userService;
-    private final ParcelsService parcelsService;
+    private final ParcelService parcelService;
 
     @Autowired
-    public InvoiceController(InvoiceService invoiceService, UserService userService, ParcelsService parcelsService){
+    public InvoiceController(InvoiceService invoiceService, UserService userService, ParcelService parcelService){
         this.invoiceService = invoiceService;
         this.userService = userService;
-        this.parcelsService = parcelsService;
+        this.parcelService = parcelService;
     }
 
     @GetMapping()
@@ -50,7 +48,7 @@ public class InvoiceController {
             invoice.setCreateBy(user);
 
             //TODO: Check if parcel exist?, send to the same location?
-            Set<Parcel> parcels = invoice.getParcels().stream().map(parcel -> parcelsService.getParcelById(parcel.getId()).get()).collect(Collectors.toSet());
+            Set<Parcel> parcels = invoice.getParcels().stream().map(parcel -> parcelService.getParcelById(parcel.getId()).get()).collect(Collectors.toSet());
             invoice.setParcels(parcels);
 
 
@@ -96,48 +94,49 @@ public class InvoiceController {
         }
     }
 
-//    @PostMapping(value = "/{id}/confirm")
-//    @PreAuthorize("hasAnyRole('CEO', 'DEPOT_MANAGER', 'POST_OFFICE_MANAGER', 'DEPOT_EMPLOYEE', 'POST_OFFICE_EMPLOYEE')")
-//    public ResponseEntity<?> confirmInvoice(@PathVariable Long id) {
-//        try {
-//            Invoice invoice = invoiceService.getInvoiceById(id).get();
-//
-//            String username = userService.getUserName();
-//            User user = userService.getUserByUsername(username).get();
-//            invoice.setConfirmBy(user);
-//            invoice.setConfirmDate(LocalDateTime.now());
-//            invoice.setConfirmed(true);
-//
-//            Set<Parcel> parcels = invoice.getParcels();
-//            for(Parcel parcel: parcels) {
-//                switch (parcel.getStatus()) {
-//                    case START_POS: {
-//                        parcel.setStatus(ParcelStatus.FIRST_DEPOT);
-//                        break;
-//                    }
-//                    case FIRST_DEPOT: {
-//                        parcel.setStatus(ParcelStatus.LAST_DEPOT);
-//                        break;
-//                    }
-//                    case LAST_DEPOT: {
-//                        parcel.setStatus(ParcelStatus.END_POS);
-//                        break;
-//                    }
-//                    case END_POS: {
-//                        parcel.setStatus(ParcelStatus.SUCCESS);
-//                    }
-//                }
-//            }
-//            invoiceService.saveInvoice(invoice);
-//            return ResponseEntity.ok(invoice);
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);
-//        }
-//    }
+    @PostMapping(value = "/confirm")
+    //@PreAuthorize("hasAnyRole('CEO', 'DEPOT_MANAGER', 'POST_OFFICE_MANAGER', 'DEPOT_EMPLOYEE', 'POST_OFFICE_EMPLOYEE')")
+    public ResponseEntity<?> confirmInvoice(@RequestParam String name) {
+        try {
+//            List<Invoice> invoice = invoiceService.getInvoiceByCreateUsername(name);
 
-    @GetMapping(value = "/invoice/get-invoice-by-create-user")
-    @PreAuthorize("hasRole('CEO')")
-    public List<Invoice> getAllInvoiceByCreator(@RequestParam String username) {
-        return invoiceService.getInvoiceByCreateUsername(username);
+//            String username = userService.getUserName();
+////            User user = userService.getUserByUsername(username).get();
+////            invoice.setConfirmBy(user);
+////            invoice.setConfirmDate(LocalDateTime.now());
+////            invoice.setConfirmed(true);
+////
+////            Set<Parcel> parcels = invoice.getParcels();
+////            for(Parcel parcel: parcels) {
+////                switch (parcel.getStatus()) {
+////                    case START_POS: {
+////                        parcel.setStatus(ParcelStatus.FIRST_DEPOT);
+////                        break;
+////                    }
+////                    case FIRST_DEPOT: {
+////                        parcel.setStatus(ParcelStatus.LAST_DEPOT);
+////                        break;
+////                    }
+////                    case LAST_DEPOT: {
+////                        parcel.setStatus(ParcelStatus.END_POS);
+////                        break;
+////                    }
+////                    case END_POS: {
+////                        parcel.setStatus(ParcelStatus.SUCCESS);
+////                    }
+////                }
+////            }
+////            invoiceService.saveInvoice(invoice);
+////            return ResponseEntity.ok(invoice);
+            return null;
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);
+        }
     }
+
+//    @GetMapping(value = "/invoice/get-invoice-by-create-user")
+//    @PreAuthorize("hasRole('CEO')")
+//    public List<Invoice> getAllInvoiceByCreator(@RequestParam String username) {
+//        return invoiceService.getInvoiceByCreateUsername(username);
+//    }
 }
