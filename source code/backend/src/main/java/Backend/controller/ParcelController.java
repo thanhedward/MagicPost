@@ -81,7 +81,7 @@ public class ParcelController {
     }
 
     @PostMapping(value = "/create-parcel")
-    @PreAuthorize("hasAnyRole('CEO', 'POST_OFFICE_MANAGER', 'POST_OFFICE_EMPLOYEE')")
+    @PreAuthorize("hasAnyRole('POST_OFFICE_EMPLOYEE')")
     public ResponseEntity<Object> createParcel(@Valid @RequestBody ParcelDto parcelDto){
         try {
             Parcel parcel = new Parcel(parcelDto);
