@@ -1,9 +1,8 @@
 package Backend.entity;
 
+import Backend.dto.ParcelDto;
 import Backend.utilities.ParcelStatus;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -64,6 +63,17 @@ public class Parcel implements Serializable {
     @Column(name = "weight")
     private int weight;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @ManyToMany(mappedBy = "parcels")
     private Set<Invoice> invoices;
+
+    public Parcel(ParcelDto parcelDto) {
+        this.setName(parcelDto.getName());
+        this.setSender(parcelDto.getSender());
+        this.setStartAddress(parcelDto.getStartAddress());
+        this.setEndAddress(parcelDto.getEndAddress());
+        this.setWeight(parcelDto.getWeight());
+    }
+
 }
