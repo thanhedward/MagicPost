@@ -38,9 +38,9 @@ export class AddTestComponent implements OnInit {
     this.getDepotProvince();
   }
   onProvinceChange() {
-    console.log("yes")
+    console.log(this.provincePost.value)
     if (this.provincePost.value) {
-      this.addressService.getNewDistrict(this.provincePost.value).subscribe(res => {
+      this.addressService.getNewDistrict(this.provincePost.value.toString()).subscribe(res => {
         this.districtList = res;
       });
     } else {
