@@ -90,7 +90,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User createUser(User user) {
+    public void createUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getUsername()));
         Set<Role> reqRoles = user.getRoles();
         Set<Role> roles = new HashSet<>();
@@ -121,7 +121,7 @@ public class UserServiceImpl implements UserService {
         });
 
         user.setRoles(roles);
-        return userRepository.save(user);
+        userRepository.save(user);
     }
 
     @Override
@@ -188,8 +188,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<User> findAllByUsernameContainsOrEmailContains(String username, String email, Pageable pageable) {
-        return userRepository.findAllByUsernameContainsOrEmailContains(username, email, pageable);
+    public Page<User> findAllByUsernameContainsOrEmailContains(Role role, String username, String email, Pageable pageable) {
+        role.setId(roleService.findByName(role.getName()).get().getId());
+        return userRepository.findAllByRoleAndUsernameContainsOrEmailContains(role, username, email, pageable);
     }
 
     public void addRoles(ERole roleName, Set<Role> roles) {

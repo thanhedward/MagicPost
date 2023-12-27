@@ -2,11 +2,13 @@ package Backend.repository;
 
 import Backend.entity.Depot;
 import Backend.entity.PostOffice;
+import Backend.entity.Role;
 import Backend.entity.User;
 import Backend.utilities.ERole;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -35,12 +37,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Page<User> findAllByDeleted(boolean deleted, Pageable pageable);
 
     Page<User> findAllByDeletedAndUsernameContains(boolean deleted, String username, Pageable pageable);
-    Page<User> findAllByUsernameContainsOrEmailContains(String username, String email, Pageable pageable);
+    @Query("select u from User u where ?1 member of u.roles and (u.username like CONCAT('%',?2,'%') or u.email like CONCAT('%',?3,'%'))")
+    Page<User> findAllByRoleAndUsernameContainsOrEmailContains(Role role, String username, String email, Pageable pageable);
 
-    //    public Page<User> findUsersByDeletedAndUsernameIsContainingOrEmailIsContaining(boolean deleted, String username, String email, Pageable pageable);
     List<User> findAllByDeleted(boolean statusDeleted);
 
-//    List<User> findAllByIntakeId(Long id);
     List<User> findByDeletedIsFalseOrderByCreatedDateDesc();
 
 

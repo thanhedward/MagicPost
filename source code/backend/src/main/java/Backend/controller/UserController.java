@@ -53,11 +53,11 @@ public class UserController {
 
         @Autowired
         public UserController(UserService userService, RoleService roleService, PasswordEncoder passwordEncoder, DepotService depotService, PostOfficeService postOfficeService, DistrictService districtService) {
-        this.userService = userService;
-        this.roleService = roleService;
-        this.passwordEncoder = passwordEncoder;
-        this.depotService = depotService;
-        this.postOfficeService = postOfficeService;
+            this.userService = userService;
+            this.roleService = roleService;
+            this.passwordEncoder = passwordEncoder;
+            this.depotService = depotService;
+            this.postOfficeService = postOfficeService;
             this.districtService = districtService;
         }
 
@@ -146,28 +146,28 @@ public class UserController {
 
     @GetMapping()
     @PreAuthorize("hasRole('CEO')")
-    public PageResult getUsersByPage(@PageableDefault(page = 0, size = 10, sort = "roles") Pageable pageable) {
+    public PageResult getUsersByPage(@PageableDefault(sort = "roles") Pageable pageable) {
         Page<User> userPage = userService.findUsersByPage(pageable);
         return new PageResult(userPage);
     }
 
     @GetMapping("/get-manager/depot")
     @PreAuthorize("hasRole('CEO')")
-    public PageResult getDepotManagersByPage(@PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable) {
+    public PageResult getDepotManagersByPage(@PageableDefault(sort = "id") Pageable pageable) {
         Page<User> userPage = userService.getUsersByRoleByPage(ERole.ROLE_DEPOT_MANAGER, pageable);
         return new PageResult(userPage);
     }
 
     @GetMapping("/get-manager/post-office")
     @PreAuthorize("hasRole('CEO')")
-    public PageResult getPostOfficeManagersByPage(@PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable) {
+    public PageResult getPostOfficeManagersByPage(@PageableDefault(sort = "id") Pageable pageable) {
         Page<User> userPage = userService.getUsersByRoleByPage(ERole.ROLE_POST_OFFICE_MANAGER, pageable);
         return new PageResult(userPage);
     }
 
     @GetMapping("/get/depot")
     @PreAuthorize("hasAnyRole('DEPOT_MANAGER')")
-    public PageResult getUsersByDepotAndPage(@PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable) {
+    public PageResult getUsersByDepotAndPage(@PageableDefault(sort = "id") Pageable pageable) {
         String username = userService.getUserName();
         User currentUser = userService.getUserByUsername(username).get();
 
@@ -177,7 +177,7 @@ public class UserController {
 
     @GetMapping("/get/post-office")
     @PreAuthorize("hasAnyRole('POST_OFFICE_MANAGER')")
-    public PageResult getUsersByPostOfficeAndPage(@PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable) {
+    public PageResult getUsersByPostOfficeAndPage(@PageableDefault(sort = "id") Pageable pageable) {
         String username = userService.getUserName();
         User currentUser = userService.getUserByUsername(username).get();
 
@@ -185,11 +185,35 @@ public class UserController {
         return new PageResult(userPage);
     }
 
-    @GetMapping("/search")
-    public PageResult searchUsersByUsernameOrEmail(@RequestParam(value = "search-keyword") String info, @PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable) {
-        LOGGER.error("check search");
-        Page<User> userPage = userService.findAllByUsernameContainsOrEmailContains(info, info, pageable);
-        LOGGER.error(userPage.toString());
+    @GetMapping("/search/depot-manager")
+    @PreAuthorize("hasRole('CEO')")
+    public PageResult searchDepotManagerByUsernameOrEmail(@RequestParam(value = "search-keyword") String info, @PageableDefault(sort = "id") Pageable pageable) {
+        Role role = new Role(ERole.ROLE_DEPOT_MANAGER);
+        Page<User> userPage = userService.findAllByUsernameContainsOrEmailContains(role, info, info, pageable);
+        return new PageResult(userPage);
+    }
+
+    @GetMapping("/search/post-office-manager")
+    @PreAuthorize("hasRole('CEO')")
+    public PageResult searchPostOfficeManagerByUsernameOrEmail(@RequestParam(value = "search-keyword") String info, @PageableDefault(sort = "id") Pageable pageable) {
+        Role role = new Role(ERole.ROLE_POST_OFFICE_MANAGER);
+        Page<User> userPage = userService.findAllByUsernameContainsOrEmailContains(role, info, info, pageable);
+        return new PageResult(userPage);
+    }
+
+    @GetMapping("/search/depot")
+    @PreAuthorize("hasRole('DEPOT_MANAGER')")
+    public PageResult searchDepotEmployeeByUsernameOrEmail(@RequestParam(value = "search-keyword") String info, @PageableDefault(sort = "id") Pageable pageable) {
+        Role role = new Role(ERole.ROLE_DEPOT_EMPLOYEE);
+        Page<User> userPage = userService.findAllByUsernameContainsOrEmailContains(role, info, info, pageable);
+        return new PageResult(userPage);
+    }
+
+    @GetMapping("/search/post-office")
+    @PreAuthorize("hasRole('POST_OFFICE_MANAGER')")
+    public PageResult searchPostOfficeEmployeeByUsernameOrEmail(@RequestParam(value = "search-keyword") String info, @PageableDefault(sort = "id") Pageable pageable) {
+        Role role = new Role(ERole.ROLE_DEPOT_EMPLOYEE);
+        Page<User> userPage = userService.findAllByUsernameContainsOrEmailContains(role, info, info, pageable);
         return new PageResult(userPage);
     }
 
@@ -349,9 +373,5 @@ public class UserController {
         writer.write(userService.findAllByDeletedToExport(false));
     }
 
-    public void addRoles(ERole roleName, Set<Role> roles) {
-        Role userRole = roleService.findByName(roleName).orElseThrow(() -> new RuntimeException("Error: Role is not found"));
-        roles.add(userRole);
-    }
 
 }

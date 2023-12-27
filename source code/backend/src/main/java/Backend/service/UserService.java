@@ -3,6 +3,7 @@ package Backend.service;
 import Backend.dto.UserExport;
 import Backend.entity.Depot;
 import Backend.entity.PostOffice;
+import Backend.entity.Role;
 import Backend.entity.User;
 import Backend.utilities.ERole;
 import org.springframework.data.domain.Page;
@@ -35,7 +36,7 @@ public interface UserService {
     Page<User> findAllByDeletedAndUsernameContains(boolean deleted, String username, Pageable pageable);
 
 
-    User createUser(User user);
+    void createUser(User user);
 
     Optional<User> findUserById(Long id);
 
@@ -49,7 +50,7 @@ public interface UserService {
 
     boolean resetPassword(String token, String password);
 
-    Page<User> findAllByUsernameContainsOrEmailContains(String username, String email, Pageable pageable);
+    Page<User> findAllByUsernameContainsOrEmailContains(Role role, String username, String email, Pageable pageable);
 
 
 }
