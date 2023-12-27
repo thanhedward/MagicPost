@@ -4,12 +4,9 @@ import {UserService} from '../../../_services/user.service';
 import {UserAccount} from '../../../models/user-account';
 import {UserProfile} from '../../../models/user-profile';
 import {PageResult} from '../../../models/page-result';
-import {switchMap} from 'rxjs/operators';
 import {ToastrService} from 'ngx-toastr';
-import {FileUploadComponent} from '../../../shared/file-upload/file-upload.component';
-import {UploadFileService} from '../../../_services/upload-file.service';
-import {IntakeService} from '../../../_services/intake.service';
 import {Intake} from '../../../models/intake';
+import { AddressService } from 'src/app/_services/address.service';
 
 @Component({
   selector: 'app-add-user',
@@ -18,7 +15,8 @@ import {Intake} from '../../../models/intake';
 })
 export class AddUserComponent implements OnInit {
   showModalAdd = false;
-  rfAddUser: FormGroup;
+  rfAddDepotManager: FormGroup;
+  rfAddPostManager: FormGroup;
   @Output() usersAddOutput = new EventEmitter<PageResult<UserAccount>>();
   @Input() active = false;
   @Input() tabTitle: string;
@@ -27,39 +25,70 @@ export class AddUserComponent implements OnInit {
   pageResult: PageResult<UserAccount>;
   userExcelFile: any;
   intakes: Intake[] = [];
-
   userImportSuccess: UserAccount[] = [];
   userTotal: number;
+  depotProvinceList: any[] = [];
+  districtList: any[] = [];
+  selectedProvince: string;
 
   constructor(private userService: UserService,
               private fb: FormBuilder,
               private toast: ToastrService,
-              private uploadFileService: UploadFileService, private intakeService: IntakeService) {
+              private addressService: AddressService,
+              
+              ) {
   }
-
+  
   get username() {
-    return this.rfAddUser.get('username');
+    if(this.openTab == 1){
+      return this.rfAddDepotManager.get('username');
+    }
+    else {
+      return this.rfAddPostManager.get('username');
+    }
   }
 
   get firstName() {
-    return this.rfAddUser.get('firstName');
+    if(this.openTab == 1){
+      return this.rfAddDepotManager.get('firstName');
+    }
+    else {
+      return this.rfAddPostManager.get('firstName');
+    }
   }
 
   get lastName() {
-    return this.rfAddUser.get('lastName');
+    if(this.openTab == 1){
+      return this.rfAddDepotManager.get('lastName');
+    }
+    else {
+      return this.rfAddPostManager.get('lastName');
+    }
+  
   }
 
   get email() {
-    return this.rfAddUser.get('email');
+    if(this.openTab == 1){
+      return this.rfAddDepotManager.get('email');
+    }
+    else {
+      return this.rfAddPostManager.get('email');
+    }
+  }
+
+  get province(){
+    if(this.openTab == 1){
+      return this.rfAddDepotManager.get('province');
+    }
+    else {
+      return this.rfAddPostManager.get('province');
+    }
+   
   }
 
   ngOnInit(): void {
-    this.intakeService.getIntakeList().subscribe(data => {
-      this.intakes = data;
-    });
-
-    this.rfAddUser?.reset(this.rfAddUser.value);
-    this.rfAddUser = this.fb.group({
+    this.getDepotProvince();
+    this.rfAddDepotManager = this.fb.group({
       username: ['', {
         validators: [Validators.required, Validators.minLength(6)],
         asyncValidators: [this.userService.validateUsername()],
@@ -71,8 +100,25 @@ export class AddUserComponent implements OnInit {
         updateOn: 'blur'
       }],
       firstName: ['', Validators.required],
-      lastName: ['', Validators.required]
+      lastName: ['', Validators.required],
+      province: ['', Validators.required],
     });
+    this.rfAddPostManager = this.fb.group({
+      username: ['', {
+        validators: [Validators.required, Validators.minLength(6)],
+        asyncValidators: [this.userService.validateUsername()],
+        updateOn: 'blur'
+      }],
+      email: ['', {
+        validators: [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')],
+        asyncValidators: [this.userService.validateEmail()],
+        updateOn: 'blur'
+      }],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+    });
+    
+
   }
 
   toggleModalAdd() {
@@ -81,43 +127,69 @@ export class AddUserComponent implements OnInit {
 
   closeModal() {
     this.showModalAdd = false;
-    this.rfAddUser.reset();
-    this.openTab = 1;
+    this.rfAddDepotManager.reset();
     this.userTotal = 0;
   }
 
-  onSubmit() {
+  onSubmitDepotManager() {
     const profile = new UserProfile(this.firstName.value, this.lastName.value);
     const user: UserAccount = new UserAccount(this.username.value, this.email.value, profile);
-
-    this.userService.addUser(user)
-      .pipe(switchMap(res => this.userService.getUserList(0, 20)))
+    this.userService.addDepotManager(user,this.province.value)
+      // .pipe(switchMap(res => this.userService.getUserList(0, 20)))
       .subscribe(res => {
         this.closeModal();
         this.showSuccess();
-        this.pageResult = res;
+        // this.pageResult = res;
+        this.usersAddOutput.emit(this.pageResult);
+      });
+    
+  }
+
+  onPostSubmit(){
+    const profile = new UserProfile(this.firstName.value, this.lastName.value);
+    const user: UserAccount = new UserAccount(this.username.value, this.email.value, profile);
+    this.userService.addDepotManager(user,this.province.value)
+      // .pipe(switchMap(res => this.userService.getUserList(0, 20)))
+      .subscribe(res => {
+        this.closeModal();
+        this.showSuccess();
+        // this.pageResult = res;
         this.usersAddOutput.emit(this.pageResult);
       });
   }
-
+  
   showSuccess() {
-    this.toast.success('Người dùng đã được tạo mới!', 'Thành công',);
+    if(this.openTab == 2){
+      this.toast.success('Đã thêm thành công trưởng điểm giao dịch!', 'Thành công',);
+    } else {
+      this.toast.success('Đã thêm thành công trưởng điểm tập kết!', 'Thành công',);
+    }
+    
+  }
+  onChange(){
+    console.log(this.province.value)
+    console.log(this.openTab)
+
+    
+  }
+
+  onProvinceChange() {
+    if (this.selectedProvince) {
+      this.addressService.getDistricts(this.selectedProvince).subscribe(res => {
+        this.districtList = res;
+      });
+    } else {
+      this.districtList = [];
+    }
   }
 
   toggleTabs($tabNumber: number) {
     this.openTab = $tabNumber;
   }
-
-  importExcelUser() {
-    this.uploadFileService.uploadUsersByExcel(this.userExcelFile).subscribe(res => {
-      this.userImportSuccess = res.data;
-      this.userTotal = res.userTotal;
-      console.log(this.userImportSuccess);
-      this.toast.success('Đã import danh sách user', 'Thành công');
+  getDepotProvince() {
+    this.addressService.getDepot().subscribe(res => {
+      this.depotProvinceList = res;
+      console.log(res)
     });
-  }
-
-  getExcel(file) {
-    this.userExcelFile = file;
   }
 }

@@ -7,6 +7,7 @@ import {AbstractControl, AsyncValidatorFn, ValidationErrors} from '@angular/form
 import {environment} from '../../environments/environment';
 import {map} from 'rxjs/operators';
 import {UserUpdate} from '../models/user-update';
+import { Depot } from '../models/depot';
 
 @Injectable({
   providedIn: 'root'
@@ -55,6 +56,10 @@ export class UserService {
     return this.http.post<UserAccount>(`${this.baseUrl}/users`, user);
   }
 
+  addDepotManager(user: UserAccount, province: string): Observable<UserAccount> {
+    return this.http.post<UserAccount>(`${this.baseUrl}/users/create/depot-manager?provinceName=${province}`, user);
+  }
+  
   deleteUser(id: number, deleted: boolean): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/users/${id}/deleted/${deleted}`);
   }
