@@ -1,9 +1,7 @@
 package Backend.service;
 
-import Backend.entity.Depot;
-import Backend.entity.Invoice;
-import Backend.entity.Parcel;
-import Backend.entity.PostOffice;
+import Backend.dto.ParcelDto;
+import Backend.entity.*;
 import Backend.repository.ParcelsRepository;
 import Backend.utilities.InvoiceType;
 import Backend.utilities.ParcelStatus;
@@ -22,10 +20,12 @@ public class ParcelServiceImpl implements ParcelService {
     Logger logger = LoggerFactory.getLogger(ParcelServiceImpl.class);
 
     private final ParcelsRepository parcelsRepository;
+    private final UserService userService;
 
     @Autowired
-    public ParcelServiceImpl(ParcelsRepository parcelsRepository){
+    public ParcelServiceImpl(ParcelsRepository parcelsRepository, UserService userService){
         this.parcelsRepository = parcelsRepository;
+        this.userService = userService;
     }
 
     @Override
@@ -112,8 +112,47 @@ public class ParcelServiceImpl implements ParcelService {
     }
 
     @Override
-    public void saveParcels(Parcel parcel){
+    public List<Parcel> getParcelListSucceedByPostOffice() {
+        String username = userService.getUserName();
+        User user = userService.getUserByUsername(username).get();
+        PostOffice postOffice = user.getPostOffice();
+        return parcelsRepository.findAllByStatusAndEndPostOffice(ParcelStatus.SUCCESS, postOffice);
+    }
+
+    @Override
+    public List<Parcel> getParcelListFailedByPostOffice() {
+        String username = userService.getUserName();
+        User user = userService.getUserByUsername(username).get();
+        PostOffice postOffice = user.getPostOffice();
+        return parcelsRepository.findAllByStatusAndEndPostOffice(ParcelStatus.FAIL, postOffice);
+    }
+
+    @Override
+    public List<Parcel> getAllParcelSucceed() {
+        return parcelsRepository.findAllByStatus(ParcelStatus.SUCCESS);
+    }
+
+    @Override
+    public List<Parcel> getAllParcelFailed() {
+        return parcelsRepository.findAllByStatus(ParcelStatus.FAIL);
+    }
+
+
+    @Override
+    public Parcel saveParcels(ParcelDto parcelDto, PostOffice endPostOffice){
+        Parcel parcel = new Parcel(parcelDto);
+
+        String username = userService.getUserName();
+        User user = userService.getUserByUsername(username).get();
+        parcel.setAcceptedBy(user);
+        parcel.setStatus(ParcelStatus.START_POS);
+        parcel.setStartPostOffice(user.getPostOffice());
+        parcel.setStartDepot(user.getPostOffice().getDepot());
+        parcel.setEndPostOffice(endPostOffice);
+        parcel.setEndDepot(endPostOffice.getDepot());
+
         parcelsRepository.save(parcel);
+        return parcel;
     }
 
     @Override

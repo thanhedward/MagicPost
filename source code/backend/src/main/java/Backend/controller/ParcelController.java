@@ -4,7 +4,6 @@ import Backend.dto.ParcelDto;
 import Backend.dto.ServiceResult;
 import Backend.entity.*;
 import Backend.service.*;
-import Backend.utilities.ParcelStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -84,15 +83,6 @@ public class ParcelController {
     @PreAuthorize("hasAnyRole('POST_OFFICE_EMPLOYEE')")
     public ResponseEntity<Object> createParcel(@Valid @RequestBody ParcelDto parcelDto){
         try {
-            Parcel parcel = new Parcel(parcelDto);
-
-            String username = userService.getUserName();
-            User user = userService.getUserByUsername(username).get();
-            parcel.setAcceptedBy(user);
-            parcel.setStatus(ParcelStatus.START_POS);
-            parcel.setStartPostOffice(user.getPostOffice());
-            parcel.setStartDepot(user.getPostOffice().getDepot());
-
             if(depotService.getDepotByProvince(new Province(parcelDto.getEndProvinceName())).isEmpty()) {
                 return ResponseEntity.badRequest().body(new ServiceResult(HttpStatus.CONFLICT.value(), "Không tồn tại điểm tập kết này!", ""));
             }
@@ -101,16 +91,35 @@ public class ParcelController {
             if(postOfficeService.getPostOfficeByDepotAndDistrict(depot, district).isEmpty()) {
                 return ResponseEntity.badRequest().body(new ServiceResult(HttpStatus.CONFLICT.value(), "Không tồn tại điểm giao dịch này!", ""));
             }
-            PostOffice postOffice = postOfficeService.getPostOfficeByDepotAndDistrict(depot, district).get();
-            parcel.setEndPostOffice(postOffice);
-            parcel.setEndDepot(postOffice.getDepot());
+            PostOffice endPostOffice = postOfficeService.getPostOfficeByDepotAndDistrict(depot, district).get();
 
-            parcelService.saveParcels(parcel);
-            return ResponseEntity.ok(parcel);
+            return ResponseEntity.ok(parcelService.saveParcels(parcelDto, endPostOffice));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);
         }
     }
 
+    @GetMapping(value = "/complete")
+    @PreAuthorize("hasAnyRole('CEO')")
+    public List<Parcel> getAllParcelCompleted() {
+        return parcelService.getAllParcelSucceed();
+    }
 
+    @GetMapping(value = "/fail")
+    @PreAuthorize("hasAnyRole('CEO')")
+    public List<Parcel> getAllParcelFailed() {
+        return parcelService.getAllParcelFailed();
+    }
+
+    @GetMapping(value = "/complete/post-office")
+    @PreAuthorize("hasAnyRole('POST_OFFICE_MANAGER', 'POST_OFFICE_EMPLOYEE')")
+    public List<Parcel> getParcelByCompleted() {
+        return parcelService.getParcelListSucceedByPostOffice();
+    }
+
+    @GetMapping(value = "/fail/post-office")
+    @PreAuthorize("hasAnyRole('POST_OFFICE_MANAGER', 'POST_OFFICE_EMPLOYEE')")
+    public List<Parcel> getParcelByFailed() {
+        return parcelService.getParcelListFailedByPostOffice();
+    }
 }
