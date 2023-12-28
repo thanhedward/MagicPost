@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -89,8 +90,8 @@ public class StatisticsServiceImpl implements StatisticsService{
         return 1.0;
     }
 //
-//    @Override
-//    public List<Long> countExamUserLastedSevenDaysTotal() {
+    @Override
+    public List<Long> countExamUserLastedSevenDaysTotal() {
 //        List<Long> days = new ArrayList<>();
 //        List<ExamUser> examUserList = examUserRepository.findExamUsersByOrderByTimeFinish();
 //        long countDate = 0;
@@ -110,11 +111,19 @@ public class StatisticsServiceImpl implements StatisticsService{
 //            logger.error(days.toString());
 //        }
 //        Collections.reverse(days);
-//        return days;
-//    }
+        List<Long> longList = new ArrayList<>();
+        longList.add(1L);
+        longList.add(2L);
+        longList.add(5L);
+        longList.add(5L);
+        longList.add(8L);
+        longList.add(1L);
+        longList.add(0L);
+        return longList;
+    }
 //
-//    @Override
-//    public Double getChangeQuestion() {
+    @Override
+    public Double getChangeQuestion() {
 //        int countQuestionNow = 0;
 //        int countQuestionLastWeek = 0;
 //        List<Question> questions = questionRepository.findByOrderByCreatedDateDesc();
@@ -140,12 +149,13 @@ public class StatisticsServiceImpl implements StatisticsService{
 //        roundedRes *= 100;
 //        roundedRes = Math.round(roundedRes);
 //        roundedRes /= 100;
-//
+
 //        return roundedRes * 100;
-//    }
+        return 12.0;
+    }
 //
-//    @Override
-//    public Double getChangeAccount() {
+    @Override
+    public Double getChangeAccount() {
 //        int countAccountNow = 0;
 //        int countAccountLastWeek = 0;
 //        List<User> users = userRepository.findByDeletedIsFalseOrderByCreatedDateDesc();
@@ -175,11 +185,11 @@ public class StatisticsServiceImpl implements StatisticsService{
 //        roundedRes /= 100;
 //
 //        return roundedRes * 100;
+        return 12.0;
+    }
 //
-//    }
-//
-//    @Override
-//    public Double getChangeExam() {
+    @Override
+    public Double getChangeExam() {
 //        int countExamNow = 0;
 //        int countExamLastWeek = 0;
 //        List<Exam> exams = examRepository.findByCanceledIsTrueOrderByCreatedDateDesc();
@@ -207,8 +217,8 @@ public class StatisticsServiceImpl implements StatisticsService{
 //        roundedRes /= 100;
 //
 //        return result * 100;
-//
-//    }
+        return 12.4;
+    }
 //
 //    public static boolean isSameDay(final DateTime d1, final DateTime d2) {
 //        if ((d1 == null) || (d2 == null))
