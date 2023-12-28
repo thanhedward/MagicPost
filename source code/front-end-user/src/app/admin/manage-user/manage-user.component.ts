@@ -35,7 +35,7 @@ export class ManageUserComponent implements OnInit, AfterContentInit {
 
   ngOnInit(): void {
     this.userRoles = this.tokenStorageService.getUser().roles;
-    this.fetchUserList();
+    // this.fetchUserList();
 
   }
 

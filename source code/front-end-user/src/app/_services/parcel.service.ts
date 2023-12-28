@@ -21,5 +21,8 @@ export class ParcelService {
   public getParcelList(): Observable<Parcel[]> {
     return this.http.get<Parcel[]>(`${this.baseUrl}/parcel/get/post-office/depot`);
   }
+  public getParceltoPostList(): Observable<Parcel[]> {
+    return this.http.get<Parcel[]>(`${this.baseUrl}/parcel/get/depot/depot`);
+  }
 
 }

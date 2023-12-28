@@ -5,6 +5,7 @@ import { ParcelService } from 'src/app/_services/parcel.service';
 import { InvoiceService } from 'src/app/_services/invoice.service';
 import { sendParcel } from 'src/app/models/send-parcel';
 import { postDepotInvoice } from 'src/app/models/post-depot-invoice';
+import {UserRole} from '../../models/user-role.enum';
 @Component({
   selector: 'add-invoice',
   templateUrl: './add-invoice.component.html',
@@ -17,6 +18,9 @@ export class AddInvoiceComponent implements OnInit {
   sendParcelList: sendParcel[] = [];
   postDepotInvoice: postDepotInvoice;
   tagList: any[] = [];
+  rolePostOfficeEmployee: boolean = false;
+  roleDepotEmployee: boolean = false;
+  userRoles: string[] = [];
   constructor(
     private fb: FormBuilder,
     private invoiceService: InvoiceService,
@@ -24,6 +28,11 @@ export class AddInvoiceComponent implements OnInit {
     private parcelService: ParcelService) {
   }
   ngOnInit(): void {
+    if (this.userRoles.includes(UserRole.ROLE_POST_OFFICE_EMPLOYEE.toString())) {
+      this.rolePostOfficeEmployee = true;
+    } else if (this.userRoles.includes(UserRole.ROLE_DEPOT_EMPLOYEE.toString())) {
+      this.roleDepotEmployee = true;
+    }
     this.rfAdd = this.fb.group({
     });
     this.getParcelList();
@@ -42,24 +51,47 @@ export class AddInvoiceComponent implements OnInit {
 
   onSubmit() {
     this.postDepotInvoice = new postDepotInvoice(this.sendParcelList);
+    if(this.rolePostOfficeEmployee){
+      this.invoiceService.addInvoice(this.postDepotInvoice).subscribe(
+        (res) => {
+          this.getParcelList();
+          this.toast.success('Đã thêm đơn hàng cho khách', 'Thành công');
+        },
+        (error) => {
+          console.log(this.sendParcelList)
+          this.toast.error('Đã xảy ra lỗi khi thêm đơn hàng', 'Lỗi');
+        }
+      );
+      
+    } else {
+      this.invoiceService.addInvoicePostToPost(this.postDepotInvoice).subscribe(
+        (res) => {
+          this.getParcelList();
+          this.toast.success('Đã thêm đơn hàng cho khách', 'Thành công');
+        },
+        (error) => {
+          console.log(this.sendParcelList)
+          this.toast.error('Đã xảy ra lỗi khi thêm đơn hàng', 'Lỗi');
+        }
+      );
+    }
 
-    this.invoiceService.addInvoice(this.postDepotInvoice).subscribe(
-      (res) => {
-        this.getParcelList();
-        this.toast.success('Đã thêm đơn hàng cho khách', 'Thành công');
-      },
-      (error) => {
-        console.log(this.sendParcelList)
-        this.toast.error('Đã xảy ra lỗi khi thêm đơn hàng', 'Lỗi');
-      }
-    );
+    
   }
   
   getParcelList() {
-    this.parcelService.getParcelList().subscribe(res => {
-      this.tagList = res;
-      console.log(res)
-    });
+    if(this.rolePostOfficeEmployee){
+      this.parcelService.getParcelList().subscribe(res => {
+        this.tagList = res;
+        console.log(res)
+      });
+    } else if(this.roleDepotEmployee){
+      this.parcelService.getParceltoPostList().subscribe(res => {
+        this.tagList = res;
+        console.log(res)
+      });
+    }
+    
   }
 }
 

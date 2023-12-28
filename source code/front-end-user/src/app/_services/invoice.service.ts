@@ -16,5 +16,8 @@ export class InvoiceService {
   public addInvoice(invoice: postDepotInvoice): Observable<postDepotInvoice> {
     return this.http.post<postDepotInvoice>(`${this.baseUrl}/invoice/create/post-office/depot`, invoice);
   }
+  public addInvoicePostToPost(invoice: postDepotInvoice): Observable<postDepotInvoice> {
+    return this.http.post<postDepotInvoice>(`${this.baseUrl}/invoice/create/depot/depot`, invoice);
+  }
 
 }
