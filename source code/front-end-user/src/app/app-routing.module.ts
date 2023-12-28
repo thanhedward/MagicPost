@@ -31,6 +31,7 @@ import {ResetPasswordComponent} from './reset-password/reset-password.component'
 import { ManageGatheringPointComponent } from './admin/manage-gathering-point/manage-gathering-point.component';
 import { AddDepotComponent } from './admin/manage-gathering-point/add-depot/add-depot.component';
 import { AddParcelComponent } from './admin/add-parcel/add-parcel.component';
+import { AddInvoiceComponent } from './admin/add-invoice/add-invoice.component';
 const routes: Routes = [
   {
     path: '',
@@ -98,7 +99,8 @@ const routes: Routes = [
           {path: 'tests/add-test', component: AddTestComponent},
           {path: 'courses/:courseId/parts/:partId/view-question', component: ListQuestionComponent},
           {path: 'courses/:courseId/parts', component: ManagePartComponent},
-          {path: 'add-parcel', component: AddParcelComponent}
+          {path: 'add-parcel', component: AddParcelComponent},
+          {path: 'add-invoice', component: AddInvoiceComponent},
         ]
       }
 

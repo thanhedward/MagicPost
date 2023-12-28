@@ -18,4 +18,8 @@ export class ParcelService {
   public addParcel(parcel: Parcel): Observable<Parcel> {
     return this.http.post<Parcel>(`${this.baseUrl}/parcel/create-parcel`, parcel);
   }
+  public getParcelList(): Observable<Parcel[]> {
+    return this.http.get<Parcel[]>(`${this.baseUrl}/parcel/get/post-office/depot`);
+  }
+
 }

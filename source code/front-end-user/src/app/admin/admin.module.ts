@@ -41,9 +41,10 @@ import { PartCreateComponent } from './manage-part/part-create/part-create.compo
 import { ManageGatheringPointComponent } from './manage-gathering-point/manage-gathering-point.component';
 import { AddDepotComponent } from './manage-gathering-point/add-depot/add-depot.component';
 import { AddParcelComponent } from './add-parcel/add-parcel.component';
+import { AddInvoiceComponent } from './add-invoice/add-invoice.component';
 
 @NgModule({
-  declarations: [AdminComponent, NavSidebarComponent, AdminNavbarComponent, UserDropdownComponent, LineChartComponent, BarChartComponent, AdminDashboardComponent, ManageUserComponent, AdminFooterComponent, CardStatsComponent, AddUserComponent, DetailUserComponent, DeleteUserComponent, UpdateUserComponent, QuestionBankComponent, TabsComponent, ManageCourseComponent, CourseUpdateComponent, CourseCreateComponent, ListQuestionComponent, ManagePartComponent, AddQuestionComponent, ManageTestComponent, AddTestComponent, QuestionDetailComponent, UserTestComponent, AdminProfileComponent, DetailTestComponent, UserTestResultComponent, PartCreateComponent,ManageGatheringPointComponent, AddDepotComponent, AddParcelComponent],
+  declarations: [AdminComponent, NavSidebarComponent, AdminNavbarComponent, UserDropdownComponent, LineChartComponent, BarChartComponent, AdminDashboardComponent, ManageUserComponent, AdminFooterComponent, CardStatsComponent, AddUserComponent, DetailUserComponent, DeleteUserComponent, UpdateUserComponent, QuestionBankComponent, TabsComponent, ManageCourseComponent, CourseUpdateComponent, CourseCreateComponent, ListQuestionComponent, ManagePartComponent, AddQuestionComponent, ManageTestComponent, AddTestComponent, QuestionDetailComponent, UserTestComponent, AdminProfileComponent, DetailTestComponent, UserTestResultComponent, PartCreateComponent,ManageGatheringPointComponent, AddDepotComponent, AddParcelComponent,AddInvoiceComponent],
     imports: [
         CommonModule,
         RouterModule,

@@ -124,7 +124,7 @@ export class AddUserComponent implements OnInit {
         province: ['', Validators.required]
         
       });
-    }else{
+    } else{
       this.rfAddDepotManager = this.fb.group({
         username: ['', {
           validators: [Validators.required, Validators.minLength(6)],
