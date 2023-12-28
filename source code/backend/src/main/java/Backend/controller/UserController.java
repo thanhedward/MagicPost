@@ -34,7 +34,6 @@ public class UserController {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
-    private final RoleService roleService;
     private final DepotService depotService;
     private final PostOfficeService postOfficeService;
     private final DistrictService districtService;
@@ -52,9 +51,8 @@ public class UserController {
 //    }
 
         @Autowired
-        public UserController(UserService userService, RoleService roleService, PasswordEncoder passwordEncoder, DepotService depotService, PostOfficeService postOfficeService, DistrictService districtService) {
+        public UserController(UserService userService, PasswordEncoder passwordEncoder, DepotService depotService, PostOfficeService postOfficeService, DistrictService districtService) {
             this.userService = userService;
-            this.roleService = roleService;
             this.passwordEncoder = passwordEncoder;
             this.depotService = depotService;
             this.postOfficeService = postOfficeService;

@@ -1,8 +1,6 @@
 package Backend.service;
 
-import Backend.entity.Depot;
 import Backend.entity.Invoice;
-import Backend.entity.PostOffice;
 import Backend.utilities.InvoiceType;
 
 import java.util.List;
@@ -12,11 +10,12 @@ public interface InvoiceService {
     Optional<Invoice> getInvoiceById(Long id);
     List<Invoice> getInvoiceList();
 
-    List<Invoice> getInvoiceByPostOffice(PostOffice postOffice);
-    List<Invoice> getInvoiceByFirstDepot(Depot depot);
-    List<Invoice> getInvoiceBySecondDepot(Depot depot);
+    List<Invoice> getInvoiceByFirstDepot();
+    List<Invoice> getInvoiceBySecondDepot();
+    List<Invoice> getInvoiceByEndPostOffice();
+    List<Invoice> getInvoiceByEndPostOfficeToHome();
 
-    void createInvoice(Invoice invoice, InvoiceType invoiceType);
+    Invoice createInvoice(Invoice invoice, InvoiceType invoiceType);
 
     void confirmInvoice(Invoice invoice);
 }

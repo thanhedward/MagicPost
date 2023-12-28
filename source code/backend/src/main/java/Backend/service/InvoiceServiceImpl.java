@@ -40,23 +40,40 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public List<Invoice> getInvoiceByPostOffice(PostOffice postOffice) {
-        return invoiceRepository.findByPostOfficeAndConfirmed(postOffice, false);
+    public List<Invoice> getInvoiceByEndPostOffice() {
+        String username = userService.getUserName();
+        User user = userService.getUserByUsername(username).get();
+        PostOffice postOffice = user.getPostOffice();
+        return invoiceRepository.findByPostOfficeAndConfirmedAndType(postOffice, false, InvoiceType.DEPOT_TO_POST_OFFICE);
     }
 
     @Override
-    public List<Invoice> getInvoiceByFirstDepot(Depot depot) {
-        return invoiceRepository.findByFirstDepotAndConfirmed(depot, false);
+    public List<Invoice> getInvoiceByEndPostOfficeToHome() {
+        String username = userService.getUserName();
+        User user = userService.getUserByUsername(username).get();
+        PostOffice postOffice = user.getPostOffice();
+        return invoiceRepository.findByPostOfficeAndConfirmedAndType(postOffice, false, InvoiceType.POST_OFFICE_TO_HOME);
     }
 
     @Override
-    public List<Invoice> getInvoiceBySecondDepot(Depot depot) {
-        return invoiceRepository.findBySecondDepotAndConfirmed(depot, false);
+    public List<Invoice> getInvoiceByFirstDepot() {
+        String username = userService.getUserName();
+        User user = userService.getUserByUsername(username).get();
+        Depot depot = user.getDepot();
+        return invoiceRepository.findByFirstDepotAndConfirmedAndType(depot, false, InvoiceType.POST_OFFICE_TO_DEPOT);
+    }
+
+    @Override
+    public List<Invoice> getInvoiceBySecondDepot() {
+        String username = userService.getUserName();
+        User user = userService.getUserByUsername(username).get();
+        Depot depot = user.getDepot();
+        return invoiceRepository.findBySecondDepotAndConfirmedAndType(depot, false, InvoiceType.DEPOT_TO_DEPOT);
     }
 
 
     @Override
-    public void createInvoice(Invoice invoice, InvoiceType invoiceType){
+    public Invoice createInvoice(Invoice invoice, InvoiceType invoiceType){
         String username = userService.getUserName();
         User user = userService.getUserByUsername(username).get();
         invoice.setCreateBy(user);
@@ -101,6 +118,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
 
         invoiceRepository.save(invoice);
+        return invoice;
     }
 
     @Override

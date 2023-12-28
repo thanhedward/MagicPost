@@ -110,7 +110,7 @@ public class UserServiceImpl implements UserService {
                     break;
                 }
                 case ROLE_DEPOT_EMPLOYEE: {
-                    addRoles(ERole.ROLE_POST_OFFICE_EMPLOYEE, roles);
+                    addRoles(ERole.ROLE_DEPOT_EMPLOYEE, roles);
                     break;
                 }
                 case ROLE_POST_OFFICE_EMPLOYEE: {
