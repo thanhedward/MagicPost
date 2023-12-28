@@ -143,7 +143,7 @@ public class UserController {
 
 
     @GetMapping()
-    @PreAuthorize("hasRole('CEO')")
+//    @PreAuthorize("hasRole('CEO')")
     public PageResult getUsersByPage(@PageableDefault(sort = "roles") Pageable pageable) {
         Page<User> userPage = userService.findUsersByPage(pageable);
         return new PageResult(userPage);
@@ -155,6 +155,7 @@ public class UserController {
         Page<User> userPage = userService.getUsersByRoleByPage(ERole.ROLE_DEPOT_MANAGER, pageable);
         return new PageResult(userPage);
     }
+
 
     @GetMapping("/get-manager/post-office")
     @PreAuthorize("hasRole('CEO')")

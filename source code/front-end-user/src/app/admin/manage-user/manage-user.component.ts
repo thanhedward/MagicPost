@@ -4,6 +4,8 @@ import {UserAccount} from '../../models/user-account';
 import {PaginationDetail} from '../../models/pagination/pagination-detail';
 import {delay, switchMap} from 'rxjs/operators';
 import {ToastrService} from 'ngx-toastr';
+import { TokenStorageService } from 'src/app/_services/token-storage.service';
+import { UserRole } from 'src/app/models/user-role.enum';
 
 @Component({
   selector: 'app-manage-user',
@@ -11,9 +13,12 @@ import {ToastrService} from 'ngx-toastr';
   styleUrls: ['./manage-user.component.scss']
 })
 export class ManageUserComponent implements OnInit, AfterContentInit {
-
+  roleCEO: boolean = false;
+  rolePostOfficeManager: boolean = false;
+  roleDepotManager: boolean = false;
   userList: UserAccount[] = [];
   paginationDetail: PaginationDetail;
+  userRoles: string[] = [];
   skeleton = true;
   pageOptions: any = [
     {display: 20, num: 20},
@@ -24,20 +29,42 @@ export class ManageUserComponent implements OnInit, AfterContentInit {
   searchKeyWord = '';
   pageCountShowing = 20;
 
-  constructor(private userService: UserService, private toast: ToastrService) {
+  constructor(private userService: UserService, private toast: ToastrService, private tokenStorageService: TokenStorageService) {
   }
 
 
   ngOnInit(): void {
-    // this.fetchUserList();
+    this.userRoles = this.tokenStorageService.getUser().roles;
+    this.fetchUserList();
+
   }
 
   fetchUserList() {
-    this.userService.getUserList(0, 20).subscribe(res => {
-      this.userList = res.data;
-      this.paginationDetail = res.paginationDetails;
-      this.skeleton = false;
-    });
+    if (this.userRoles.includes(UserRole.ROLE_CEO.toString())) {
+      this.roleCEO = true;
+      this.userService.getUserList(0, 20).subscribe(res => {
+        this.userList = res.data;
+        this.userList = this.userList.filter(user => user.roles[0].name !== "ROLE_CEO");
+        this.paginationDetail = res.paginationDetails;
+        this.skeleton = false;
+      });
+    } else if (this.userRoles.includes(UserRole.ROLE_POST_OFFICE_MANAGER.toString())){
+      this.rolePostOfficeManager = true;
+      this.userService.getUserListByPost(0, 20).subscribe(res => {
+        this.userList = res.data;
+        this.paginationDetail = res.paginationDetails;
+        this.skeleton = false;
+      });
+    } else if (this.userRoles.includes(UserRole.ROLE_DEPOT_MANAGER.toString())) {
+      this.roleDepotManager = true;
+      this.userService.getUserListByDepot(0, 20).subscribe(res => {
+        this.userList = res.data;
+        this.paginationDetail = res.paginationDetails;
+        this.skeleton = false;
+      });
+    }
+
+
   }
 
   trackById(index: number, item) {

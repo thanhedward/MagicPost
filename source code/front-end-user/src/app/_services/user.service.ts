@@ -29,6 +29,16 @@ export class UserService {
     return this.http.get<PageResult<UserAccount>>(`${this.baseUrl}/users`, {params: pageParams});
   }
 
+  getUserListByDepot(page: number, size: number): Observable<PageResult<UserAccount>> {
+    const pageParams = new HttpParams().set('page', page.toString()).set('size', size.toString());
+    return this.http.get<PageResult<UserAccount>>(`${this.baseUrl}/users/get/depot`, {params: pageParams});
+  }
+
+  getUserListByPost(page: number, size: number): Observable<PageResult<UserAccount>> {
+    const pageParams = new HttpParams().set('page', page.toString()).set('size', size.toString());
+    return this.http.get<PageResult<UserAccount>>(`${this.baseUrl}/users/get/post-office`, {params: pageParams});
+  }
+
   getManagerList(page: number, size: number): Observable<PageResult<Manager>> {
     const pageParams = new HttpParams().set('page', page.toString()).set('size', size.toString());
     return this.http.get<PageResult<Manager>>(`${this.baseUrl}/users/get-manager/post-office`, {params: pageParams});
