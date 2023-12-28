@@ -1,5 +1,6 @@
 package Backend.service;
 
+import Backend.dto.InvoiceDto;
 import Backend.entity.*;
 import Backend.repository.InvoiceRepository;
 import Backend.utilities.InvoiceType;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -40,35 +42,64 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public List<Invoice> getInvoiceByEndPostOffice() {
+    public List<InvoiceDto> getInvoiceByEndPostOffice() {
         String username = userService.getUserName();
         User user = userService.getUserByUsername(username).get();
         PostOffice postOffice = user.getPostOffice();
-        return invoiceRepository.findByPostOfficeAndConfirmedAndType(postOffice, false, InvoiceType.DEPOT_TO_POST_OFFICE);
+        List<Invoice> invoices = invoiceRepository.findByPostOfficeAndConfirmedAndType(postOffice, false, InvoiceType.DEPOT_TO_POST_OFFICE);
+        List<InvoiceDto> result = new ArrayList<>();
+
+        for (Invoice invoice: invoices) {
+            result.add(new InvoiceDto(invoice));
+        }
+
+        return result;
     }
 
     @Override
-    public List<Invoice> getInvoiceByEndPostOfficeToHome() {
+    public List<InvoiceDto> getInvoiceByEndPostOfficeToHome() {
         String username = userService.getUserName();
         User user = userService.getUserByUsername(username).get();
         PostOffice postOffice = user.getPostOffice();
-        return invoiceRepository.findByPostOfficeAndConfirmedAndType(postOffice, false, InvoiceType.POST_OFFICE_TO_HOME);
+        List<Invoice> invoices = invoiceRepository.findByPostOfficeAndConfirmedAndType(postOffice, false, InvoiceType.POST_OFFICE_TO_HOME);
+        List<InvoiceDto> result = new ArrayList<>();
+
+        for (Invoice invoice: invoices) {
+            result.add(new InvoiceDto(invoice));
+        }
+
+        return result;
     }
 
     @Override
-    public List<Invoice> getInvoiceByFirstDepot() {
+    public List<InvoiceDto> getInvoiceByFirstDepot() {
         String username = userService.getUserName();
         User user = userService.getUserByUsername(username).get();
         Depot depot = user.getDepot();
-        return invoiceRepository.findByFirstDepotAndConfirmedAndType(depot, false, InvoiceType.POST_OFFICE_TO_DEPOT);
+
+        List<Invoice> invoices = invoiceRepository.findByFirstDepotAndConfirmedAndType(depot, false, InvoiceType.POST_OFFICE_TO_DEPOT);
+        List<InvoiceDto> result = new ArrayList<>();
+
+        for(Invoice invoice: invoices) {
+            result.add(new InvoiceDto(invoice));
+        }
+
+        return result;
     }
 
     @Override
-    public List<Invoice> getInvoiceBySecondDepot() {
+    public List<InvoiceDto> getInvoiceBySecondDepot() {
         String username = userService.getUserName();
         User user = userService.getUserByUsername(username).get();
         Depot depot = user.getDepot();
-        return invoiceRepository.findBySecondDepotAndConfirmedAndType(depot, false, InvoiceType.DEPOT_TO_DEPOT);
+        List<Invoice> invoices = invoiceRepository.findBySecondDepotAndConfirmedAndType(depot, false, InvoiceType.DEPOT_TO_DEPOT);
+        List<InvoiceDto> result = new ArrayList<>();
+
+        for (Invoice invoice: invoices) {
+            result.add(new InvoiceDto(invoice));
+        }
+
+        return result;
     }
 
 

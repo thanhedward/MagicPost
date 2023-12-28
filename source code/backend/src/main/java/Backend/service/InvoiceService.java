@@ -1,5 +1,6 @@
 package Backend.service;
 
+import Backend.dto.InvoiceDto;
 import Backend.entity.Invoice;
 import Backend.utilities.InvoiceType;
 
@@ -10,10 +11,10 @@ public interface InvoiceService {
     Optional<Invoice> getInvoiceById(Long id);
     List<Invoice> getInvoiceList();
 
-    List<Invoice> getInvoiceByFirstDepot();
-    List<Invoice> getInvoiceBySecondDepot();
-    List<Invoice> getInvoiceByEndPostOffice();
-    List<Invoice> getInvoiceByEndPostOfficeToHome();
+    List<InvoiceDto> getInvoiceByFirstDepot();
+    List<InvoiceDto> getInvoiceBySecondDepot();
+    List<InvoiceDto> getInvoiceByEndPostOffice();
+    List<InvoiceDto> getInvoiceByEndPostOfficeToHome();
 
     Invoice createInvoice(Invoice invoice, InvoiceType invoiceType);
 
