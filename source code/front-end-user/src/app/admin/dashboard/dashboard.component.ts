@@ -43,10 +43,17 @@ export class AdminDashboardComponent implements OnInit {
           labels: this.lastSevenDays,
           datasets: [
             {
-              label: new Date().getFullYear(),
+              label: "Hàng gửi",
               backgroundColor: '#4c51bf',
               borderColor: '#4c51bf',
               data: this.statistics.examUserLastedSevenDaysTotal,
+              fill: false
+            }, 
+            {
+              label: "Hàng nhận",
+              backgroundColor: 'rgba(75, 192, 192, 0.2)',
+              borderColor: 'rgba(75, 192, 192, 1)',
+              data: [1,2,4,5,6,12,4],
               fill: false
             }
 

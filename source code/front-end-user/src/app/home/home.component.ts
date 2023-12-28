@@ -38,6 +38,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // this.tokenStorageService.signOut();
     const user = this.tokenStorageService.getUser();
     this.rfEmail = this.fb.group({
       email: ['', Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')],
