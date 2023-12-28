@@ -1,6 +1,8 @@
 import {UserRole} from './user-role';
 import {UserProfile} from './user-profile';
 import {Intake} from './intake';
+import { Depot } from './depot';
+import { PostOffice } from './postoffice';
 
 export class UserAccount {
   id: number;
@@ -10,6 +12,8 @@ export class UserAccount {
   deleted: boolean;
   createdDate: Date;
   roles: UserRole[];
+  depot: Depot;
+  postOffice: PostOffice;
   profile: UserProfile;
   intake: Intake;
 
