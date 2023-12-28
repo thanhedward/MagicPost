@@ -6,7 +6,6 @@ export class Parcel {
     weight: number;
     endProvinceName: string;
     endDistrictName: string;
-  
     constructor(
       name: string,
       sender: string,

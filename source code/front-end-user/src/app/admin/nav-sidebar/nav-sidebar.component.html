@@ -54,16 +54,16 @@
           <a [routerLink]="['tests']" routerLinkActive="text-blue-500 hover:text-blue-600" class="text-gray-800 hover:text-gray-600 text-xs uppercase py-3 font-bold block">
             <i class="fa fa-archive opacity-75 mr-2 text-sm"></i>Quản lý điểm giao dịch</a>
         </li>
-        <li class="items-center">
+        <li class="items-center" *ngIf="rolePostOfficeEmployee">
           <a [routerLink]="['add-parcel']" routerLinkActive="text-blue-500 hover:text-blue-600" class="text-gray-800 hover:text-gray-600 text-xs uppercase py-3 font-bold block">
             <i class="fa-solid fa-receipt opacity-75 mr-2 text-sm"></i>Tạo đơn cho khách hàng</a>
         </li>
-        <li class="items-center">
-          <a [routerLink]="['tests']" routerLinkActive="text-blue-500 hover:text-blue-600" class="text-gray-800 hover:text-gray-600 text-xs uppercase py-3 font-bold block">
+        <li class="items-center" *ngIf="rolePostOfficeEmployee">
+          <a [routerLink]="['add-invoice']" routerLinkActive="text-blue-500 hover:text-blue-600" class="text-gray-800 hover:text-gray-600 text-xs uppercase py-3 font-bold block">
             <i class="fa-solid fa-paper-plane opacity-75 mr-2 text-sm"></i>Tạo đơn đến điểm tập kết</a>
         </li>
-        <li class="items-center">
-          <a [routerLink]="['tests']" routerLinkActive="text-blue-500 hover:text-blue-600" class="text-gray-800 hover:text-gray-600 text-xs uppercase py-3 font-bold block">
+        <li class="items-center" *ngIf="roleDepotEmployee">
+          <a [routerLink]="['add-invoice']" routerLinkActive="text-blue-500 hover:text-blue-600" class="text-gray-800 hover:text-gray-600 text-xs uppercase py-3 font-bold block">
             <i class="fa-solid fa-square-arrow-up-right opacity-75 mr-2 text-sm"></i>Tạo đơn đến điểm GD</a>
         </li>
       </ul>
