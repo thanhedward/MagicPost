@@ -3,9 +3,11 @@ package Backend.entity;
 import Backend.dto.ParcelDto;
 import Backend.utilities.ParcelStatus;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -52,9 +54,15 @@ public class Parcel implements Serializable {
     @JoinColumn(name = "end_depot_id")
     private Depot endDepot;
 
+    @CreationTimestamp
+    private LocalDateTime acceptedTime;
+
     @ManyToOne
     @JoinColumn(name = "accepted_by")
     private User acceptedBy;
+
+    @Column(name = "received_time")
+    private LocalDateTime receivedTime;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
