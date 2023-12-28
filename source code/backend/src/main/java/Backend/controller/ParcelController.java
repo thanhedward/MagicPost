@@ -57,7 +57,7 @@ public class ParcelController {
     public List<Parcel> getParcelByDepotToDepot() {
         String username = userService.getUserName();
         User user = userService.getUserByUsername(username).get();
-        Depot startDepot = user.getPostOffice().getDepot();
+        Depot startDepot = user.getDepot();
         return parcelService.getParcelListByDepotToDepot(startDepot);
     }
 
@@ -66,7 +66,7 @@ public class ParcelController {
     public List<Parcel> getParcelByDepotToPostOffice() {
         String username = userService.getUserName();
         User user = userService.getUserByUsername(username).get();
-        Depot endDepot = user.getPostOffice().getDepot();
+        Depot endDepot = user.getDepot();
         return parcelService.getParcelListByDepotToPostOffice(endDepot);
     }
 
@@ -93,7 +93,7 @@ public class ParcelController {
             }
             PostOffice endPostOffice = postOfficeService.getPostOfficeByDepotAndDistrict(depot, district).get();
 
-            return ResponseEntity.ok(parcelService.saveParcels(parcelDto, endPostOffice));
+            return ResponseEntity.ok(parcelService.createParcels(parcelDto, endPostOffice));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);
         }

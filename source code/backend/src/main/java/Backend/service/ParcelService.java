@@ -24,7 +24,8 @@ public interface ParcelService {
     List<Parcel> getAllParcelSucceed();
     List<Parcel> getAllParcelFailed();
 
-    Parcel saveParcels(ParcelDto parcelDto, PostOffice endPostOffice);
+    Parcel createParcels(ParcelDto parcelDto, PostOffice endPostOffice);
+    void saveParcel(Parcel parcel);
 
     void delete(Long id);
 

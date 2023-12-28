@@ -139,7 +139,7 @@ public class ParcelServiceImpl implements ParcelService {
 
 
     @Override
-    public Parcel saveParcels(ParcelDto parcelDto, PostOffice endPostOffice){
+    public Parcel createParcels(ParcelDto parcelDto, PostOffice endPostOffice){
         Parcel parcel = new Parcel(parcelDto);
 
         String username = userService.getUserName();
@@ -153,6 +153,11 @@ public class ParcelServiceImpl implements ParcelService {
 
         parcelsRepository.save(parcel);
         return parcel;
+    }
+
+    @Override
+    public void saveParcel(Parcel parcel) {
+        parcelsRepository.save(parcel);
     }
 
     @Override

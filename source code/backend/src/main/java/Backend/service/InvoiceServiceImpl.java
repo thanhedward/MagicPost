@@ -132,24 +132,26 @@ public class InvoiceServiceImpl implements InvoiceService {
 
         Set<Parcel> parcels = invoice.getParcels();
         for(Parcel parcel: parcels) {
+            Parcel updateParcel = parcelService.getParcelById(parcel.getId()).get();
             switch (parcel.getStatus()) {
                 case START_POS: {
-                    parcel.setStatus(ParcelStatus.FIRST_DEPOT);
+                    updateParcel.setStatus(ParcelStatus.FIRST_DEPOT);
                     break;
                 }
                 case FIRST_DEPOT: {
-                    parcel.setStatus(ParcelStatus.LAST_DEPOT);
+                    updateParcel.setStatus(ParcelStatus.LAST_DEPOT);
                     break;
                 }
                 case LAST_DEPOT: {
-                    parcel.setStatus(ParcelStatus.END_POS);
+                    updateParcel.setStatus(ParcelStatus.END_POS);
                     break;
                 }
                 case END_POS: {
-                    if(fail) parcel.setStatus(ParcelStatus.FAIL);
-                    else parcel.setStatus(ParcelStatus.SUCCESS);
+                    if(fail) updateParcel.setStatus(ParcelStatus.FAIL);
+                    else updateParcel.setStatus(ParcelStatus.SUCCESS);
                 }
             }
+            parcelService.saveParcel(updateParcel);
         }
     }
 }
