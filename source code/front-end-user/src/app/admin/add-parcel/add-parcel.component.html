@@ -1,0 +1,82 @@
+<div class="bg-blue-600 md:pt-32 pb-32 pt-12">
+  <div class="px-4 md:px-10 mx-auto w-full"></div>
+</div>
+<div class=" mx-auto w-full -m-24">
+  <form novalidate (ngSubmit)="onSubmit()" [formGroup]="rfAdd">
+    <div class="flex flex-wrap mt-4 justify-center">
+      <div class="w-full mb-12 xl:mb-0 px-4 max-w-5xl">
+        <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
+          <div class="rounded-t mb-0 px-4 py-3 border-0">
+            <div class="flex flex-wrap items-center">
+              <div class="relative flex justify-between w-full px-4 max-w-full flex-grow leading-8 mb-3">
+                <h3 class="font-semibold text-2xl text-gray-800"> Tạo đơn cho khách hàng </h3>
+                <button class="bg-blue-200 shadow-md hover:bg-blue-300 text-blue-600 border border-gray-400 transition duration-200 ease-in-out text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1" type="submit">
+                  <span>
+                    <i class="fa mr-1"></i>Xác nhận </span>
+                </button>
+              </div>
+              <hr class="border w-full my-3">
+              <div class="flex flex-wrap flex-col w-full">
+                <div class="flex flex-wrap flex-row">
+                  <div class="relative w-full px-4 max-w-full flex-flow flex-basis">
+                    <p class="my-3 text-gray-600 text-md text-blue-700 text-xl font-semibold">Thông tin kiện hàng</p>
+                    <div class="-mx-3 md:flex mb-2 w-full">
+                      <div class="md:w-full px-3">
+                        <label class="block uppercase tracking-wide text-gray-600 text-xs font-bold mb-2" for="frm-add-name">Tên kiện hàng </label>
+                        <input class="appearance-none border rounded-md w-full py-2 px-3 my-1 text-gray-600 bg-gray-200 leading-tight outline-none focus:border-green-500" id="frm-add-name" type="text" placeholder="Nhập tên kiện hàng" autocomplete="off" formControlName="name" required>  
+                      </div>
+                    </div>
+                    <div class="-mx-3 md:flex mb-2 w-full">
+                      <div class="md:w-full px-3">
+                        <label class="block uppercase tracking-wide text-gray-600 text-xs font-bold mb-2" for="frm-add-sender">Tên người gửi </label>
+                        <input class="appearance-none border rounded-md w-full py-2 px-3 my-1 text-gray-600 bg-gray-200 leading-tight outline-none focus:border-green-500" id="frm-add-sender" type="text" placeholder="Nhập tên người gửi" autocomplete="off" formControlName="sender" required>  
+                      </div>
+                    </div>
+                    <div class="-mx-3 md:flex mb-2 w-full">
+                      <div class="md:w-full px-3">
+                        <label class="block uppercase tracking-wide text-gray-600 text-xs font-bold mb-2" for="frm-add-startAddress">Địa chỉ người gửi </label>
+                        <input class="appearance-none border rounded-md w-full py-2 px-3 my-1 text-gray-600 bg-gray-200 leading-tight outline-none focus:border-green-500" id="frm-add-startAddress" type="text" placeholder="Nhập địa chỉ người gửi" autocomplete="off" formControlName="startAddress" required>  
+                      </div>
+                    </div>
+                    <div class="-mx-3 md:flex mb-2 w-full">
+                      <div class="md:w-full px-3">
+                        <label class="block uppercase tracking-wide text-gray-600 text-xs font-bold mb-2" for="frm-add-endAddress">Địa chỉ người nhận </label>
+                        <input class="appearance-none border rounded-md w-full py-2 px-3 my-1 text-gray-600 bg-gray-200 leading-tight outline-none focus:border-green-500" id="frm-add-endAddress" type="text" placeholder="Nhập địa chỉ người nhận" autocomplete="off" formControlName="endAddress" required>  
+                      </div>
+                    </div>
+                    <div class="-mx-3 md:flex mb-2 w-full">
+                      <div class="md:w-full px-3">
+                        <label class="block uppercase tracking-wide text-gray-600 text-xs font-bold mb-2" for="frm-add-weight">Khối lượng kiện hàng</label>
+                        <input class="appearance-none border rounded-md w-full py-2 px-3 my-1 text-gray-600 bg-gray-200 leading-tight outline-none focus:border-green-500" id="frm-add-weight" type="number" placeholder="Nhập khối lượng kiện hàng (kg)" autocomplete="off" formControlName="weight" required>  
+                      </div>
+                    </div>
+                    <div class="-mx-3 md:flex mb-2 w-full">
+                      <div class="md:w-full px-3">
+                        <label class="block uppercase tracking-wide text-gray-600 text-xs font-bold mb-2" for="test-title"> Điểm tập kết đích: </label>
+                        <select class="w-full p-2 border rounded bg-gray-200" id="frm-add-province" formControlName="provincePost" (change)="onProvinceChange()" required>
+                          <option class= "bg-white" *ngFor="let province of depotProvinceList" [value]="province.province.name">
+                            {{province.province.name}}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="md:w-full px-3">
+                        <label class="block uppercase tracking-wide text-gray-600 text-xs font-bold mb-2" for="test-id"> Điểm giao dịch đích: </label>
+                        <select id="districtDropdown" class="w-full p-2 border rounded ml-2 bg-gray-200" formControlName="districtPost">
+                          <option class= "bg-white" *ngFor="let district of districtList" [value]="district.district.name">
+                            {{ district.district.name }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <app-admin-footer></app-admin-footer>
+</div>

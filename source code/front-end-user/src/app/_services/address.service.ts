@@ -31,4 +31,7 @@ export class AddressService {
   getNewDistrict(province: string): Observable<any[]>{
     return this.http.get<any[]>(`${this.baseUrl}/district/available-by?provinceName=${province}`);
   }
+  getNewProvince():  Observable<any[]>{
+    return this.http.get<any[]>(`${this.baseUrl}/province/available`);
+  }
 }

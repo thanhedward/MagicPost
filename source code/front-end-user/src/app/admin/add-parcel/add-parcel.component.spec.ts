@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddTestComponent } from './add-depot.component';
+import { AddTestComponent } from './add-parcel.component';
 
 describe('AddTestComponent', () => {
   let component: AddTestComponent;

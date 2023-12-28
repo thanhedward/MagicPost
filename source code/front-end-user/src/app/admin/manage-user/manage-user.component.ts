@@ -29,17 +29,10 @@ export class ManageUserComponent implements OnInit, AfterContentInit {
 
 
   ngOnInit(): void {
-    this.fetchUserList();
+    // this.fetchUserList();
   }
 
   fetchUserList() {
-    // this.userService.searchUserListDeletedByPage(0, 20, this.searchKeyWord, false).subscribe(res => {
-    //   console.table(res);
-    //   this.userList = res.data;
-    //   this.paginationDetail = res.paginationDetails;
-    // }, error => {
-    //   console.error('Lỗi');
-    // });
     this.userService.getUserList(0, 20).subscribe(res => {
       this.userList = res.data;
       this.paginationDetail = res.paginationDetails;

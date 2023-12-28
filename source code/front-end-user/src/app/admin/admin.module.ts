@@ -39,9 +39,11 @@ import {NgApexchartsModule} from 'ng-apexcharts';
 import { UserTestResultComponent } from './manage-test/user-test-result/user-test-result.component';
 import { PartCreateComponent } from './manage-part/part-create/part-create.component';
 import { ManageGatheringPointComponent } from './manage-gathering-point/manage-gathering-point.component';
+import { AddDepotComponent } from './manage-gathering-point/add-depot/add-depot.component';
+import { AddParcelComponent } from './add-parcel/add-parcel.component';
 
 @NgModule({
-  declarations: [AdminComponent, NavSidebarComponent, AdminNavbarComponent, UserDropdownComponent, LineChartComponent, BarChartComponent, AdminDashboardComponent, ManageUserComponent, AdminFooterComponent, CardStatsComponent, AddUserComponent, DetailUserComponent, DeleteUserComponent, UpdateUserComponent, QuestionBankComponent, TabsComponent, ManageCourseComponent, CourseUpdateComponent, CourseCreateComponent, ListQuestionComponent, ManagePartComponent, AddQuestionComponent, ManageTestComponent, AddTestComponent, QuestionDetailComponent, UserTestComponent, AdminProfileComponent, DetailTestComponent, UserTestResultComponent, PartCreateComponent,ManageGatheringPointComponent],
+  declarations: [AdminComponent, NavSidebarComponent, AdminNavbarComponent, UserDropdownComponent, LineChartComponent, BarChartComponent, AdminDashboardComponent, ManageUserComponent, AdminFooterComponent, CardStatsComponent, AddUserComponent, DetailUserComponent, DeleteUserComponent, UpdateUserComponent, QuestionBankComponent, TabsComponent, ManageCourseComponent, CourseUpdateComponent, CourseCreateComponent, ListQuestionComponent, ManagePartComponent, AddQuestionComponent, ManageTestComponent, AddTestComponent, QuestionDetailComponent, UserTestComponent, AdminProfileComponent, DetailTestComponent, UserTestResultComponent, PartCreateComponent,ManageGatheringPointComponent, AddDepotComponent, AddParcelComponent],
     imports: [
         CommonModule,
         RouterModule,

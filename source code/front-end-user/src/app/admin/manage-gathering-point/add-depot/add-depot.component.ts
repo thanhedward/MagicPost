@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {ToastrService} from 'ngx-toastr';
 import {Router} from '@angular/router';
 import { LocationService } from 'src/app/_services/location.service';
-import { Location } from 'src/app/models/location';
+import { AddressService } from 'src/app/_services/address.service';
 
 @Component({
   selector: 'app-add-depot',
@@ -13,36 +13,38 @@ import { Location } from 'src/app/models/location';
 export class AddDepotComponent implements OnInit {
 
   rfAdd: FormGroup;
+  depotProvinceList: any[] = [];
   constructor(
     private fb: FormBuilder,
     private locationService: LocationService,
     private toast: ToastrService,
-    private router: Router) {
+    private router: Router,
+    private addressService: AddressService) {
   }
-
-  get name() {
-    return this.rfAdd.get('name');
-  }
-
-  get id(){
-    return this.rfAdd.get('id');
+  get provincePost(){
+    return this.rfAdd.get('provincePost');
   }
   ngOnInit(): void {
     this.rfAdd = this.fb.group({
-        name: [''],
-        id: [''],
+      provincePost: [''],
       }
     );
+    this.getDepotProvince();
   }
-
   onSubmit() {
-     const newTransactionLocation = new Location(
-      this.name.value,
-      "TRANSACTION_OFFICE"
-    );
-    this.locationService.addTransactionLocation(newTransactionLocation).subscribe(res => {
-      this.toast.success('Đã thêm điểm giao dịch', 'Thành công');
-     
+    console.log(1)
+    this.locationService.addDepot(this.provincePost.value.toString()).subscribe(res => {
+      this.toast.success('Đã thêm điểm tập kết', 'Thành công');
+      setTimeout(() => this.goToExamManagePage(), 1000);
+    });
+  }
+  goToExamManagePage() {
+    this.router.navigate(['/admin/tests']);
+  }
+  getDepotProvince() {
+    this.addressService.getNewProvince().subscribe(res => {
+      this.depotProvinceList = res;
+      console.log(res)
     });
   }
 }

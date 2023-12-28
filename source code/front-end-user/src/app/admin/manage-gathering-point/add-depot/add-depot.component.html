@@ -9,7 +9,7 @@
           <div class="rounded-t mb-0 px-4 py-3 border-0">
             <div class="flex flex-wrap items-center">
               <div class="relative flex justify-between w-full px-4 max-w-full flex-grow leading-8 mb-3">
-                <h3 class="font-semibold text-2xl text-gray-800"> Tạo điểm giao dịch </h3>
+                <h3 class="font-semibold text-2xl text-gray-800"> Tạo điểm tập kết </h3>
                 <button class="bg-blue-200 shadow-md hover:bg-blue-300 text-blue-600 border border-gray-400 transition duration-200 ease-in-out text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1" type="submit">
                   <span>
                     <i class="fa mr-1"></i>Xác nhận </span>
@@ -19,15 +19,15 @@
               <div class="flex flex-wrap flex-col w-full">
                 <div class="flex flex-wrap flex-row">
                   <div class="relative w-full px-4 max-w-full flex-flow flex-basis">
-                    <p class="my-3 text-gray-600 text-md text-blue-700 text-xl font-semibold">Thông tin điểm giao dịch</p>
+                    <p class="my-3 text-gray-600 text-md text-blue-700 text-xl font-semibold">Thông tin điểm tập kết</p>
                     <div class="-mx-3 md:flex mb-2 w-full">
                       <div class="md:w-full px-3">
-                        <label class="block uppercase tracking-wide text-gray-600 text-xs font-bold mb-2" for="test-title"> Tên điểm giao dịch </label>
-                        <input class="appearance-none border rounded-md w-full py-2 px-3 my-1 text-gray-600 bg-gray-200 leading-tight outline-none focus:border-blue-500" id="test-title" formControlName="name" type="text" placeholder="Nhập tên điểm giao dịch" autocomplete="off" tabindex="1" required>
-                      </div>
-                      <div class="md:w-full px-3">
-                        <label class="block uppercase tracking-wide text-gray-600 text-xs font-bold mb-2" for="test-id"> Mã điểm giao dịch </label>
-                        <input class="appearance-none border rounded-md w-full py-2 px-3 my-1 text-gray-600 bg-gray-200 leading-tight outline-none focus:border-blue-500" id="test-title" formControlName="id" type="text" placeholder="Nhập mã điểm giao dịch" autocomplete="off" tabindex="1" required>
+                        <label class="block uppercase tracking-wide text-gray-600 text-xs font-bold mb-2" for="test-title">Tỉnh/Thành phố</label>
+                        <select class="w-full p-2 border rounded bg-gray-200" id="frm-add-province" formControlName="provincePost" ng-model="selectedProvince" required>
+                          <option class= "bg-white" *ngFor="let province of depotProvinceList" [value]="province.name">
+                            {{province.name}}
+                          </option>
+                        </select>
                       </div>
                     </div>
                     <!-- <div class="-mx-3 md:flex mb-2 w-full">

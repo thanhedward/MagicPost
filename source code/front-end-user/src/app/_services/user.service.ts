@@ -68,6 +68,15 @@ export class UserService {
   addPostOfficeManager(user: UserAccount, province: string, district: string){
     return this.http.post<UserAccount>(`${this.baseUrl}/users/create/post-office-manager?provinceName=${province}&districtName=${district}`, user);
   }
+
+  addDepotEmployee(user: UserAccount): Observable<UserAccount> {
+    return this.http.post<UserAccount>(`${this.baseUrl}/users/create/depot`, user);
+  }
+
+  addPostOfficeEmployee(user: UserAccount): Observable<UserAccount> {
+    return this.http.post<UserAccount>(`${this.baseUrl}/users/create/post-office`, user);
+  }
+
   deleteUser(id: number, deleted: boolean): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/users/${id}/deleted/${deleted}`);
   }

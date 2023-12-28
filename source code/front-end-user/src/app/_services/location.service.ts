@@ -28,4 +28,9 @@ export class LocationService {
     return this.http.post<any>(`${this.baseUrl}/post-office/create-post-office?provinceName=${province}&districtName=${district}`,'');
   }
 
+  public addDepot(province:string): Observable<any>{
+    return this.http.post<any>(`${this.baseUrl}/depot/create-depot?provinceName=${province}`,'');
+  }
+
+  
 }

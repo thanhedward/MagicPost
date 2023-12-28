@@ -17,9 +17,9 @@ export class NavSidebarComponent implements OnInit {
   // roleLecturer: boolean;
   roleCEO: boolean;
   rolePostOfficeManager: boolean;
-  rolePostOfficeEmployee: boolean;
+  rolePostOfficeEmployee: boolean = false;
   roleDepotManager: boolean;
-  roleDepotEmployee: boolean;
+  roleDepotEmployee: boolean = false;
   roleUser: boolean;
 
   constructor(private tokenStorageService: TokenStorageService) {
@@ -33,9 +33,10 @@ export class NavSidebarComponent implements OnInit {
       this.rolePostOfficeManager = true;
     } else if (this.userRoles.includes(UserRole.ROLE_DEPOT_MANAGER)) {
       this.roleDepotManager = true
-    } else {
-      this.tokenStorageService.signOut()
-    }
+    } 
+    // else {
+    //   this.tokenStorageService.signOut()
+    // }
     
   }
 

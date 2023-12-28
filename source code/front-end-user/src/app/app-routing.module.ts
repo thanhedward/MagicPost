@@ -29,7 +29,8 @@ import {DetailTestComponent} from './admin/manage-test/detail-test/detail-test.c
 import {UserTestResultComponent} from './admin/manage-test/user-test-result/user-test-result.component';
 import {ResetPasswordComponent} from './reset-password/reset-password.component';
 import { ManageGatheringPointComponent } from './admin/manage-gathering-point/manage-gathering-point.component';
-
+import { AddDepotComponent } from './admin/manage-gathering-point/add-depot/add-depot.component';
+import { AddParcelComponent } from './admin/add-parcel/add-parcel.component';
 const routes: Routes = [
   {
     path: '',
@@ -74,7 +75,7 @@ const routes: Routes = [
     component: AdminComponent,
     canActivate: [AuthGuard],
     data: {
-      roles: ['ROLE_CEO', 'ROLE_DEPOT_MANAGER', 'ROLE_POST_OFFICE_MANAGER'], 
+      roles: ['ROLE_CEO', 'ROLE_DEPOT_MANAGER', 'ROLE_POST_OFFICE_MANAGER', 'ROLE_POST_OFFICE_EMPLOYEE', 'ROLE_DEPOT_EMPLOYEE'], 
     },
     children: [
       {
@@ -89,6 +90,7 @@ const routes: Routes = [
           {path: 'question-bank/question/:questionId', component: QuestionDetailComponent},
           {path: 'courses', component: ManageCourseComponent},
           {path: 'gathering-point', component: ManageGatheringPointComponent},
+          {path: 'gathering-point/add-depot', component: AddDepotComponent},          
           {path: 'tests', component: ManageTestComponent},
           {path: 'tests/:id/preview', component: DetailTestComponent},
           {path: 'tests/:id/users', component: UserTestComponent},
@@ -96,6 +98,7 @@ const routes: Routes = [
           {path: 'tests/add-test', component: AddTestComponent},
           {path: 'courses/:courseId/parts/:partId/view-question', component: ListQuestionComponent},
           {path: 'courses/:courseId/parts', component: ManagePartComponent},
+          {path: 'add-parcel', component: AddParcelComponent}
         ]
       }
 

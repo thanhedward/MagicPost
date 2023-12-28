@@ -7,13 +7,17 @@ import {PageResult} from '../../../models/page-result';
 import {ToastrService} from 'ngx-toastr';
 import {Intake} from '../../../models/intake';
 import { AddressService } from 'src/app/_services/address.service';
-
+import { TokenStorageService } from 'src/app/_services/token-storage.service';
+import { UserRole } from 'src/app/models/user-role.enum';
 @Component({
   selector: 'app-add-user',
   templateUrl: './add-user.component.html',
   styleUrls: ['./add-user.component.scss']
 })
 export class AddUserComponent implements OnInit {
+  roleCEO: boolean = false;
+  rolePostOfficeManager: boolean = false;
+  roleDepotManager: boolean = false;
   showModalAdd = false;
   rfAddDepotManager: FormGroup;
   rfAddPostManager: FormGroup;
@@ -30,12 +34,13 @@ export class AddUserComponent implements OnInit {
   depotProvinceList: any[] = [];
   districtList: any[] = [];
   selectedProvince: string;
+  userRoles: string[] = [];
 
   constructor(private userService: UserService,
               private fb: FormBuilder,
               private toast: ToastrService,
               private addressService: AddressService,
-              
+              private tokenStorageService: TokenStorageService
               ) {
   }
   
@@ -88,24 +93,55 @@ export class AddUserComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.userRoles = this.tokenStorageService.getUser().roles;
+    if (this.userRoles.includes(UserRole.ROLE_CEO.toString())) {
+      this.roleCEO = true;
+    } else if (this.userRoles.includes(UserRole.ROLE_POST_OFFICE_MANAGER.toString())) {
+      this.rolePostOfficeManager = true;
+    } else if (this.userRoles.includes(UserRole.ROLE_DEPOT_MANAGER)) {
+      this.roleDepotManager = true
+    }
+    //  else {
+    //   this.tokenStorageService.signOut()
+    // }
     this.getDepotProvince();
     this.rfAddDepotManager?.reset(this.rfAddDepotManager.value);
     this.rfAddPostManager?.reset(this.rfAddPostManager.value);
-    this.rfAddDepotManager = this.fb.group({
-      username: ['', {
-        validators: [Validators.required, Validators.minLength(6)],
-        asyncValidators: [this.userService.validateUsername()],
-        updateOn: 'blur'
-      }],
-      email: ['', {
-        validators: [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')],
-        asyncValidators: [this.userService.validateEmail()],
-        updateOn: 'blur'
-      }],
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      province: ['', Validators.required],
-    });
+    if(this.roleCEO){
+      this.rfAddDepotManager = this.fb.group({
+        username: ['', {
+          validators: [Validators.required, Validators.minLength(6)],
+          asyncValidators: [this.userService.validateUsername()],
+          updateOn: 'blur'
+        }],
+        email: ['', {
+          validators: [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')],
+          asyncValidators: [this.userService.validateEmail()],
+          updateOn: 'blur'
+        }],
+        firstName: ['', Validators.required],
+        lastName: ['', Validators.required],
+        province: ['', Validators.required]
+        
+      });
+    }else{
+      this.rfAddDepotManager = this.fb.group({
+        username: ['', {
+          validators: [Validators.required, Validators.minLength(6)],
+          asyncValidators: [this.userService.validateUsername()],
+          updateOn: 'blur'
+        }],
+        email: ['', {
+          validators: [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')],
+          asyncValidators: [this.userService.validateEmail()],
+          updateOn: 'blur'
+        }],
+        firstName: ['', Validators.required],
+        lastName: ['', Validators.required],
+        
+      });
+    }
+    
     this.rfAddPostManager = this.fb.group({
       username: ['', {
         validators: [Validators.required, Validators.minLength(6)],
@@ -139,7 +175,8 @@ export class AddUserComponent implements OnInit {
   onSubmitDepotManager() {
     const profile = new UserProfile(this.firstName.value, this.lastName.value);
     const user: UserAccount = new UserAccount(this.username.value, this.email.value, profile);
-    this.userService.addDepotManager(user,this.province.value)
+    if(this.roleCEO) {
+      this.userService.addDepotManager(user,this.province.value)
       // .pipe(switchMap(res => this.userService.getUserList(0, 20)))
       .subscribe(res => {
         this.closeModal();
@@ -147,11 +184,30 @@ export class AddUserComponent implements OnInit {
         // this.pageResult = res;
         this.usersAddOutput.emit(this.pageResult);
       });
+    } else if(this.roleDepotManager){
+      this.userService.addDepotEmployee(user)
+      // .pipe(switchMap(res => this.userService.getUserList(0, 20)))
+      .subscribe(res => {
+        this.closeModal();
+        this.showSuccess();
+        // this.pageResult = res;
+        this.usersAddOutput.emit(this.pageResult);
+      });
+    } else if(this.rolePostOfficeManager){
+      this.userService.addPostOfficeEmployee(user)
+      // .pipe(switchMap(res => this.userService.getUserList(0, 20)))
+      .subscribe(res => {
+        this.closeModal();
+        this.showSuccess();
+        // this.pageResult = res;
+        this.usersAddOutput.emit(this.pageResult);
+      });
+    }
+    
     
   }
 
   onPostSubmit(){
-    console.log("post")
     const profile = new UserProfile(this.firstName.value, this.lastName.value);
     const user: UserAccount = new UserAccount(this.username.value, this.email.value, profile);
     this.userService.addPostOfficeManager(user, this.provincePost.value, this.districtPost.value)
@@ -168,15 +224,20 @@ export class AddUserComponent implements OnInit {
     if(this.openTab == 2){
       this.toast.success('Đã thêm thành công trưởng điểm giao dịch!', 'Thành công',);
     } else {
-      this.toast.success('Đã thêm thành công trưởng điểm tập kết!', 'Thành công',);
+      if(this.roleCEO){
+        this.toast.success('Đã thêm thành công trưởng điểm tập kết!', 'Thành công',);
+      } else if(this.roleDepotManager) {
+        this.toast.success('Đã thêm thành công nhân viên điểm tập kết!', 'Thành công',);
+      } else if(this.rolePostOfficeManager) {
+        this.toast.success('Đã thêm thành công nhân viên điểm giao dịch!', 'Thành công',);
+      }
+      
     }
     
   }
   onChange(){
     console.log(this.province.value)
     console.log(this.openTab)
-
-    
   }
 
   onProvinceChange() {
