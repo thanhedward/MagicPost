@@ -122,7 +122,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public void confirmInvoice(Invoice invoice) {
+    public void confirmInvoice(Invoice invoice, boolean fail) {
         String username = userService.getUserName();
         User user = userService.getUserByUsername(username).get();
 
@@ -146,11 +146,10 @@ public class InvoiceServiceImpl implements InvoiceService {
                     break;
                 }
                 case END_POS: {
-                    parcel.setStatus(ParcelStatus.SUCCESS);
+                    if(fail) parcel.setStatus(ParcelStatus.FAIL);
+                    else parcel.setStatus(ParcelStatus.SUCCESS);
                 }
             }
         }
     }
-
-
 }
