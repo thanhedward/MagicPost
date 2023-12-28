@@ -32,7 +32,7 @@ public class InvoiceController {
     }
 
     @PostMapping(value = "/create/post-office/depot")
-    @PreAuthorize("hasRole('POST_OFFICE_EMPOLYEE')")
+    @PreAuthorize("hasRole('POST_OFFICE_EMPLOYEE')")
     public ResponseEntity<Object> createInvoiceFromPostOfficeToDepot(@Valid @RequestBody Invoice invoice){
         try {
             invoiceService.createInvoice(invoice, InvoiceType.POST_OFFICE_TO_DEPOT);
@@ -43,7 +43,7 @@ public class InvoiceController {
     }
 
     @PostMapping(value = "/create/depot/depot")
-    @PreAuthorize("hasRole('DEPOT_EMPOLYEE')")
+    @PreAuthorize("hasRole('DEPOT_EMPLOYEE')")
     public ResponseEntity<Object> createInvoiceFromDepotToDepot(@Valid @RequestBody Invoice invoice){
         try {
             invoiceService.createInvoice(invoice, InvoiceType.DEPOT_TO_DEPOT);
@@ -54,7 +54,7 @@ public class InvoiceController {
     }
 
     @PostMapping(value = "/create/depot/post-office")
-    @PreAuthorize("hasRole('DEPOT_EMPOLYEE')")
+    @PreAuthorize("hasRole('DEPOT_EMPLOYEE')")
     public ResponseEntity<Object> createInvoiceFromDepotToPostOffice(@Valid @RequestBody Invoice invoice){
         try {
             invoiceService.createInvoice(invoice, InvoiceType.DEPOT_TO_POST_OFFICE);
@@ -65,7 +65,7 @@ public class InvoiceController {
     }
 
     @PostMapping(value = "/create/post-office/home")
-    @PreAuthorize("hasRole('POST_OFFICE_EMPOLYEE')")
+    @PreAuthorize("hasRole('POST_OFFICE_EMPLOYEE')")
     public ResponseEntity<Object> createInvoiceFromPostOfficeToHome(@Valid @RequestBody Invoice invoice){
         try {
             invoiceService.createInvoice(invoice, InvoiceType.POST_OFFICE_TO_HOME);
