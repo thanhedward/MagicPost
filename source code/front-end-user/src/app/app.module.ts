@@ -20,6 +20,7 @@ import {AdminModule} from './admin/admin.module';
 import {ToastrModule} from 'ngx-toastr';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,7 +44,8 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     LoadingBarHttpClientModule,
     SharedModule,
     UserModule,
-    AdminModule
+    AdminModule,
+    
   ],
   providers: [
     AuthGuard,
