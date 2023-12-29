@@ -21,6 +21,7 @@ export class ManageUserComponent implements OnInit, AfterContentInit {
   userRoles: string[] = [];
   skeleton = true;
   pageOptions: any = [
+    {display: 5, num: 5},
     {display: 10, num: 10},
     {display: 20, num: 20},
     {display: 50, num: 50},
@@ -28,7 +29,7 @@ export class ManageUserComponent implements OnInit, AfterContentInit {
     {display: 'Tất cả', num: ''},
   ];
   searchKeyWord = '';
-  pageCountShowing = 5;
+  pageCountShowing: number = 5;
 
   constructor(private userService: UserService, private toast: ToastrService, private tokenStorageService: TokenStorageService) {
   }
@@ -49,14 +50,14 @@ export class ManageUserComponent implements OnInit, AfterContentInit {
       });
     } else if (this.userRoles.includes(UserRole.ROLE_POST_OFFICE_MANAGER.toString())){
       this.rolePostOfficeManager = true;
-      this.userService.getUserListByPost(0, 20).subscribe(res => {
+      this.userService.getUserListByPost(0, 5).subscribe(res => {
         this.userList = res.data;
         this.paginationDetail = res.paginationDetails;
         this.skeleton = false;
       });
     } else if (this.userRoles.includes(UserRole.ROLE_DEPOT_MANAGER.toString())) {
       this.roleDepotManager = true;
-      this.userService.getUserListByDepot(0, 20).subscribe(res => {
+      this.userService.getUserListByDepot(0, 5).subscribe(res => {
         this.userList = res.data;
         this.paginationDetail = res.paginationDetails;
         this.skeleton = false;
@@ -100,19 +101,47 @@ export class ManageUserComponent implements OnInit, AfterContentInit {
     this.paginationDetail = $event.paginationDetails;
   }
 
-  changePageShow(value: any) {
-    this.pageCountShowing = value;
-    if (!this.pageCountShowing) {
-      this.userService.getUserList(0, this.paginationDetail.totalCount).subscribe(res => {
-        this.userList = res.data;
-        this.paginationDetail = res.paginationDetails;
-      });
-    } else {
-      this.userService.getUserList(0, this.pageCountShowing).subscribe(res => {
-        this.userList = res.data;
-        this.paginationDetail = res.paginationDetails;
-      });
+  changePageShow() {
+    if (this.userRoles.includes(UserRole.ROLE_CEO.toString())) {
+      if (!this.pageCountShowing) {
+        this.userService.getUserList(0, this.paginationDetail.totalCount).subscribe(res => {
+          this.userList = res.data;
+          this.paginationDetail = res.paginationDetails;
+        });
+      } else {
+        this.userService.getUserList(0, this.pageCountShowing).subscribe(res => {
+          this.userList = res.data;
+          this.paginationDetail = res.paginationDetails;
+        });
+      }
+    } else if (this.userRoles.includes(UserRole.ROLE_POST_OFFICE_MANAGER.toString())){
+      if (!this.pageCountShowing) {
+        this.userService.getUserListByPost(0, this.paginationDetail.totalCount).subscribe(res => {
+          this.userList = res.data;
+          this.paginationDetail = res.paginationDetails;
+        });
+      } else {
+        this.userService.getUserListByPost(0, this.pageCountShowing).subscribe(res => {
+          this.userList = res.data;
+          this.paginationDetail = res.paginationDetails;
+        });
+      }
+
+    } else if (this.userRoles.includes(UserRole.ROLE_DEPOT_MANAGER.toString())) {
+      if (!this.pageCountShowing) {
+        this.userService.getUserListByDepot(0, this.paginationDetail.totalCount).subscribe(res => {
+          this.userList = res.data;
+          this.paginationDetail = res.paginationDetails;
+        });
+      } else {
+        this.userService.getUserListByDepot(0, this.pageCountShowing).subscribe(res => {
+          this.userList = res.data;
+          this.paginationDetail = res.paginationDetails;
+        });
+      }
     }
+    
+   
   }
 
   searchUser(searchKeyWord: string) {

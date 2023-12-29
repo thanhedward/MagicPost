@@ -67,7 +67,7 @@ export class AddInvoiceComponent implements OnInit {
       );
       
     } else {
-      this.invoiceService.addInvoicePostToPost(this.postDepotInvoice).subscribe(
+      this.invoiceService.addInvoiceDepotToDepot(this.postDepotInvoice).subscribe(
         (res) => {
           this.getParcelList();
           this.toast.success('Đã thêm đơn hàng cho khách', 'Thành công');
