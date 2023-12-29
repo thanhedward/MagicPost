@@ -93,7 +93,7 @@ public class ParcelController {
     public List<Province> getDistrictHaveParcelFromDepotToPostOffice() {
         User currentUser = userService.getUserByUsername(userService.getUserName()).get();
         Depot startDepot = currentUser.getDepot();
-        List<ParcelResultDto> parcelResults = parcelService.getParcelListByDepotToDepot(startDepot);
+        List<ParcelResultDto> parcelResults = parcelService.getParcelListByDepotToPostOffice(startDepot);
 
         Set<Province> district = new HashSet<>();
         for(ParcelResultDto parcel: parcelResults) {
@@ -154,9 +154,12 @@ public class ParcelController {
         return parcelService.getParcelListFailedByPostOffice();
     }
 
-//    @GetMapping(value = "/route")
-//    public List<> getParcelRoute() {
-//        List
-//    }
+    @GetMapping(value = "/information")
+    public
+
+    @GetMapping(value = "/tracking")
+    public List<> getParcelRoute() {
+        List
+    }
 
 }
