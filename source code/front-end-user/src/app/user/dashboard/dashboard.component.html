@@ -29,12 +29,12 @@
                   <h3> Tracking history </h3>
                 </div>
                 <div id="help-centre" class="col-xs-3 text-right">
-                  <a target="_blank" href="https://support.sendle.com"> Help <span class="tracking-sprite tracking-sprite-external"></span>
+                  <a target="_blank" href="http://localhost:4200/home"> Help <span class="tracking-sprite tracking-sprite-external"></span>
                   </a>
                 </div>
             </div>
               <div class="new-tracking-event-list">
-                <div class="row progress-event mb-2">
+                <div class="row progress-event mb-2" [ngClass]="{'delivered': currentStep === 1}">
                   <div class="col-xs-3 col-md-2">
                     <div class="progress-event-date-day">
                       <span>20 Mar</span>
@@ -46,14 +46,11 @@
                     <div class="public-type-indicator"></div>
                   </div>
                   <div class="col-xs-9 col-md-10" data-hj-masked="">
-                    <div class="public-type-name"> Info </div>
-                    <p> Parcel has been reported as damaged. If not yet delivered, any salvageable items will be returned to the sender. </p>
-                    <div class="secondary-text">
-                      <p>Damaged</p>
-                    </div>
+                    <div class="public-type-name"> {{startPost}} </div>
+                    <p> Parcel has been reported as damaged. If not yet delivered </p>
                   </div>
                 </div>
-                <div class="row progress-event mb-2 delivered">
+                <div class="row progress-event mb-2" [ngClass]="{'delivered': currentStep === 2}">
                   <div class="col-xs-3 col-md-2">
                     <div class="progress-event-date-day">
                       <span>22 Oct</span>
@@ -65,11 +62,11 @@
                     <div class="public-type-indicator"></div>
                   </div>
                   <div class="col-xs-9 col-md-10" data-hj-masked="">
-                    <div class="public-type-name"> Delivered </div>
+                    <div class="public-type-name"> Điểm tập kết {{firstDepot}} </div>
                     <p> Parcel delivered </p>
                   </div>
                 </div>
-                <div class="row progress-event mb-2">
+                <div class="row progress-event mb-2" [ngClass]="{'delivered': currentStep === 3}">
                   <div class="col-xs-3 col-md-2">
                     <div class="progress-event-date-day">
                       <span>22 Oct</span>
@@ -81,11 +78,11 @@
                     <div class="public-type-indicator"></div>
                   </div>
                   <div class="col-xs-9 col-md-10" data-hj-masked="">
-                    <div class="public-type-name"> In Transit </div>
+                    <div class="public-type-name"> Điểm tập kết {{secondDepot}} </div>
                     <p> Parcel is loaded for delivery </p>
                   </div>
                 </div>
-                <div class="row progress-event mb-2">
+                <div class="row progress-event mb-2" [ngClass]="{'delivered': currentStep === 4}">
                   <div class="col-xs-3 col-md-2">
                     <div class="progress-event-date-day">
                       <span>21 Oct</span>
@@ -97,11 +94,11 @@
                     <div class="public-type-indicator"></div>
                   </div>
                   <div class="col-xs-9 col-md-10" data-hj-masked="">
-                    <div class="public-type-name"> Pickup </div>
+                    <div class="public-type-name"> Điểm giao dịch {{endPost}} </div>
                     <p> Parcel picked up </p>
                   </div>
                 </div>
-                <div class="row progress-event mb-2">
+                <div class="row progress-event mb-2" [ngClass]="{'delivered': currentStep === 5}">
                   <div class="col-xs-3 col-md-2">
                     <div class="progress-event-date-day">
                       <span>21 Oct</span>
@@ -113,7 +110,8 @@
                     <div class="public-type-indicator"></div>
                   </div>
                   <div class="col-xs-9 col-md-10" data-hj-masked="">
-                    <div class="public-type-name"> Success </div>
+                    <div class="public-type-name" *ngIf="deliverySuccess"> Hàng được gửi thành công </div>
+                    <div class="public-type-name" *ngIf="!deliverySuccess"> Hàng gửi thất bại </div>
                     <p> Parcel picked up </p>
                   </div>
                 </div>
