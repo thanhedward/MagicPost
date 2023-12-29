@@ -154,12 +154,12 @@ public class ParcelController {
         return parcelService.getParcelListFailedByPostOffice();
     }
 
-    @GetMapping(value = "/information")
-    public
-
-    @GetMapping(value = "/tracking")
-    public List<> getParcelRoute() {
-        List
-    }
+//    @GetMapping(value = "/information")
+//    public
+//
+//    @GetMapping(value = "/tracking")
+//    public List<> getParcelRoute() {
+//        List
+//    }
 
 }
