@@ -67,6 +67,10 @@ export class AddParcelComponent implements OnInit {
       this.districtList = [];
     }
   }
+  handleNewButtonClick() {
+    this.router.navigateByUrl('/user/pdf-invoice')
+  }
+
   onSubmit() {
     const parcel = new Parcel(this.name.value.toString(), this.sender.value.toString(), this.startAddress.value.toString() ,this.endAddress.value.toString() ,this.weight.value , this.provincePost.value.toString() ,this.districtPost.value.toString());
     this.parcelService.addParcel(parcel).subscribe(res => {

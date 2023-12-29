@@ -9,12 +9,19 @@
           <div class="rounded-t mb-0 px-4 py-3 border-0">
             <div class="flex flex-wrap items-center">
               <div class="relative flex justify-between w-full px-4 max-w-full flex-grow leading-8 mb-3">
-                <h3 class="font-semibold text-2xl text-gray-800"> Tạo đơn cho khách hàng </h3>
-                <button class="bg-blue-200 shadow-md hover:bg-blue-300 text-blue-600 border border-gray-400 transition duration-200 ease-in-out text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1" type="submit">
-                  <span>
-                    <i class="fa mr-1"></i>Xác nhận </span>
-                </button>
-              </div>
+                <h3 class="font-semibold text-2xl text-gray-800">Tạo đơn cho khách hàng</h3>
+                <div>
+                    <button class="bg-blue-200 shadow-md hover:bg-blue-300 text-blue-600 border border-gray-400 transition duration-200 ease-in-out text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1" type="submit">
+                        <span><i class="fa mr-1"></i>Xác nhận</span>
+                    </button>
+                    
+                    
+                    <button class="bg-green-200 shadow-md hover:bg-green-300 text-green-600 border border-gray-400 transition duration-200 ease-in-out text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1" type="button" (click)="handleNewButtonClick()">
+                        <span><i class="fa mr-1"></i>Xem hóa đơn</span>
+                    </button>
+                </div>
+            </div>
+            
               <hr class="border w-full my-3">
               <div class="flex flex-wrap flex-col w-full">
                 <div class="flex flex-wrap flex-row">
