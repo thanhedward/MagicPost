@@ -20,12 +20,20 @@ export class InvoiceService {
     return this.http.post<postDepotInvoice>(`${this.baseUrl}/invoice/create/depot/depot`, invoice);
   }
 
+  public addInvoiceDepotToPost(invoice: postDepotInvoice): Observable<postDepotInvoice> {
+    return this.http.post<postDepotInvoice>(`${this.baseUrl}/invoice/create/depot/depot`, invoice);
+  }
+
   public getConfirmPostToDepotList(): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/invoice/get/pending/post-office/depot`);
   }
 
   public getConfirmDepotToPostList(): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/invoice/get/pending/depot/post-office`);
+  }
+ 
+  public getConfirmDepotToDepotList(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/invoice/get/pending/depot/depot`);
   }
  
 

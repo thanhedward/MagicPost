@@ -43,9 +43,10 @@ import { AddDepotComponent } from './manage-gathering-point/add-depot/add-depot.
 import { AddParcelComponent } from './add-parcel/add-parcel.component';
 import { AddInvoiceComponent } from './add-invoice/add-invoice.component';
 import { ConfirmInvoiceComponent } from './confirm-invoice/confirm-invoice.component';
-
+import { ConfirmDepotInvoiceComponent } from './confirm-depot-invoice/confirm-depot-invoice';
+import { AddPostInvoiceComponent } from './add-post-invoice/add-post-invoice.component';
 @NgModule({
-  declarations: [AdminComponent, NavSidebarComponent, AdminNavbarComponent, UserDropdownComponent, LineChartComponent, BarChartComponent, AdminDashboardComponent, ManageUserComponent, AdminFooterComponent, CardStatsComponent, AddUserComponent, DetailUserComponent, DeleteUserComponent, UpdateUserComponent, QuestionBankComponent, TabsComponent, ManageCourseComponent, CourseUpdateComponent, CourseCreateComponent, ListQuestionComponent, ManagePartComponent, AddQuestionComponent, ManageTestComponent, AddTestComponent, QuestionDetailComponent, UserTestComponent, AdminProfileComponent, DetailTestComponent, UserTestResultComponent, PartCreateComponent,ManageGatheringPointComponent, AddDepotComponent, AddParcelComponent,AddInvoiceComponent, ConfirmInvoiceComponent],
+  declarations: [AdminComponent, NavSidebarComponent, AdminNavbarComponent, UserDropdownComponent, LineChartComponent, BarChartComponent, AdminDashboardComponent, ManageUserComponent, AdminFooterComponent, CardStatsComponent, AddUserComponent, DetailUserComponent, DeleteUserComponent, UpdateUserComponent, QuestionBankComponent, TabsComponent, ManageCourseComponent, CourseUpdateComponent, CourseCreateComponent, ListQuestionComponent, ManagePartComponent, AddQuestionComponent, ManageTestComponent, AddTestComponent, QuestionDetailComponent, UserTestComponent, AdminProfileComponent, DetailTestComponent, UserTestResultComponent, PartCreateComponent,ManageGatheringPointComponent, AddDepotComponent, AddParcelComponent,AddInvoiceComponent, ConfirmInvoiceComponent, ConfirmDepotInvoiceComponent, AddPostInvoiceComponent],
     imports: [
         CommonModule,
         RouterModule,

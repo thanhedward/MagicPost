@@ -8,17 +8,19 @@ import { Location } from 'src/app/models/location';
   styleUrls: ['./manage-gathering-point.scss']
 })
 export class ManageGatheringPointComponent implements OnInit {
-  transactionList: Location[] = [];
-
-  constructor(private locationService: LocationService) {}
+  transactionList: any[] = [];
+  skeleton = true;
+  constructor(private locationService: LocationService) {
+  }
 
   ngOnInit(): void {
     this.fetchTransactionList();
   }
 
   fetchTransactionList() {
-    this.locationService.getTransaction(0, 20).subscribe(res => {
-      this.transactionList = res.data;
+    this.locationService.getTransaction().subscribe(res => {
+      this.transactionList = res;
+      this.skeleton = false;
     });
-  }
+  };
 }

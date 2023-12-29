@@ -34,6 +34,8 @@ import { AddParcelComponent } from './admin/add-parcel/add-parcel.component';
 import { AddInvoiceComponent } from './admin/add-invoice/add-invoice.component';
 import { PDFInvoiceComponent } from './user/pdf-invoice/pdf-invoice.component';
 import { ConfirmInvoiceComponent } from './admin/confirm-invoice/confirm-invoice.component';
+import { ConfirmDepotInvoiceComponent } from './admin/confirm-depot-invoice/confirm-depot-invoice';
+import { AddPostInvoiceComponent } from './admin/add-post-invoice/add-post-invoice.component';
 const routes: Routes = [
   {
     path: '',
@@ -105,6 +107,9 @@ const routes: Routes = [
           {path: 'add-parcel', component: AddParcelComponent},
           {path: 'add-invoice', component: AddInvoiceComponent},
           {path: 'confirm-invoice', component: ConfirmInvoiceComponent},
+          {path: 'confirm-depot-invoice', component: ConfirmDepotInvoiceComponent},
+          {path: 'add-depot-invoice', component: AddPostInvoiceComponent},
+          
         ]
       }
 

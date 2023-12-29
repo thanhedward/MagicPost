@@ -15,9 +15,13 @@ export class LocationService {
   constructor(private http: HttpClient) {
   }
 
-  public getTransaction(page: number, size: number):  Observable<PageResult<Location>>  {
-    const pageParams = new HttpParams().set('page', page.toString()).set('size', size.toString());
-    return this.http.get<PageResult<Location>>(`${this.baseUrl}/location/get-list-transaction-office`,{params: pageParams});
+  public getTransaction():  Observable<any[]>  {
+    return this.http.get<any[]>(`${this.baseUrl}/post-office/get-post-office`);
+
+  }
+
+  public getDepot():  Observable<any[]>  {
+    return this.http.get<any[]>(`${this.baseUrl}/depot/get-depote`);
 
   }
   public addTransactionLocation(location: Location): Observable<Location> {

@@ -38,4 +38,8 @@ export class AddressService {
     console.log("aaaaaaa");
     return this.http.get<any[]>(`${this.baseUrl}/parcel/get/depot/depot/get/province`);
   }
+  getDistrictHasParcel():  Observable<any[]>{
+    console.log("aaaaaaa");
+    return this.http.get<any[]>(`${this.baseUrl}/parcel/get/depot/post-office/get/district`);
+  }
 }
