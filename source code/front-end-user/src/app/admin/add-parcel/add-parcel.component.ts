@@ -72,6 +72,7 @@ export class AddParcelComponent implements OnInit {
     this.parcelService.addParcel(parcel).subscribe(res => {
       this.toast.success('Đã thêm đơn hàng cho khách', 'Thành công');
     });
+    this.router.navigateByUrl('/pdf-invoice')
   }
   getDepotProvince() {
     this.addressService.getDepot().subscribe(res => {

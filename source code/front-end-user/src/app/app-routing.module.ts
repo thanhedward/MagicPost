@@ -105,6 +105,7 @@ const routes: Routes = [
           {path: 'courses/:courseId/parts/:partId/view-question', component: ListQuestionComponent},
           {path: 'courses/:courseId/parts', component: ManagePartComponent},
           {path: 'add-parcel', component: AddParcelComponent},
+          {path: 'add-parcel/pdf-invoice', component: PDFInvoiceComponent},
           {path: 'add-invoice', component: AddInvoiceComponent},
           {path: 'confirm-invoice', component: ConfirmInvoiceComponent},
           {path: 'confirm-depot-invoice', component: ConfirmDepotInvoiceComponent},
