@@ -2,6 +2,7 @@ package Backend.entity;
 
 import Backend.dto.ParcelDto;
 import Backend.utilities.ParcelStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -73,6 +74,7 @@ public class Parcel implements Serializable {
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
+    @JsonIgnore
     @ManyToMany(mappedBy = "parcels")
     private Set<Invoice> invoices;
 

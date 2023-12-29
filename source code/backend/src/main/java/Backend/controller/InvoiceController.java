@@ -1,9 +1,7 @@
 package Backend.controller;
 
-import Backend.dto.InvoiceDtoFromPost;
-import Backend.dto.ParcelDto;
+import Backend.dto.InvoiceDto;
 import Backend.entity.Invoice;
-import Backend.entity.Parcel;
 import Backend.service.*;
 import Backend.utilities.InvoiceType;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +12,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -37,50 +34,25 @@ public class InvoiceController {
 
     @GetMapping(value = "/get/pending/post-office/depot")
     @PreAuthorize("hasRole('DEPOT_EMPLOYEE')")
-    public List<InvoiceDtoFromPost> getPendingFromPostOfficeToDepot(){
-        List<Invoice> listInvoice = invoiceService.getInvoiceByFirstDepot();
-        List<InvoiceDtoFromPost> result = new ArrayList<>();
-        for (int i=0; i<listInvoice.size(); i++) {
-            InvoiceDtoFromPost temp = new InvoiceDtoFromPost();
-            Invoice currentInvoice = listInvoice.get(i);
-            temp.setId(currentInvoice.getId());
-            temp.setPostOfficeDistrict(currentInvoice.getPostOffice().getDistrict().getName());
-            temp.setPostOfficeProvince(currentInvoice.getPostOffice().getDepot().getProvince().getName());
-            temp.setCreatedBy(currentInvoice.getCreateBy().getUsername());
-            List<ParcelDto> listParcelDto = new ArrayList<>();
-            for (Parcel parcel : currentInvoice.getParcels()){
-                ParcelDto tempItem = new ParcelDto();
-                tempItem.setName(parcel.getName());
-                tempItem.setSender(parcel.getSender());
-                tempItem.setEndAddress(parcel.getEndAddress());
-                tempItem.setStartAddress(parcel.getStartAddress());
-                tempItem.setEndDistrictName(parcel.getEndPostOffice().getDistrict().getName());
-                tempItem.setWeight(parcel.getWeight());
-                tempItem.setEndProvinceName(parcel.getEndDepot().getProvince().getName());
-                listParcelDto.add(tempItem);
-            }
-            temp.setListParcel(listParcelDto);
-            result.add(temp);
-        }
-//        return invoiceService.getInvoiceByFirstDepot();
-        return result;
+    public List<InvoiceDto> getPendingFromPostOfficeToDepot(){
+        return invoiceService.getInvoiceByFirstDepot();
     }
 
     @GetMapping(value = "/get/pending/depot/depot")
     @PreAuthorize("hasRole('DEPOT_EMPLOYEE')")
-    public List<Invoice> getPendingFromDepotToDepot(){
+    public List<InvoiceDto> getPendingFromDepotToDepot(){
         return invoiceService.getInvoiceBySecondDepot();
     }
 
     @GetMapping(value = "/get/pending/depot/post-office")
     @PreAuthorize("hasRole('POST_OFFICE_EMPLOYEE')")
-    public List<Invoice> getPendingFromDepotToPostOffice(){
+    public List<InvoiceDto> getPendingFromDepotToPostOffice(){
         return invoiceService.getInvoiceByEndPostOffice();
     }
 
     @GetMapping(value = "/get/pending/post-office/home")
     @PreAuthorize("hasRole('POST_OFFICE_EMPLOYEE')")
-    public List<Invoice> getPendingFromPostOfficeToHome(){
+    public List<InvoiceDto> getPendingFromPostOfficeToHome(){
         return invoiceService.getInvoiceByEndPostOfficeToHome();
     }
 
