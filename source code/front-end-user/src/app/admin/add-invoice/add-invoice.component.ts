@@ -33,13 +33,19 @@ export class AddInvoiceComponent implements OnInit {
     private tokenStorageService: TokenStorageService,
     private addressService: AddressService) {
   }
+
+  get province(){
+    return this.rfAdd.get('province');
+   
+  }
   ngOnInit(): void {
+    
     this.userRoles = this.tokenStorageService.getUser().roles;
     if (this.userRoles.includes(UserRole.ROLE_POST_OFFICE_EMPLOYEE.toString())) {
       this.rolePostOfficeEmployee = true;
       this.parcelService.getParcelList().subscribe(res => {
         this.tagList = res;
-        console.log(res)
+        
       });
     } else if (this.userRoles.includes(UserRole.ROLE_DEPOT_EMPLOYEE.toString())) {
       this.roleDepotEmployee = true;
@@ -50,8 +56,9 @@ export class AddInvoiceComponent implements OnInit {
       });
     }
     this.rfAdd = this.fb.group({
+      province: ['']
     });
-    this.selectedOption = this.options[0].name
+    
     
   }
   
@@ -67,6 +74,7 @@ export class AddInvoiceComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log(this.province.value);
     this.postDepotInvoice = new postDepotInvoice(this.sendParcelList);
     if(this.rolePostOfficeEmployee){
       this.invoiceService.addInvoice(this.postDepotInvoice).subscribe(

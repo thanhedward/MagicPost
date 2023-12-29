@@ -88,6 +88,7 @@ export class AddUserComponent implements OnInit {
   get provincePost(){
     return this.rfAddPostManager.get('provincePost');
   }
+  
   get districtPost(){
     return this.rfAddPostManager.get('districtPost');
   }
