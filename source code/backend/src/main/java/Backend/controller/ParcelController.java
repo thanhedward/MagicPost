@@ -3,6 +3,7 @@ package Backend.controller;
 import Backend.dto.ParcelDto;
 import Backend.dto.ParcelResultDto;
 import Backend.dto.ServiceResult;
+import Backend.dto.TrackingDto;
 import Backend.entity.*;
 import Backend.service.*;
 import lombok.extern.slf4j.Slf4j;
@@ -84,7 +85,7 @@ public class ParcelController {
         Depot endDepot = currentUser.getDepot();
         List<ParcelResultDto> parcelResults = parcelService.getParcelListByDepotToPostOffice(endDepot);
 
-        parcelResults.removeIf(parcelResult -> !parcelResult.getToAddress().replaceAll("\\.,*", "").equals(districtName));
+        parcelResults.removeIf(parcelResult -> !parcelResult.getToAddress().replaceAll(",(.*)", "").equals(districtName));
         return parcelResults;
     }
 
@@ -97,7 +98,7 @@ public class ParcelController {
 
         Set<Province> district = new HashSet<>();
         for(ParcelResultDto parcel: parcelResults) {
-            district.add(new Province(parcel.getToAddress().replaceAll("\\.,*", "")));
+            district.add(new Province(parcel.getToAddress().replaceAll(",(.*)", "")));
         }
         return district.stream().toList();
     }
@@ -156,10 +157,10 @@ public class ParcelController {
 
 //    @GetMapping(value = "/information")
 //    public
-//
-//    @GetMapping(value = "/tracking")
-//    public List<> getParcelRoute() {
-//        List
-//    }
+
+    @GetMapping(value = "/tracking")
+    public TrackingDto getParcelTracking(@RequestParam String name) {
+        return parcelService.tracking(name);
+    }
 
 }
