@@ -1,14 +1,16 @@
 package Backend.service;
 
+import Backend.entity.Parcel;
 import Backend.entity.User;
 import Backend.repository.UserRepository;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Array;
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -16,10 +18,9 @@ import java.util.List;
 
 @Service
 public class StatisticsServiceImpl implements StatisticsService{
-
-    private UserRepository userRepository;
-
     private Logger logger = LoggerFactory.getLogger(StatisticsServiceImpl.class);
+    private final UserRepository userRepository;
+    private final ParcelService parcelService;
 
     @Autowired
 //    public StatisticsServiceImpl(ExamRepository examRepository, ExamUserRepository examUserRepository, QuestionRepository questionRepository, UserRepository userRepository) {
@@ -29,8 +30,9 @@ public class StatisticsServiceImpl implements StatisticsService{
 //        this.userRepository = userRepository;
 //    }
 
-    public StatisticsServiceImpl(UserRepository userRepository) {
+    public StatisticsServiceImpl(UserRepository userRepository, ParcelService parcelService) {
         this.userRepository = userRepository;
+        this.parcelService = parcelService;
     }
     @Override
     public long countExamTotal() {
@@ -64,9 +66,9 @@ public class StatisticsServiceImpl implements StatisticsService{
 //        List<ExamUser> examUsers = examUserRepository.findExamUsersByOrderByTimeFinish();
 //        for (ExamUser examUser :
 //                examUsers) {
-//            if (isSameWeek(new DateTime(), new DateTime(examUser.getTimeFinish()))) {
+//            if (isSameWeek(new LocalDateTime(), new LocalDateTime(examUser.getTimeFinish()))) {
 //                countExamNow++;
-//            } else if (isLastWeek(new DateTime(), new DateTime(examUser.getTimeFinish()))) {
+//            } else if (isLastWeek(new LocalDateTime(), new LocalDateTime(examUser.getTimeFinish()))) {
 //                countExamLastWeek++;
 //            } else break;
 //        }
@@ -89,7 +91,26 @@ public class StatisticsServiceImpl implements StatisticsService{
 //        return roundedRes * 100;
         return 1.0;
     }
-//
+
+    @Override
+    public Double getChangeReceivedParcel() {
+        List<Parcel> parcels = parcelService.getParcelList();
+        int countParcelNow = 0;
+        int countParcelLastWeek = 0;
+        return null;
+    }
+
+    @Override
+    public Double getChangeSucceedParcel() {
+        return null;
+    }
+
+    @Override
+    public Double getChangeFailedParcel() {
+        return null;
+    }
+
+    //
     @Override
     public List<Long> countExamUserLastedSevenDaysTotal() {
 //        List<Long> days = new ArrayList<>();
@@ -98,7 +119,7 @@ public class StatisticsServiceImpl implements StatisticsService{
 //        for (ExamUser examUser :
 //                examUserList) {
 //            int day = 0;
-//            if (isSameDay(new DateTime(new Date()).minusDays(day), new DateTime(examUser.getTimeFinish()))) {
+//            if (isSameDay(new LocalDateTime(new Date()).minusDays(day), new LocalDateTime(examUser.getTimeFinish()))) {
 //                countDate++;
 //            } else {
 //                day++;
@@ -129,9 +150,9 @@ public class StatisticsServiceImpl implements StatisticsService{
 //        List<Question> questions = questionRepository.findByOrderByCreatedDateDesc();
 //        for (Question question :
 //                questions) {
-//            if (isSameWeek(new DateTime(), new DateTime(question.getCreatedDate()))) {
+//            if (isSameWeek(new LocalDateTime(), new LocalDateTime(question.getCreatedDate()))) {
 //                countQuestionNow++;
-//            } else if (isLastWeek(new DateTime(), new DateTime(question.getCreatedDate()))) {
+//            } else if (isLastWeek(new LocalDateTime(), new LocalDateTime(question.getCreatedDate()))) {
 //                countQuestionLastWeek++;
 //            } else break;
 //        }
@@ -161,9 +182,9 @@ public class StatisticsServiceImpl implements StatisticsService{
 //        List<User> users = userRepository.findByDeletedIsFalseOrderByCreatedDateDesc();
 //        for (User user :
 //                users) {
-//            if (isSameWeek(new DateTime(), new DateTime(user.getCreatedDate()))) {
+//            if (isSameWeek(new LocalDateTime(), new LocalDateTime(user.getCreatedDate()))) {
 //                countAccountNow++;
-//            } else if (isLastWeek(new DateTime(), new DateTime(user.getCreatedDate()))) {
+//            } else if (isLastWeek(new LocalDateTime(), new LocalDateTime(user.getCreatedDate()))) {
 //                countAccountLastWeek++;
 //            } else break;
 //        }
@@ -195,9 +216,9 @@ public class StatisticsServiceImpl implements StatisticsService{
 //        List<Exam> exams = examRepository.findByCanceledIsTrueOrderByCreatedDateDesc();
 //        for (Exam exam :
 //                exams) {
-//            if (isSameWeek(new DateTime(), new DateTime(exam.getCreatedDate()))) {
+//            if (isSameWeek(new LocalDateTime(), new LocalDateTime(exam.getCreatedDate()))) {
 //                countExamNow++;
-//            } else if (isLastWeek(new DateTime(), new DateTime(exam.getCreatedDate()))) {
+//            } else if (isLastWeek(new LocalDateTime(), new LocalDateTime(exam.getCreatedDate()))) {
 //                countExamLastWeek++;
 //            } else break;
 //        }
@@ -219,71 +240,28 @@ public class StatisticsServiceImpl implements StatisticsService{
 //        return result * 100;
         return 12.4;
     }
-//
-//    public static boolean isSameDay(final DateTime d1, final DateTime d2) {
-//        if ((d1 == null) || (d2 == null))
-//            throw new IllegalArgumentException("The date must not be null");
-//        final int date1 = d1.getDayOfMonth();
-//        final int date2 = d2.getDayOfMonth();
-//
-//        final int week1 = d1.getWeekOfWeekyear();
-//        final int week2 = d2.getWeekOfWeekyear();
-//
-//        final int year1 = d1.getWeekyear();
-//        final int year2 = d2.getWeekyear();
-//
-//        final int era1 = d1.getEra();
-//        final int era2 = d2.getEra();
-//
-//        if ((date1 == date2) && (week1 == week2) && (year1 == year2) && (era1 == era2))
-//            return true;
-//
-//        // Return false if none of the conditions are satisfied
-//        return false;
-//    }
-//    public static boolean isSameWeek(final DateTime d1, final DateTime d2) {
-//        if ((d1 == null) || (d2 == null))
-//            throw new IllegalArgumentException("The date must not be null");
-//
-//        // It is important to use week of week year & week year
-//
-//        final int week1 = d1.getWeekOfWeekyear();
-//        final int week2 = d2.getWeekOfWeekyear();
-//
-//        final int year1 = d1.getWeekyear();
-//        final int year2 = d2.getWeekyear();
-//
-//        final int era1 = d1.getEra();
-//        final int era2 = d2.getEra();
-//
-//        // Return true if week, year and era matches
-//        if ((week1 == week2) && (year1 == year2) && (era1 == era2))
-//            return true;
-//
-//        // Return false if none of the conditions are satisfied
-//        return false;
-//    }
-//
-//    public static boolean isLastWeek(final DateTime d1, final DateTime d2) {
-//        if ((d1 == null) || (d2 == null))
-//            throw new IllegalArgumentException("The date must not be null");
-//
-//        // It is important to use week of week year & week year
-//
-//        final int week1 = d1.getWeekOfWeekyear() - 1;
-//        final int week2 = d2.getWeekOfWeekyear();
-//
-//        final int year1 = d1.getWeekyear();
-//        final int year2 = d2.getWeekyear();
-//
-//        final int era1 = d1.getEra();
-//        final int era2 = d2.getEra();
-//
-//        // Return true if week, year and era matches
-//        if ((week1 == week2) && (year1 == year2) && (era1 == era2))
-//            return true;
-//
-//        // Return false if none of the conditions are satisfied
-//        return false;
-//    }
+
+
+
+    public static boolean isSameDay(final LocalDateTime d1, final LocalDateTime d2) {
+        if ((d1 == null) || (d2 == null))
+            throw new IllegalArgumentException("The date must not be null");
+        return d1.toLocalDate().isEqual(d2.toLocalDate()) ;
+    }
+    public static boolean isSameWeek(final LocalDateTime d1, final LocalDateTime d2) {
+        if ((d1 == null) || (d2 == null))
+            throw new IllegalArgumentException("The date must not be null");
+
+        return (d1.plusDays(DayOfWeek.MONDAY.getValue() - d1.getDayOfWeek().getValue()).toLocalDate()
+                .isEqual(d2.plusDays(DayOfWeek.MONDAY.getValue() - d2.getDayOfWeek().getValue()).toLocalDate()));
+
+    }
+
+    public static boolean isLastWeek(final LocalDateTime d1, final LocalDateTime d2) {
+        if ((d1 == null) || (d2 == null))
+            throw new IllegalArgumentException("The date must not be null");
+
+        return (d1.plusDays(DayOfWeek.MONDAY.getValue() - d1.getDayOfWeek().getValue() - 7).toLocalDate()
+                .isEqual(d2.plusDays(DayOfWeek.MONDAY.getValue() - d2.getDayOfWeek().getValue()).toLocalDate()));
+    }
 }
