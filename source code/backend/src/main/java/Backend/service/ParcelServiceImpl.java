@@ -2,6 +2,7 @@ package Backend.service;
 
 import Backend.dto.ParcelDto;
 import Backend.dto.ParcelResultDto;
+import Backend.dto.TrackingDto;
 import Backend.entity.*;
 import Backend.repository.ParcelsRepository;
 import Backend.utilities.InvoiceType;
@@ -185,6 +186,12 @@ public class ParcelServiceImpl implements ParcelService {
     @Override
     public List<Parcel> getAllParcelFailed() {
         return parcelsRepository.findAllByStatus(ParcelStatus.FAIL);
+    }
+
+    @Override
+    public TrackingDto tracking(String name) {
+        if(parcelsRepository.findByName(name).isEmpty()) return new TrackingDto();
+        return new TrackingDto(parcelsRepository.findByName(name).get(0));
     }
 
 

@@ -3,6 +3,7 @@ package Backend.service;
 
 import Backend.dto.ParcelDto;
 import Backend.dto.ParcelResultDto;
+import Backend.dto.TrackingDto;
 import Backend.entity.Depot;
 import Backend.entity.Parcel;
 import Backend.entity.PostOffice;
@@ -24,6 +25,8 @@ public interface ParcelService {
 
     List<Parcel> getAllParcelSucceed();
     List<Parcel> getAllParcelFailed();
+
+    TrackingDto tracking(String name);
 
     Parcel createParcels(ParcelDto parcelDto, PostOffice endPostOffice);
     void saveParcel(Parcel parcel);
