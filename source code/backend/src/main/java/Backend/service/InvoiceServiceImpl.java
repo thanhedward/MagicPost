@@ -153,7 +153,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public void confirmInvoice(Invoice invoice, boolean fail) {
+    public InvoiceDto confirmInvoice(Invoice invoice, boolean fail) {
         String username = userService.getUserName();
         User user = userService.getUserByUsername(username).get();
 
@@ -187,5 +187,6 @@ public class InvoiceServiceImpl implements InvoiceService {
             }
             parcelService.saveParcel(updateParcel);
         }
+        return new InvoiceDto(invoice);
     }
 }

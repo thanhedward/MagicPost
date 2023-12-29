@@ -1,6 +1,7 @@
 package Backend.service;
 
 import Backend.dto.ParcelDto;
+import Backend.dto.ParcelResultDto;
 import Backend.entity.*;
 import Backend.repository.ParcelsRepository;
 import Backend.utilities.InvoiceType;
@@ -10,10 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class ParcelServiceImpl implements ParcelService {
@@ -39,7 +37,7 @@ public class ParcelServiceImpl implements ParcelService {
     }
 
     @Override
-    public List<Parcel> getParcelListByPostOfficeToDepot(PostOffice postOffice, Depot depot) {
+    public List<ParcelResultDto> getParcelListByPostOfficeToDepot(PostOffice postOffice, Depot depot) {
         List<Parcel> parcels = parcelsRepository.findAllByStatusAndStartPostOffice(ParcelStatus.START_POS, postOffice);
 
         Iterator<Parcel> iterator = parcels.iterator();
@@ -54,11 +52,18 @@ public class ParcelServiceImpl implements ParcelService {
                 }
             }
         }
-        return parcels;
+
+        List<ParcelResultDto> parcelResults = new ArrayList<>();
+        for(Parcel parcel: parcels) {
+            ParcelResultDto temp = new ParcelResultDto(parcel);
+            temp.setToAddress(postOffice.getDepot().getProvince().getName());
+            parcelResults.add(temp);
+        }
+        return parcelResults;
     }
 
     @Override
-    public List<Parcel> getParcelListByDepotToDepot(Depot startDepot) {
+    public List<ParcelResultDto> getParcelListByDepotToDepot(Depot startDepot) {
         List<Parcel> parcels = parcelsRepository.findAllByStatusAndStartDepotOrderByEndDepotAsc(ParcelStatus.FIRST_DEPOT, startDepot);
 
         Iterator<Parcel> iterator = parcels.iterator();
@@ -72,12 +77,19 @@ public class ParcelServiceImpl implements ParcelService {
                 }
             }
         }
-        return parcels;
+
+        List<ParcelResultDto> parcelResults = new ArrayList<>();
+        for(Parcel parcel: parcels) {
+            ParcelResultDto temp = new ParcelResultDto(parcel);
+            temp.setToAddress(parcel.getEndDepot().getProvince().getName());
+            parcelResults.add(temp);
+        }
+        return parcelResults;
     }
 
     @Override
-    public List<Parcel> getParcelListByDepotToPostOffice(Depot endDepot) {
-        List<Parcel> parcels = parcelsRepository.findAllByStatusAndStartDepotOrderByEndPostOfficeAsc(ParcelStatus.LAST_DEPOT, endDepot);
+    public List<ParcelResultDto> getParcelListByDepotToPostOffice(Depot endDepot) {
+        List<Parcel> parcels = parcelsRepository.findAllByStatusAndEndDepotOrderByEndPostOfficeAsc(ParcelStatus.LAST_DEPOT, endDepot);
 
         Iterator<Parcel> iterator = parcels.iterator();
         while(iterator.hasNext()) {
@@ -90,11 +102,18 @@ public class ParcelServiceImpl implements ParcelService {
                 }
             }
         }
-        return parcels;
+
+        List<ParcelResultDto> parcelResults = new ArrayList<>();
+        for(Parcel parcel: parcels) {
+            ParcelResultDto temp = new ParcelResultDto(parcel);
+            temp.setToAddress(parcel.getEndPostOffice().getDistrict().getName() + ", " + endDepot.getProvince().getName());
+            parcelResults.add(temp);
+        }
+        return parcelResults;
     }
 
     @Override
-    public List<Parcel> getParcelListByPostOfficeToHome(PostOffice postOffice) {
+    public List<ParcelResultDto> getParcelListByPostOfficeToHome(PostOffice postOffice) {
         List<Parcel> parcels = parcelsRepository.findAllByStatusAndEndPostOffice(ParcelStatus.END_POS, postOffice);
 
         Iterator<Parcel> iterator = parcels.iterator();
@@ -108,23 +127,56 @@ public class ParcelServiceImpl implements ParcelService {
                 }
             }
         }
-        return parcels;
+
+        List<ParcelResultDto> parcelResults = new ArrayList<>();
+        for(Parcel parcel: parcels) {
+            ParcelResultDto temp = new ParcelResultDto(parcel);
+            temp.setToAddress(parcel.getEndAddress() + ", " + parcel.getEndPostOffice().getDistrict().getName() + ", " + parcel.getEndDepot().getProvince().getName());
+            parcelResults.add(temp);
+        }
+        return parcelResults;
     }
 
     @Override
-    public List<Parcel> getParcelListSucceedByPostOffice() {
+    public List<ParcelResultDto> getParcelListSucceedByPostOffice() {
         String username = userService.getUserName();
         User user = userService.getUserByUsername(username).get();
         PostOffice postOffice = user.getPostOffice();
-        return parcelsRepository.findAllByStatusAndEndPostOffice(ParcelStatus.SUCCESS, postOffice);
+        List<Parcel> parcels = parcelsRepository.findAllByStatusAndEndPostOffice(ParcelStatus.SUCCESS, postOffice);
+
+        List<ParcelResultDto> parcelResults = new ArrayList<>();
+        for(Parcel parcel: parcels) {
+            ParcelResultDto temp = new ParcelResultDto(parcel);
+            temp.setToAddress(parcel.getStartAddress() + ", " +
+                    parcel.getStartPostOffice().getDistrict().getName() + ", " +
+                    parcel.getStartDepot().getProvince().getName());
+            temp.setToAddress(parcel.getEndAddress() + ", " +
+                    parcel.getEndPostOffice().getDistrict().getName() + ", " +
+                    parcel.getEndDepot().getProvince().getName());
+            parcelResults.add(temp);
+        }
+        return parcelResults;
     }
 
     @Override
-    public List<Parcel> getParcelListFailedByPostOffice() {
+    public List<ParcelResultDto> getParcelListFailedByPostOffice() {
         String username = userService.getUserName();
         User user = userService.getUserByUsername(username).get();
         PostOffice postOffice = user.getPostOffice();
-        return parcelsRepository.findAllByStatusAndEndPostOffice(ParcelStatus.FAIL, postOffice);
+        List<Parcel> parcels = parcelsRepository.findAllByStatusAndEndPostOffice(ParcelStatus.FAIL, postOffice);
+
+        List<ParcelResultDto> parcelResults = new ArrayList<>();
+        for(Parcel parcel: parcels) {
+            ParcelResultDto temp = new ParcelResultDto(parcel);
+            temp.setToAddress(parcel.getStartAddress() + ", " +
+                    parcel.getStartPostOffice().getDistrict().getName() + ", " +
+                    parcel.getStartDepot().getProvince().getName());
+            temp.setToAddress(parcel.getEndAddress() + ", " +
+                    parcel.getEndPostOffice().getDistrict().getName() + ", " +
+                    parcel.getEndDepot().getProvince().getName());
+            parcelResults.add(temp);
+        }
+        return parcelResults;
     }
 
     @Override

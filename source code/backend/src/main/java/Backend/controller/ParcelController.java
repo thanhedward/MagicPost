@@ -1,6 +1,7 @@
 package Backend.controller;
 
 import Backend.dto.ParcelDto;
+import Backend.dto.ParcelResultDto;
 import Backend.dto.ServiceResult;
 import Backend.entity.*;
 import Backend.service.*;
@@ -44,7 +45,7 @@ public class ParcelController {
 
     @GetMapping(value = "/get/post-office/depot")
     @PreAuthorize("hasRole('POST_OFFICE_EMPLOYEE')")
-    public List<Parcel> getParcelByPostOfficeToDepot() {
+    public List<ParcelResultDto> getParcelByPostOfficeToDepot() {
         String username = userService.getUserName();
         User user = userService.getUserByUsername(username).get();
         PostOffice postOffice = user.getPostOffice();
@@ -54,7 +55,7 @@ public class ParcelController {
 
     @GetMapping(value = "/get/depot/depot")
     @PreAuthorize("hasRole('DEPOT_EMPLOYEE')")
-    public List<Parcel> getParcelByDepotToDepot() {
+    public List<ParcelResultDto> getParcelByDepotToDepot() {
         String username = userService.getUserName();
         User user = userService.getUserByUsername(username).get();
         Depot startDepot = user.getDepot();
@@ -63,7 +64,7 @@ public class ParcelController {
 
     @GetMapping(value = "/get/depot/post-office")
     @PreAuthorize("hasRole('DEPOT_EMPLOYEE')")
-    public List<Parcel> getParcelByDepotToPostOffice() {
+    public List<ParcelResultDto> getParcelByDepotToPostOffice() {
         String username = userService.getUserName();
         User user = userService.getUserByUsername(username).get();
         Depot endDepot = user.getDepot();
@@ -72,7 +73,7 @@ public class ParcelController {
 
     @GetMapping(value = "/get/post-office/home")
     @PreAuthorize("hasRole('POST_OFFICE_EMPLOYEE')")
-    public List<Parcel> getParcelByPostOfficeToHome() {
+    public List<ParcelResultDto> getParcelByPostOfficeToHome() {
         String username = userService.getUserName();
         User user = userService.getUserByUsername(username).get();
         PostOffice postOffice = user.getPostOffice();
@@ -113,13 +114,13 @@ public class ParcelController {
 
     @GetMapping(value = "/get/complete/post-office")
     @PreAuthorize("hasAnyRole('POST_OFFICE_MANAGER', 'POST_OFFICE_EMPLOYEE')")
-    public List<Parcel> getParcelByCompleted() {
+    public List<ParcelResultDto> getParcelByCompleted() {
         return parcelService.getParcelListSucceedByPostOffice();
     }
 
     @GetMapping(value = "get/fail/post-office")
     @PreAuthorize("hasAnyRole('POST_OFFICE_MANAGER', 'POST_OFFICE_EMPLOYEE')")
-    public List<Parcel> getParcelByFailed() {
+    public List<ParcelResultDto> getParcelByFailed() {
         return parcelService.getParcelListFailedByPostOffice();
     }
 }

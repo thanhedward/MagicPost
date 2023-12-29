@@ -14,7 +14,7 @@ public interface ParcelsRepository extends JpaRepository<Parcel, Long> {
 
     List<Parcel> findAllByStatusAndStartPostOffice(ParcelStatus parcelStatus, PostOffice postOffice);
     List<Parcel> findAllByStatusAndStartDepotOrderByEndDepotAsc(ParcelStatus parcelStatus, Depot depot);
-    List<Parcel> findAllByStatusAndStartDepotOrderByEndPostOfficeAsc(ParcelStatus parcelStatus, Depot depot);
+    List<Parcel> findAllByStatusAndEndDepotOrderByEndPostOfficeAsc(ParcelStatus parcelStatus, Depot depot);
     List<Parcel> findAllByStatusAndEndPostOffice(ParcelStatus parcelStatus, PostOffice postOffice);
 
     List<Parcel> findAllByStatus(ParcelStatus parcelStatus);

@@ -5,7 +5,6 @@ import lombok.Data;
 
 @Data
 public class ParcelDto {
-    private Long id;
     private String name;
     private String sender;
     private String startAddress;
@@ -15,7 +14,6 @@ public class ParcelDto {
     private String endDistrictName;
 
     public ParcelDto(Parcel parcel) {
-        this.id = parcel.getId();
         this.name = parcel.getName();
         this.sender = parcel.getSender();
         this.startAddress = parcel.getStartAddress();

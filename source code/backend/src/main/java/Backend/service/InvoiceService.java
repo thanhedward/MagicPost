@@ -18,5 +18,5 @@ public interface InvoiceService {
 
     Invoice createInvoice(Invoice invoice, InvoiceType invoiceType);
 
-    void confirmInvoice(Invoice invoice, boolean fail);
+    InvoiceDto confirmInvoice(Invoice invoice, boolean fail);
 }

@@ -2,6 +2,7 @@ package Backend.service;
 
 
 import Backend.dto.ParcelDto;
+import Backend.dto.ParcelResultDto;
 import Backend.entity.Depot;
 import Backend.entity.Parcel;
 import Backend.entity.PostOffice;
@@ -14,12 +15,12 @@ public interface ParcelService {
 
     Optional<Parcel> getParcelById(Long id);
     List<Parcel> getParcelList();
-    List<Parcel> getParcelListByPostOfficeToDepot(PostOffice postOffice, Depot depot);
-    List<Parcel> getParcelListByDepotToDepot(Depot startDepot);
-    List<Parcel> getParcelListByDepotToPostOffice(Depot endDepot);
-    List<Parcel> getParcelListByPostOfficeToHome(PostOffice postOffice);
-    List<Parcel> getParcelListSucceedByPostOffice();
-    List<Parcel> getParcelListFailedByPostOffice();
+    List<ParcelResultDto> getParcelListByPostOfficeToDepot(PostOffice postOffice, Depot depot);
+    List<ParcelResultDto> getParcelListByDepotToDepot(Depot startDepot);
+    List<ParcelResultDto> getParcelListByDepotToPostOffice(Depot endDepot);
+    List<ParcelResultDto> getParcelListByPostOfficeToHome(PostOffice postOffice);
+    List<ParcelResultDto> getParcelListSucceedByPostOffice();
+    List<ParcelResultDto> getParcelListFailedByPostOffice();
 
     List<Parcel> getAllParcelSucceed();
     List<Parcel> getAllParcelFailed();

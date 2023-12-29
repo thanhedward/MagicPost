@@ -100,8 +100,7 @@ public class InvoiceController {
     public ResponseEntity<?> confirmInvoice(@PathVariable Long id) {
         try {
             Invoice invoice = invoiceService.getInvoiceById(id).get();
-            invoiceService.confirmInvoice(invoice, false);
-            return ResponseEntity.ok(invoice);
+            return ResponseEntity.ok(invoiceService.confirmInvoice(invoice, false));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);
         }
@@ -111,8 +110,7 @@ public class InvoiceController {
     public ResponseEntity<?> confirmFailInvoice(@PathVariable Long id) {
         try {
             Invoice invoice = invoiceService.getInvoiceById(id).get();
-            invoiceService.confirmInvoice(invoice, true);
-            return ResponseEntity.ok(invoice);
+            return ResponseEntity.ok(invoiceService.confirmInvoice(invoice, true));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);
         }
