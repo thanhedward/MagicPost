@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import {ToastrService} from 'ngx-toastr';
 import { ParcelService } from 'src/app/_services/parcel.service';
 import { InvoiceService } from 'src/app/_services/invoice.service';
@@ -39,7 +39,7 @@ export class AddInvoiceComponent implements OnInit {
 
   }
   ngOnInit(): void {
-
+    
     this.userRoles = this.tokenStorageService.getUser().roles;
     if (this.userRoles.includes(UserRole.ROLE_POST_OFFICE_EMPLOYEE.toString())) {
       this.rolePostOfficeEmployee = true;
@@ -60,7 +60,9 @@ export class AddInvoiceComponent implements OnInit {
     this.rfAdd = this.fb.group({
       province: ['']
     });
-    this.selectedOption = this.options[0].name
+    console.log(this.province.value)
+    
+    
 
   }
 
@@ -106,6 +108,7 @@ export class AddInvoiceComponent implements OnInit {
   }
 
   getParcelList() {
+    console.log(this.province.value)
     if(this.rolePostOfficeEmployee){
       this.parcelService.getParcelList().subscribe(res => {
         this.tagList = res;
