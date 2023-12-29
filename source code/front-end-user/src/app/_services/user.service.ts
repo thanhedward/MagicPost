@@ -7,6 +7,7 @@ import {AbstractControl, AsyncValidatorFn, ValidationErrors} from '@angular/form
 import {environment} from '../../environments/environment';
 import {map} from 'rxjs/operators';
 import {UserUpdate} from '../models/user-update';
+import { ParcelTracking } from '../models/parcelTracking';
 import { Depot } from '../models/depot';
 import { Manager } from '../models/manager';
 
@@ -18,6 +19,10 @@ export class UserService {
   private baseUrl: string = environment.apiEndPoint;
 
   constructor(private http: HttpClient) {
+  }
+
+  getTracking(idParcel: number): Observable<ParcelTracking> {
+    return this.http.get<ParcelTracking>(`http://localhost:8080/api/parcel/tracking`);
   }
 
   getUsers(status: boolean): Observable<PageResult<UserAccount>> {
