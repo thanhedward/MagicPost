@@ -63,7 +63,7 @@ public class ParcelServiceImpl implements ParcelService {
     }
 
     @Override
-    public List<ParcelResultDto> getParcelListByDepotToDepot(Depot startDepot, String provinceName) {
+    public List<ParcelResultDto> getParcelListByDepotToDepot(Depot startDepot) {
         List<Parcel> parcels = parcelsRepository.findAllByStatusAndStartDepotOrderByEndDepotAsc(ParcelStatus.FIRST_DEPOT, startDepot);
 
         Iterator<Parcel> iterator = parcels.iterator();
@@ -80,9 +80,6 @@ public class ParcelServiceImpl implements ParcelService {
 
         List<ParcelResultDto> parcelResults = new ArrayList<>();
         for(Parcel parcel: parcels) {
-            if(!parcel.getEndDepot().getProvince().getName().equals(provinceName)) {
-                continue;
-            }
             ParcelResultDto temp = new ParcelResultDto(parcel);
             temp.setToAddress(parcel.getEndDepot().getProvince().getName());
             parcelResults.add(temp);
@@ -91,7 +88,7 @@ public class ParcelServiceImpl implements ParcelService {
     }
 
     @Override
-    public List<ParcelResultDto> getParcelListByDepotToPostOffice(Depot endDepot, String districtName) {
+    public List<ParcelResultDto> getParcelListByDepotToPostOffice(Depot endDepot) {
         List<Parcel> parcels = parcelsRepository.findAllByStatusAndEndDepotOrderByEndPostOfficeAsc(ParcelStatus.LAST_DEPOT, endDepot);
 
         Iterator<Parcel> iterator = parcels.iterator();
@@ -108,9 +105,6 @@ public class ParcelServiceImpl implements ParcelService {
 
         List<ParcelResultDto> parcelResults = new ArrayList<>();
         for(Parcel parcel: parcels) {
-            if(!parcel.getEndPostOffice().getDistrict().getName().equals(districtName)) {
-                continue;
-            }
             ParcelResultDto temp = new ParcelResultDto(parcel);
             temp.setToAddress(parcel.getEndPostOffice().getDistrict().getName() + ", " + endDepot.getProvince().getName());
             parcelResults.add(temp);

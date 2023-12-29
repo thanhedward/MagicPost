@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 import javax.validation.Valid;
-import java.util.List;
+import java.util.*;
 
 
 @RestController
@@ -54,10 +54,27 @@ public class ParcelController {
 
     @GetMapping(value = "/get/depot/depot")
     @PreAuthorize("hasRole('DEPOT_EMPLOYEE')")
-    public List<ParcelResultDto> getParcelByDepotToDepot(@RequestParam String provinceName) {
+    public List<ParcelResultDto> getParcelByDepotToDepotByProvince(@RequestParam String provinceName) {
         User currentUser = userService.getUserByUsername(userService.getUserName()).get();
         Depot startDepot = currentUser.getDepot();
-        return parcelService.getParcelListByDepotToDepot(startDepot, provinceName);
+        List<ParcelResultDto> parcelResults = parcelService.getParcelListByDepotToDepot(startDepot);
+
+        parcelResults.removeIf(parcelResult -> !parcelResult.getToAddress().equals(provinceName));
+        return parcelResults;
+    }
+
+    @GetMapping(value = "/get/depot/depot/get/province")
+    @PreAuthorize("hasRole('DEPOT_EMPLOYEE')")
+    public List<String> getProvinceHaveParcelFromDepotToDepot() {
+        User currentUser = userService.getUserByUsername(userService.getUserName()).get();
+        Depot startDepot = currentUser.getDepot();
+        List<ParcelResultDto> parcelResults = parcelService.getParcelListByDepotToDepot(startDepot);
+
+        Set<String> province = new HashSet<>();
+        for(ParcelResultDto parcel: parcelResults) {
+            province.add(parcel.getToAddress());
+        }
+        return province.stream().toList();
     }
 
     @GetMapping(value = "/get/depot/post-office")
@@ -65,7 +82,24 @@ public class ParcelController {
     public List<ParcelResultDto> getParcelByDepotToPostOffice(@RequestParam String districtName) {
         User currentUser = userService.getUserByUsername(userService.getUserName()).get();
         Depot endDepot = currentUser.getDepot();
-        return parcelService.getParcelListByDepotToPostOffice(endDepot, districtName);
+        List<ParcelResultDto> parcelResults = parcelService.getParcelListByDepotToPostOffice(endDepot);
+
+        parcelResults.removeIf(parcelResult -> !parcelResult.getToAddress().replaceAll("\\.,*", "").equals(districtName));
+        return parcelResults;
+    }
+
+    @GetMapping(value = "/get/depot/post-office/get/district")
+    @PreAuthorize("hasRole('DEPOT_EMPLOYEE')")
+    public List<String> getDistrictHaveParcelFromDepotToPostOffice() {
+        User currentUser = userService.getUserByUsername(userService.getUserName()).get();
+        Depot startDepot = currentUser.getDepot();
+        List<ParcelResultDto> parcelResults = parcelService.getParcelListByDepotToDepot(startDepot);
+
+        Set<String> district = new HashSet<>();
+        for(ParcelResultDto parcel: parcelResults) {
+            district.add(parcel.getToAddress().replaceAll("\\.,*", ""));
+        }
+        return district.stream().toList();
     }
 
     @GetMapping(value = "/get/post-office/home")
