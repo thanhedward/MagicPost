@@ -44,6 +44,8 @@ export class AddInvoiceComponent implements OnInit {
     } else if (this.userRoles.includes(UserRole.ROLE_DEPOT_EMPLOYEE.toString())) {
       this.roleDepotEmployee = true;
       this.getDepotHasParcel();
+      this.selectedOption = this.options[0]
+      console.log(this.options)
       this.parcelService.getParceltoPostList(this.selectedOption).subscribe(res => {
         this.tagList = res;
         console.log(res)
@@ -51,7 +53,7 @@ export class AddInvoiceComponent implements OnInit {
     }
     this.rfAdd = this.fb.group({
     });
-    this.selectedOption = this.options[0].name
+    this.selectedOption = this.options[0]
     
   }
   
@@ -113,7 +115,7 @@ export class AddInvoiceComponent implements OnInit {
   getDepotHasParcel(){
     this.addressService.getProvinceHasParcel().subscribe(res => {
       this.options = res;
-      console.log(res)
+      console.log(this.options)
     });
   }
 }
