@@ -14,25 +14,34 @@ export class LineChartComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() data: Statistics;
   lastSevenDays: any[] = [];
   dataChart: Statistics;
+  isProvince: boolean = true;
+  idLocation: number = 1;
 
   constructor(private statisticsService: StatisticsService) {
   }
 
   ngOnInit(): void {
     this.getLastSevenDays();
-    this.statisticsService.getStatistics().subscribe(res => {
+    this.statisticsService.getStatistics(this.isProvince, this.idLocation).subscribe(res => {
       this.dataChart = res;
-      const dataArray = this.data?.examUserLastedSevenDaysTotal.shift();
+      // const dataArray = this.data?.examUserLastedSevenDaysTotal.shift();
       const config = {
         type: 'line',
         data: {
           labels: this.lastSevenDays,
           datasets: [
             {
-              label: new Date().getFullYear(),
+              label: "Hàng gửi",
               backgroundColor: '#4c51bf',
               borderColor: '#4c51bf',
-              data: this.dataChart.examUserLastedSevenDaysTotal,
+              data: this.dataChart.parcelReceivedLastedSevenDaysTotal,
+              fill: false
+            }, 
+            {
+              label: "Hàng nhận",
+              backgroundColor: 'rgba(75, 192, 192, 0.2)',
+              borderColor: 'rgba(75, 192, 192, 1)',
+              data: this.dataChart.parcelSendedLastedSevenDaysTotal,
               fill: false
             }
 

@@ -17,12 +17,14 @@ export class AdminDashboardComponent implements OnInit {
   statistics: Statistics;
   lastSevenDays: any[] = [];
   transactionList: Location[] = [];
+  isProvince: boolean = false;
+  idLocation: number = 1;
 
   constructor(private statisticsService: StatisticsService, private locationService: LocationService) {}
 
   ngOnInit(): void {
     this.fetchTransactionList();
-    this.fetchStatistics();
+    this.fetchStatistics(this.isProvince, this.idLocation);
   }
 
   fetchTransactionList() {
@@ -32,11 +34,10 @@ export class AdminDashboardComponent implements OnInit {
     });
   };
   
-  fetchStatistics() {
+  fetchStatistics(isProvince: boolean, idLocation: number) {
     this.getLastSevenDays();
-    this.statisticsService.getStatistics().subscribe(res => {
+    this.statisticsService.getStatistics(isProvince, idLocation).subscribe(res => {
       this.statistics = res;
-      console.log(this.statistics.examUserLastedSevenDaysTotal.shift());
       const config = {
         type: 'line',
         data: {
@@ -46,14 +47,14 @@ export class AdminDashboardComponent implements OnInit {
               label: "Hàng gửi",
               backgroundColor: '#4c51bf',
               borderColor: '#4c51bf',
-              data: this.statistics.examUserLastedSevenDaysTotal,
+              data: this.statistics.parcelSendedLastedSevenDaysTotal,
               fill: false
             }, 
             {
               label: "Hàng nhận",
               backgroundColor: 'rgba(75, 192, 192, 0.2)',
               borderColor: 'rgba(75, 192, 192, 1)',
-              data: [1,2,4,5,6,12,4],
+              data: this.statistics.parcelReceivedLastedSevenDaysTotal,
               fill: false
             }
 
@@ -130,9 +131,9 @@ export class AdminDashboardComponent implements OnInit {
           }
         }
       };
-      let ctx: any = document.getElementById('line-chart') as HTMLCanvasElement;
-      ctx = ctx.getContext('2d');
-      new Chart(ctx, config);
+      // let ctx: any = document.getElementById('line-chart') as HTMLCanvasElement;
+      // ctx = ctx.getContext('2d');
+      // new Chart(ctx, config);
     });
   }
   getLastSevenDays() {
@@ -142,6 +143,6 @@ export class AdminDashboardComponent implements OnInit {
       dayIndex++;
     }
 
-    console.log(this.lastSevenDays.reverse());
+  //   console.log(this.lastSevenDays.reverse());
   }
 }

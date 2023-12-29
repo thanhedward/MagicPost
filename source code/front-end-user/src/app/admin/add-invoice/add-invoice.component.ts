@@ -36,20 +36,22 @@ export class AddInvoiceComponent implements OnInit {
 
   get province(){
     return this.rfAdd.get('province');
-   
+
   }
   ngOnInit(): void {
-    
+
     this.userRoles = this.tokenStorageService.getUser().roles;
     if (this.userRoles.includes(UserRole.ROLE_POST_OFFICE_EMPLOYEE.toString())) {
       this.rolePostOfficeEmployee = true;
       this.parcelService.getParcelList().subscribe(res => {
         this.tagList = res;
-        
+        console.log(res)
       });
     } else if (this.userRoles.includes(UserRole.ROLE_DEPOT_EMPLOYEE.toString())) {
       this.roleDepotEmployee = true;
       this.getDepotHasParcel();
+      this.selectedOption = this.options[0]
+      console.log(this.options)
       this.parcelService.getParceltoPostList(this.selectedOption).subscribe(res => {
         this.tagList = res;
         console.log(res)
@@ -58,10 +60,10 @@ export class AddInvoiceComponent implements OnInit {
     this.rfAdd = this.fb.group({
       province: ['']
     });
-    
-    
+    this.selectedOption = this.options[0].name
+
   }
-  
+
   onCheckboxChange(tagId: number, isChecked: boolean) {
     if (isChecked) {
       this.sendParcelList.push(new sendParcel(tagId));
@@ -74,7 +76,6 @@ export class AddInvoiceComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.province.value);
     this.postDepotInvoice = new postDepotInvoice(this.sendParcelList);
     if(this.rolePostOfficeEmployee){
       this.invoiceService.addInvoice(this.postDepotInvoice).subscribe(
@@ -87,7 +88,7 @@ export class AddInvoiceComponent implements OnInit {
           this.toast.error('Đã xảy ra lỗi khi thêm đơn hàng', 'Lỗi');
         }
       );
-      
+
     } else {
       this.invoiceService.addInvoiceDepotToDepot(this.postDepotInvoice).subscribe(
         (res) => {
@@ -101,9 +102,9 @@ export class AddInvoiceComponent implements OnInit {
       );
     }
 
-    
+
   }
-  
+
   getParcelList() {
     if(this.rolePostOfficeEmployee){
       this.parcelService.getParcelList().subscribe(res => {
@@ -116,7 +117,7 @@ export class AddInvoiceComponent implements OnInit {
         console.log(res)
       });
     }
-    
+
   }
   getDepotHasParcel(){
     this.addressService.getProvinceHasParcel().subscribe(res => {
@@ -126,9 +127,9 @@ export class AddInvoiceComponent implements OnInit {
   }
 }
 
-  
 
-  
+
+
 
 
 

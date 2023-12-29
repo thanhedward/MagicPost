@@ -12,9 +12,10 @@ export class StatisticsService {
   private baseUrl: string = environment.apiEndPoint;
 
   constructor(private http: HttpClient) {
-  }
+  } 
 
-  getStatistics(): Observable<Statistics> {
-    return this.http.get<Statistics>(`${this.baseUrl}/statistics`);
-  }
+  
+    getStatistics(isProvince: boolean, idLocation: number): Observable<Statistics> {
+      return this.http.get<Statistics>(`${this.baseUrl}/statistics?isProvince=${isProvince}&idLocation=${idLocation}`);
+    }
 }
