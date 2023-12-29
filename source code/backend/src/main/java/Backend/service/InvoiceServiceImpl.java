@@ -179,7 +179,10 @@ public class InvoiceServiceImpl implements InvoiceService {
                 }
                 case END_POS: {
                     if(fail) updateParcel.setStatus(ParcelStatus.FAIL);
-                    else updateParcel.setStatus(ParcelStatus.SUCCESS);
+                    else {
+                        updateParcel.setStatus(ParcelStatus.SUCCESS);
+                        updateParcel.setReceivedTime(LocalDateTime.now());
+                    }
                 }
             }
             parcelService.saveParcel(updateParcel);
