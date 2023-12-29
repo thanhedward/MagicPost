@@ -161,6 +161,9 @@ public class InvoiceServiceImpl implements InvoiceService {
             switch (parcel.getStatus()) {
                 case START_POS: {
                     updateParcel.setStatus(ParcelStatus.FIRST_DEPOT);
+                    if(updateParcel.getStartDepot().equals(parcel.getEndDepot())) {
+                        updateParcel.setStatus(ParcelStatus.LAST_DEPOT);
+                    }
                     break;
                 }
                 case FIRST_DEPOT: {

@@ -54,18 +54,18 @@ public class ParcelController {
 
     @GetMapping(value = "/get/depot/depot")
     @PreAuthorize("hasRole('DEPOT_EMPLOYEE')")
-    public List<ParcelResultDto> getParcelByDepotToDepot() {
+    public List<ParcelResultDto> getParcelByDepotToDepot(@RequestParam String provinceName) {
         User currentUser = userService.getUserByUsername(userService.getUserName()).get();
         Depot startDepot = currentUser.getDepot();
-        return parcelService.getParcelListByDepotToDepot(startDepot);
+        return parcelService.getParcelListByDepotToDepot(startDepot, provinceName);
     }
 
     @GetMapping(value = "/get/depot/post-office")
     @PreAuthorize("hasRole('DEPOT_EMPLOYEE')")
-    public List<ParcelResultDto> getParcelByDepotToPostOffice() {
+    public List<ParcelResultDto> getParcelByDepotToPostOffice(@RequestParam String districtName) {
         User currentUser = userService.getUserByUsername(userService.getUserName()).get();
         Depot endDepot = currentUser.getDepot();
-        return parcelService.getParcelListByDepotToPostOffice(endDepot);
+        return parcelService.getParcelListByDepotToPostOffice(endDepot, districtName);
     }
 
     @GetMapping(value = "/get/post-office/home")
@@ -119,4 +119,10 @@ public class ParcelController {
     public List<ParcelResultDto> getParcelByFailed() {
         return parcelService.getParcelListFailedByPostOffice();
     }
+
+//    @GetMapping(value = "/route")
+//    public List<> getParcelRoute() {
+//        List
+//    }
+
 }
