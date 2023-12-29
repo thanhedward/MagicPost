@@ -16,8 +16,8 @@ public interface ParcelService {
     Optional<Parcel> getParcelById(Long id);
     List<Parcel> getParcelList();
     List<ParcelResultDto> getParcelListByPostOfficeToDepot(PostOffice postOffice, Depot depot);
-    List<ParcelResultDto> getParcelListByDepotToDepot(Depot startDepot);
-    List<ParcelResultDto> getParcelListByDepotToPostOffice(Depot endDepot);
+    List<ParcelResultDto> getParcelListByDepotToDepot(Depot startDepot, String provinceName);
+    List<ParcelResultDto> getParcelListByDepotToPostOffice(Depot endDepot, String districtName);
     List<ParcelResultDto> getParcelListByPostOfficeToHome(PostOffice postOffice);
     List<ParcelResultDto> getParcelListSucceedByPostOffice();
     List<ParcelResultDto> getParcelListFailedByPostOffice();
