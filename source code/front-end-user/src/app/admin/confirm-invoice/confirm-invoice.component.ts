@@ -6,15 +6,15 @@ import { InvoiceService } from 'src/app/_services/invoice.service';
 import { sendParcel } from 'src/app/models/send-parcel';
 import { postDepotInvoice } from 'src/app/models/post-depot-invoice';
 import {UserRole} from '../../models/user-role.enum';
+import { ConfirmService } from 'src/app/_services/confirm-invoice.service';
 import { TokenStorageService } from 'src/app/_services/token-storage.service';
 @Component({
-  selector: 'add-invoice',
-  templateUrl: './add-invoice.component.html',
-  styleUrls: ['./add-invoice.component.scss']
+  selector: 'confirm-invoice',
+  templateUrl: './confirm-invoice.component.html',
+  styleUrls: ['./confirm-invoice.component.scss']
 })
-export class AddInvoiceComponent implements OnInit {
+export class ConfirmInvoiceComponent implements OnInit {
 
-  rfAdd: FormGroup;
   sendParcel: sendParcel;
   sendParcelList: sendParcel[] = [];
   postDepotInvoice: postDepotInvoice;
@@ -27,8 +27,10 @@ export class AddInvoiceComponent implements OnInit {
     private invoiceService: InvoiceService,
     private toast: ToastrService,
     private parcelService: ParcelService,
+    private confirmService: ConfirmService,
     private tokenStorageService: TokenStorageService) {
   }
+
   ngOnInit(): void {
     this.userRoles = this.tokenStorageService.getUser().roles;
     if (this.userRoles.includes(UserRole.ROLE_POST_OFFICE_EMPLOYEE.toString())) {
@@ -36,28 +38,14 @@ export class AddInvoiceComponent implements OnInit {
     } else if (this.userRoles.includes(UserRole.ROLE_DEPOT_EMPLOYEE.toString())) {
       this.roleDepotEmployee = true;
     }
-    this.rfAdd = this.fb.group({
-    });
-    this.getParcelList();
-  }
-  
-  onCheckboxChange(tagId: number, isChecked: boolean) {
-    if (isChecked) {
-      this.sendParcelList.push(new sendParcel(tagId));
-    } else {
-      const index = this.sendParcelList.findIndex((parcel) => parcel.id === tagId);
-      if (index !== -1) {
-        this.sendParcelList.splice(index, 1);
-      }
-    }
+    this.getInvoiceList();
   }
 
-  onSubmit() {
-    this.postDepotInvoice = new postDepotInvoice(this.sendParcelList);
+  onSubmit(id: string) {
     if(this.rolePostOfficeEmployee){
       this.invoiceService.addInvoice(this.postDepotInvoice).subscribe(
         (res) => {
-          this.getParcelList();
+          this.getInvoiceList();
           this.toast.success('Đã thêm đơn hàng cho khách', 'Thành công');
         },
         (error) => {
@@ -67,10 +55,10 @@ export class AddInvoiceComponent implements OnInit {
       );
       
     } else {
-      this.invoiceService.addInvoicePostToPost(this.postDepotInvoice).subscribe(
+      this.confirmService.confirmPostToDepot(id).subscribe(
         (res) => {
-          this.getParcelList();
-          this.toast.success('Đã thêm đơn hàng cho khách', 'Thành công');
+          this.getInvoiceList();
+          this.toast.success('Xác nhận đơn hàng thành công', 'Thành công');
         },
         (error) => {
           console.log(this.sendParcelList)
@@ -82,14 +70,14 @@ export class AddInvoiceComponent implements OnInit {
     
   }
   
-  getParcelList() {
+  getInvoiceList() {
     if(this.rolePostOfficeEmployee){
-      this.parcelService.getParcelList().subscribe(res => {
+      this.invoiceService.getConfirmDepotToPostList().subscribe(res => {
         this.tagList = res;
         console.log(res)
       });
     } else if(this.roleDepotEmployee){
-      this.parcelService.getParceltoPostList().subscribe(res => {
+      this.invoiceService.getConfirmPostToDepotList().subscribe(res => {
         this.tagList = res;
         console.log(res)
       });

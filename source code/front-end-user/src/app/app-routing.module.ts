@@ -33,6 +33,7 @@ import { AddDepotComponent } from './admin/manage-gathering-point/add-depot/add-
 import { AddParcelComponent } from './admin/add-parcel/add-parcel.component';
 import { AddInvoiceComponent } from './admin/add-invoice/add-invoice.component';
 import { PDFInvoiceComponent } from './user/pdf-invoice/pdf-invoice.component';
+import { ConfirmInvoiceComponent } from './admin/confirm-invoice/confirm-invoice.component';
 const routes: Routes = [
   {
     path: '',
@@ -61,7 +62,7 @@ const routes: Routes = [
         children: [
           {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
           {path: 'dashboard', component: DashboardComponent, data: { breadcrumb: 'Tra cứu đơn hàng' }},
-          {path: 'pdf-invoice', component: PDFInvoiceComponent, data: { breadcrumb: 'Tra cứu hóa đơn' }},
+          {path: 'pdf-invoice', component: PDFInvoiceComponent},
           {path: 'location', component: ProfileComponent, data: { breadcrumb: 'Tra cứu điểm tập kết' }},
           {path: 'transaction', component: ScheduleComponent, data: {breadcrumb: 'Tra cứ điểm giao dịch'}},
           {path: 'statistics', component: StatisticsComponent, data: {breadcrumb: 'Statistics'}},
@@ -103,6 +104,7 @@ const routes: Routes = [
           {path: 'courses/:courseId/parts', component: ManagePartComponent},
           {path: 'add-parcel', component: AddParcelComponent},
           {path: 'add-invoice', component: AddInvoiceComponent},
+          {path: 'confirm-invoice', component: ConfirmInvoiceComponent},
         ]
       }
 

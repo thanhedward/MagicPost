@@ -21,13 +21,14 @@ export class ManageUserComponent implements OnInit, AfterContentInit {
   userRoles: string[] = [];
   skeleton = true;
   pageOptions: any = [
+    {display: 10, num: 10},
     {display: 20, num: 20},
     {display: 50, num: 50},
     {display: 100, num: 100},
     {display: 'Tất cả', num: ''},
   ];
   searchKeyWord = '';
-  pageCountShowing = 20;
+  pageCountShowing = 5;
 
   constructor(private userService: UserService, private toast: ToastrService, private tokenStorageService: TokenStorageService) {
   }
@@ -35,16 +36,14 @@ export class ManageUserComponent implements OnInit, AfterContentInit {
 
   ngOnInit(): void {
     this.userRoles = this.tokenStorageService.getUser().roles;
-    // this.fetchUserList();
-
+    this.fetchUserList();
   }
 
   fetchUserList() {
     if (this.userRoles.includes(UserRole.ROLE_CEO.toString())) {
       this.roleCEO = true;
-      this.userService.getUserList(0, 20).subscribe(res => {
+      this.userService.getUserList(0, 5).subscribe(res => {
         this.userList = res.data;
-        this.userList = this.userList.filter(user => user.roles[0].name !== "ROLE_CEO");
         this.paginationDetail = res.paginationDetails;
         this.skeleton = false;
       });
@@ -63,7 +62,7 @@ export class ManageUserComponent implements OnInit, AfterContentInit {
         this.skeleton = false;
       });
     }
-
+    
 
   }
 
@@ -71,24 +70,15 @@ export class ManageUserComponent implements OnInit, AfterContentInit {
     return item.id;
   }
 
-  exportUserToExcel() {
-    this.userService.exportExcel(false).subscribe(response => {
-      const link = document.createElement('a');
-      link.href = window.URL.createObjectURL(new Blob([response], {type: 'text/csv'}));
-      link.download = 'users.csv';
-      link.click();
-    });
-  }
-
   goPreviousPage() {
     const isFirstPage: boolean = this.paginationDetail.isFirstPage;
     if (!isFirstPage) {
-      this.userService.searchUserList(this.paginationDetail.previousPage.pageNumber, this.pageCountShowing, this.searchKeyWord)
-        .subscribe(res => {
-          this.userList = res.data;
-          this.paginationDetail = res.paginationDetails;
-          console.table(this.userList);
-        });
+      this.userService.getUserList(this.paginationDetail.previousPage.pageNumber, this.pageCountShowing).subscribe(res => {
+        this.userList = res.data;
+        this.paginationDetail = res.paginationDetails;
+        this.skeleton = false;
+        console.log(this.userList)
+      });
     }
 
   }
@@ -96,7 +86,7 @@ export class ManageUserComponent implements OnInit, AfterContentInit {
   goNextPage() {
     const isLastPage = !this.paginationDetail.nextPage.available;
     if (!isLastPage) {
-      this.userService.searchUserList(this.paginationDetail.nextPage.pageNumber, this.pageCountShowing, this.searchKeyWord
+      this.userService.getUserList(this.paginationDetail.nextPage.pageNumber, this.pageCountShowing
       ).subscribe(res => {
         this.userList = res.data;
         this.paginationDetail = res.paginationDetails;

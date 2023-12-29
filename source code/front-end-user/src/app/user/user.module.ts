@@ -37,7 +37,7 @@ FullCalendarModule.registerPlugins([
     ReactiveFormsModule,
     FullCalendarModule,
     NgApexchartsModule,
-
+    BreadcrumbModule
   ]
 })
 export class UserModule {
