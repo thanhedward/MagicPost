@@ -15,7 +15,7 @@
                 <div class="relative w-full px-4 max-w-full flex-flow flex-basis">
                   <span class="mx-3 text-gray-600 text-sm">Hiển thị tối đa</span>
                   <div class="inline-block relative max-w-xs w-20 mr-2">
-                    <select class="block appearance-none w-full bg-white px-3 py-1 pr-4 rounded shadow leading-tight focus:outline-none text-sm" (change)="changePageShow($event.target.value)">
+                    <select class="block appearance-none w-full bg-white px-3 py-1 pr-4 rounded shadow leading-tight focus:outline-none text-sm" (change)="changePageShow()" [(ngModel)]="pageCountShowing">
                       <option *ngFor="let item of pageOptions" [value]="item.num" [selected]="item.num == pageCountShowing">{{item.display}}</option>
                     </select>
                     <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
