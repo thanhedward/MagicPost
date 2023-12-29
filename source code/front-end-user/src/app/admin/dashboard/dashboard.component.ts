@@ -26,9 +26,9 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   fetchTransactionList() {
-    this.locationService.getTransaction(0, 20).subscribe(res => {
-      this.transactionList = res.data;
-      console.log(res.data);
+    this.locationService.getTransaction().subscribe(res => {
+      this.transactionList = res;
+      console.log(res);
     });
   };
   
