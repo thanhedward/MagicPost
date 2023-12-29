@@ -10,10 +10,10 @@
               <div class="flex flex-wrap">
                 <div class="relative w-full pr-4 max-w-full flex-grow flex-1">
                   <h5 class="text-gray-500 uppercase font-bold text-xs">
-                    Số điểm tập kết
+                    Số hàng nhận ở chi nhánh
                   </h5>
                   <span class="font-semibold text-xl text-gray-800">
-                      {{statistics.accountTotal}}
+                      {{statistics.receivedParcedInDetail}}
                     </span>
                 </div>
                 <div class="relative w-auto pl-4 flex-initial">
@@ -24,19 +24,19 @@
                 </div>
               </div>
               <p class="text-sm text-gray-500 mt-4">
-                <ng-container *ngIf="statistics.changeAccount>0">
+                <ng-container *ngIf="statistics.changeReceivedParcedInDetail>0">
                   <span class="text-green-500 mr-2">
-                    <i class="fa fa-arrow-up"></i> {{statistics.changeAccount}}%
+                    <i class="fa fa-arrow-up"></i> {{statistics.changeReceivedParcedInDetail}}%
                   </span>
                 </ng-container>
-                <ng-container *ngIf="statistics.changeAccount<0">
+                <ng-container *ngIf="statistics.changeReceivedParcedInDetail<0">
                   <span class="text-red-500 mr-2">
-                    <i class="fa fa-arrow-down"></i> {{statistics.changeAccount}}%
+                    <i class="fa fa-arrow-down"></i> {{statistics.changeReceivedParcedInDetail}}%
                   </span>
                 </ng-container>
-                <ng-container *ngIf="statistics.changeAccount==0">
+                <ng-container *ngIf="statistics.changeReceivedParcedInDetail==0">
                   <span class="text-gray-500 mr-2">
-                    <i class="fa fa-minus"></i> {{statistics.changeAccount}}%
+                    <i class="fa fa-minus"></i> {{statistics.changeReceivedParcedInDetail}}%
                   </span>
                 </ng-container>
                 <span class="whitespace-no-wrap">
@@ -56,10 +56,10 @@
               <div class="flex flex-wrap">
                 <div class="relative w-full pr-4 max-w-full flex-grow flex-1">
                   <h5 class="text-gray-500 uppercase font-bold text-xs">
-                    Số hàng gửi
+                    Số hàng gửi ở chi nhánh
                   </h5>
                   <span class="font-semibold text-xl text-gray-800">
-                      {{statistics.examTotal}}
+                      {{statistics.sendedParcelInDetail}}
                     </span>
                 </div>
                 <div class="relative w-auto pl-4 flex-initial">
@@ -70,19 +70,19 @@
                 </div>
               </div>
               <p class="text-sm text-gray-500 mt-4">
-                <ng-container *ngIf="statistics.changeExam>0">
+                <ng-container *ngIf="statistics.changeSendedParcelInDetail>0">
                   <span class="text-green-500 mr-2">
-                    <i class="fa fa-arrow-up"></i> {{statistics.changeExam}}%
+                    <i class="fa fa-arrow-up"></i> {{statistics.changeReceivedParcedTotal}}%
                   </span>
                 </ng-container>
-                <ng-container *ngIf="statistics.changeExam<0">
+                <ng-container *ngIf="statistics.changeSendedParcelInDetail<0">
                   <span class="text-red-500 mr-2">
-                    <i class="fa fa-arrow-down"></i> {{statistics.changeExam}}%
+                    <i class="fa fa-arrow-down"></i> {{statistics.changeReceivedParcedTotal}}%
                   </span>
                 </ng-container>
-                <ng-container *ngIf="statistics.changeExam==0">
+                <ng-container *ngIf="statistics.changeSendedParcelInDetail==0">
                   <span class="text-gray-500 mr-2">
-                    <i class="fa fa-minus"></i> {{statistics.changeExam}}%
+                    <i class="fa fa-minus"></i> {{statistics.changeReceivedParcedTotal}}%
                   </span>
                 </ng-container>
                 <span class="whitespace-no-wrap">
@@ -99,10 +99,10 @@
               <div class="flex flex-wrap">
                 <div class="relative w-full pr-4 max-w-full flex-grow flex-1">
                   <h5 class="text-gray-500 uppercase font-bold text-xs">
-                    Số hàng nhận
+                    Số hàng nhận toàn quốc
                   </h5>
                   <span class="font-semibold text-xl text-gray-800">
-                      {{statistics.questionTotal}}
+                      {{statistics.receivedParcedTotal}}
                     </span>
                 </div>
                 <div class="relative w-auto pl-4 flex-initial">
@@ -113,19 +113,19 @@
                 </div>
               </div>
               <p class="text-sm text-gray-500 mt-4">
-                <ng-container *ngIf="statistics.changeQuestion>0">
+                <ng-container *ngIf="statistics.changeReceivedParcedTotal>0">
                   <span class="text-green-500 mr-2">
-                    <i class="fa fa-arrow-up"></i> {{statistics.changeQuestion}}%
+                    <i class="fa fa-arrow-up"></i> {{statistics.changeReceivedParcedTotal}}%
                   </span>
                 </ng-container>
-                <ng-container *ngIf="statistics.changeQuestion<0">
+                <ng-container *ngIf="statistics.changeSendedParcelInDetail<0">
                   <span class="text-red-500 mr-2">
-                    <i class="fa fa-arrow-down"></i> {{statistics.changeQuestion}}%
+                    <i class="fa fa-arrow-down"></i> {{statistics.changeReceivedParcedTotal}}%
                   </span>
                 </ng-container>
-                <ng-container *ngIf="statistics.changeQuestion==0">
+                <ng-container *ngIf="statistics.changeSendedParcelInDetail==0">
                   <span class="text-gray-500 mr-2">
-                    <i class="fa fa-minus"></i> {{statistics.changeQuestion}}%
+                    <i class="fa fa-minus"></i> {{statistics.changeReceivedParcedTotal}}%
                   </span>
                 </ng-container>
                 <span class="whitespace-no-wrap">
@@ -142,10 +142,10 @@
               <div class="flex flex-wrap">
                 <div class="relative w-full pr-4 max-w-full flex-grow flex-1">
                   <h5 class="text-gray-500 uppercase font-bold text-xs">
-                    Số khách hàng
+                    Số hàng gửi toàn quốc
                   </h5>
                   <span class="font-semibold text-xl text-gray-800">
-                      {{statistics.examUserTotal}}
+                      {{statistics.sendedParcelTotal}}
                     </span>
                 </div>
                 <div class="relative w-auto pl-4 flex-initial">
@@ -156,19 +156,19 @@
                 </div>
               </div>
               <p class="text-sm text-gray-500 mt-4">
-                <ng-container *ngIf="statistics.changeExamUser>0">
+                <ng-container *ngIf="statistics.changeReceivedParcedTotal>0">
                   <span class="text-green-500 mr-2">
-                    <i class="fa fa-arrow-up"></i> {{statistics.changeExamUser}}%
+                    <i class="fa fa-arrow-up"></i> {{statistics.changeSendedParcelTotal}}%
                   </span>
                 </ng-container>
-                <ng-container *ngIf="statistics.changeExamUser<0">
+                <ng-container *ngIf="statistics.changeReceivedParcedTotal<0">
                   <span class="text-red-500 mr-2">
-                    <i class="fa fa-arrow-down"></i> {{statistics.changeExamUser}}%
+                    <i class="fa fa-arrow-down"></i> {{statistics.changeSendedParcelTotal}}%
                   </span>
                 </ng-container>
-                <ng-container *ngIf="statistics.changeExamUser==0">
+                <ng-container *ngIf="statistics.changeReceivedParcedTotal==0">
                   <span class="text-gray-500 mr-2">
-                    <i class="fa fa-minus"></i> {{statistics.changeExamUser}}%
+                    <i class="fa fa-minus"></i> {{statistics.changeSendedParcelTotal}}%
                   </span>
                 </ng-container>
 
