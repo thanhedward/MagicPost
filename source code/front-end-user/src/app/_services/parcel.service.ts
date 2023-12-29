@@ -25,4 +25,8 @@ export class ParcelService {
     return this.http.get<Parcel[]>(`${this.baseUrl}/parcel/get/depot/depot?provinceName=${province}`);
   }
 
+  public getParceltoEachPost(district: string): Observable<Parcel[]> {
+    return this.http.get<Parcel[]>(`${this.baseUrl}/parcel/get/depot/post-office?districtName=${district}`);
+  }
+
 }

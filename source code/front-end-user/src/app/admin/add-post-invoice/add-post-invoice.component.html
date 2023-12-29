@@ -1,0 +1,53 @@
+<div class="bg-blue-600 md:pt-32 pb-32 pt-12">
+  <div class="px-4 md:px-10 mx-auto w-full"></div>
+</div>
+<div class=" mx-auto w-full -m-24">
+  <form novalidate (ngSubmit)="onSubmit()" [formGroup]="rfAddD">
+    <div class="flex flex-wrap mt-4 justify-center">
+      <div class="w-full mb-12 xl:mb-0 px-4 max-w-5xl">
+        <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
+          <div class="rounded-t mb-0 px-4 py-3 border-0">
+            <div class="flex flex-wrap items-center">
+              <div class="relative flex justify-between w-full px-4 max-w-full flex-grow leading-8 mb-3">
+                <h3 class="font-semibold text-2xl text-gray-800"> Tạo đơn gửi đến điểm tập kết </h3>
+                <button class="bg-blue-200 shadow-md hover:bg-blue-300 text-blue-600 border border-gray-400 transition duration-200 ease-in-out text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1" type="submit">
+                  <span>
+                    <i class="fa mr-1"></i>Xác nhận </span>
+                </button>
+              </div>
+              <hr class="border w-full my-3">
+              <div class="flex flex-wrap flex-col w-full">
+                <div class="flex flex-wrap flex-row">
+                  <div class="relative w-full px-4 max-w-full flex-flow flex-basis">
+                    <div class="relative flex justify-between w-full px-4 max-w-full flex-grow leading-8 mb-3 items-center">
+                      <p class="my-3 text-gray-600 text-md text-blue-700 text-xl font-semibold">Danh sách kiện hàng gửi tới từng điểm giao dịch</p>
+                      <select class="form-select appearance-none block w-[200px] bg-white border border-gray-300 py-2 px-3 rounded-md leading-5 focus:outline-none text-sm" formControlName="district">
+                        <option *ngFor="let optiond of optionds" [value]="optiond.name" [selected]="optiond.name == optionds[0].name">{{ optiond.name }}</option>
+                      </select>
+                    </div>
+                    
+                    <div class="-mx-3 md:flex mb-2 w-full">
+                        <div class="md:w-full px-3">
+                          <ng-container *ngFor="let tag of tagList; let i = index">
+                            <div class="flex items-center mb-2 border-b py-2">
+                              <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600 mr-2" (change)="onCheckboxChange(tag.id, $event.target.checked)" />
+                              <div class="ml-2 text-gray-600">
+                                <div><strong>Mã đơn hàng:</strong> {{tag.id}}</div>
+                                <div><strong>Tên đơn hàng:</strong> {{tag.name}}</div>
+                                <div><strong>Người gửi:</strong> {{tag.sender}}</div>
+                              </div>
+                            </div>
+                          </ng-container>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <app-admin-footer></app-admin-footer>
+</div>
