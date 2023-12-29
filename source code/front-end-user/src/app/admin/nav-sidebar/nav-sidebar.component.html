@@ -42,7 +42,7 @@
           <a [routerLink]="['dashboard']" routerLinkActive="text-blue-500 hover:text-blue-600" class="text-gray-800 hover:text-gray-600 text-xs uppercase py-3 font-bold block">
             <i class="fa fa-line-chart opacity-75 mr-2 text-sm"></i>Thống kê hàng hóa</a>
         </li>
-        <li class="items-center">
+        <li class="items-center" *ngIf="roleCEO || roleDepotManager || rolePostOfficeManager ">
           <a [routerLink]="['users']" routerLinkActive="text-blue-500 hover:text-blue-600" class="text-gray-800 hover:text-gray-600 text-xs uppercase py-3 font-bold block">
             <i class="fa fa-users opacity-75 mr-2 text-sm"></i>Quản lý tài khoản</a>
         </li>
@@ -61,6 +61,10 @@
         <li class="items-center" *ngIf="rolePostOfficeEmployee">
           <a [routerLink]="['add-invoice']" routerLinkActive="text-blue-500 hover:text-blue-600" class="text-gray-800 hover:text-gray-600 text-xs uppercase py-3 font-bold block">
             <i class="fa-solid fa-paper-plane opacity-75 mr-2 text-sm"></i>Tạo đơn đến điểm tập kết</a>
+        </li>
+        <li class="items-center" *ngIf="roleDepotEmployee">
+          <a [routerLink]="['add-invoice']" routerLinkActive="text-blue-500 hover:text-blue-600" class="text-gray-800 hover:text-gray-600 text-xs uppercase py-3 font-bold block">
+            <i class="fa-solid fa-square-arrow-up-right opacity-75 mr-2 text-sm"></i>Tạo đơn đến điểm GD</a>
         </li>
         <li class="items-center" *ngIf="roleDepotEmployee">
           <a [routerLink]="['add-invoice']" routerLinkActive="text-blue-500 hover:text-blue-600" class="text-gray-800 hover:text-gray-600 text-xs uppercase py-3 font-bold block">
