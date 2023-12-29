@@ -43,9 +43,8 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     public List<InvoiceDto> getInvoiceByEndPostOffice() {
-        String username = userService.getUserName();
-        User user = userService.getUserByUsername(username).get();
-        PostOffice postOffice = user.getPostOffice();
+        User currentUser = userService.getUserByUsername(userService.getUserName()).get();
+        PostOffice postOffice = currentUser.getPostOffice();
         List<Invoice> invoices = invoiceRepository.findByPostOfficeAndConfirmedAndType(postOffice, false, InvoiceType.DEPOT_TO_POST_OFFICE);
         List<InvoiceDto> result = new ArrayList<>();
 
@@ -58,9 +57,8 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     public List<InvoiceDto> getInvoiceByEndPostOfficeToHome() {
-        String username = userService.getUserName();
-        User user = userService.getUserByUsername(username).get();
-        PostOffice postOffice = user.getPostOffice();
+        User currentUser = userService.getUserByUsername(userService.getUserName()).get();
+        PostOffice postOffice = currentUser.getPostOffice();
         List<Invoice> invoices = invoiceRepository.findByPostOfficeAndConfirmedAndType(postOffice, false, InvoiceType.POST_OFFICE_TO_HOME);
         List<InvoiceDto> result = new ArrayList<>();
 
@@ -73,9 +71,8 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     public List<InvoiceDto> getInvoiceByFirstDepot() {
-        String username = userService.getUserName();
-        User user = userService.getUserByUsername(username).get();
-        Depot depot = user.getDepot();
+        User currentUser = userService.getUserByUsername(userService.getUserName()).get();
+        Depot depot = currentUser.getDepot();
 
         List<Invoice> invoices = invoiceRepository.findByFirstDepotAndConfirmedAndType(depot, false, InvoiceType.POST_OFFICE_TO_DEPOT);
         List<InvoiceDto> result = new ArrayList<>();
@@ -89,9 +86,8 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     public List<InvoiceDto> getInvoiceBySecondDepot() {
-        String username = userService.getUserName();
-        User user = userService.getUserByUsername(username).get();
-        Depot depot = user.getDepot();
+        User currentUser = userService.getUserByUsername(userService.getUserName()).get();
+        Depot depot = currentUser.getDepot();
         List<Invoice> invoices = invoiceRepository.findBySecondDepotAndConfirmedAndType(depot, false, InvoiceType.DEPOT_TO_DEPOT);
         List<InvoiceDto> result = new ArrayList<>();
 
@@ -105,9 +101,8 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     public Invoice createInvoice(Invoice invoice, InvoiceType invoiceType){
-        String username = userService.getUserName();
-        User user = userService.getUserByUsername(username).get();
-        invoice.setCreateBy(user);
+        User currentUser = userService.getUserByUsername(userService.getUserName()).get();
+        invoice.setCreateBy(currentUser);
 
         //TODO: Check if parcel exist?, send to the same location?
         Set<Parcel> parcels = invoice.getParcels().stream().map(parcel -> parcelService.getParcelById(parcel.getId()).get()).collect(Collectors.toSet());
@@ -116,13 +111,13 @@ public class InvoiceServiceImpl implements InvoiceService {
         switch (invoiceType) {
             case POST_OFFICE_TO_DEPOT: {
                 invoice.setType(InvoiceType.POST_OFFICE_TO_DEPOT);
-                invoice.setPostOffice(user.getPostOffice());
-                invoice.setFirstDepot(user.getPostOffice().getDepot());
+                invoice.setPostOffice(currentUser.getPostOffice());
+                invoice.setFirstDepot(currentUser.getPostOffice().getDepot());
                 break;
             }
             case DEPOT_TO_DEPOT: {
                 invoice.setType(InvoiceType.DEPOT_TO_DEPOT);
-                invoice.setFirstDepot(user.getDepot());
+                invoice.setFirstDepot(currentUser.getDepot());
                 for(Parcel parcel: parcels) {
                     invoice.setSecondDepot(parcel.getEndDepot());
                     break;
@@ -131,7 +126,7 @@ public class InvoiceServiceImpl implements InvoiceService {
             }
             case DEPOT_TO_POST_OFFICE: {
                 invoice.setType(InvoiceType.DEPOT_TO_POST_OFFICE);
-                invoice.setFirstDepot(user.getDepot());
+                invoice.setFirstDepot(currentUser.getDepot());
                 for(Parcel parcel: parcels) {
                     invoice.setPostOffice(parcel.getEndPostOffice());
                     break;
@@ -140,7 +135,7 @@ public class InvoiceServiceImpl implements InvoiceService {
             }
             case POST_OFFICE_TO_HOME: {
                 invoice.setType(InvoiceType.POST_OFFICE_TO_HOME);
-                invoice.setPostOffice(user.getPostOffice());
+                invoice.setPostOffice(currentUser.getPostOffice());
                 for(Parcel parcel: parcels) {
                     invoice.setEndAddress(parcel.getEndAddress());
                     break;
@@ -154,10 +149,9 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     public InvoiceDto confirmInvoice(Invoice invoice, boolean fail) {
-        String username = userService.getUserName();
-        User user = userService.getUserByUsername(username).get();
+        User currentUser = userService.getUserByUsername(userService.getUserName()).get();
 
-        invoice.setConfirmBy(user);
+        invoice.setConfirmBy(currentUser);
         invoice.setConfirmDate(LocalDateTime.now());
         invoice.setConfirmed(true);
 

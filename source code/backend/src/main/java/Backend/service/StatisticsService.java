@@ -11,5 +11,8 @@ public interface StatisticsService {
     Double getChangeQuestion();
     Double getChangeAccount();
     Double getChangeExamUser();
+    Double getChangeReceivedParcel();
+    Double getChangeSucceedParcel();
+    Double getChangeFailedParcel();
     List<Long> countExamUserLastedSevenDaysTotal();
 }

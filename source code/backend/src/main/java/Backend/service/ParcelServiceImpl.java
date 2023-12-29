@@ -139,9 +139,8 @@ public class ParcelServiceImpl implements ParcelService {
 
     @Override
     public List<ParcelResultDto> getParcelListSucceedByPostOffice() {
-        String username = userService.getUserName();
-        User user = userService.getUserByUsername(username).get();
-        PostOffice postOffice = user.getPostOffice();
+        User currentUser = userService.getUserByUsername(userService.getUserName()).get();
+        PostOffice postOffice = currentUser.getPostOffice();
         List<Parcel> parcels = parcelsRepository.findAllByStatusAndEndPostOffice(ParcelStatus.SUCCESS, postOffice);
 
         List<ParcelResultDto> parcelResults = new ArrayList<>();
@@ -160,9 +159,8 @@ public class ParcelServiceImpl implements ParcelService {
 
     @Override
     public List<ParcelResultDto> getParcelListFailedByPostOffice() {
-        String username = userService.getUserName();
-        User user = userService.getUserByUsername(username).get();
-        PostOffice postOffice = user.getPostOffice();
+        User currentUser = userService.getUserByUsername(userService.getUserName()).get();
+        PostOffice postOffice = currentUser.getPostOffice();
         List<Parcel> parcels = parcelsRepository.findAllByStatusAndEndPostOffice(ParcelStatus.FAIL, postOffice);
 
         List<ParcelResultDto> parcelResults = new ArrayList<>();
@@ -194,12 +192,11 @@ public class ParcelServiceImpl implements ParcelService {
     public Parcel createParcels(ParcelDto parcelDto, PostOffice endPostOffice){
         Parcel parcel = new Parcel(parcelDto);
 
-        String username = userService.getUserName();
-        User user = userService.getUserByUsername(username).get();
-        parcel.setAcceptedBy(user);
+        User currentUser = userService.getUserByUsername(userService.getUserName()).get();
+        parcel.setAcceptedBy(currentUser);
         parcel.setStatus(ParcelStatus.START_POS);
-        parcel.setStartPostOffice(user.getPostOffice());
-        parcel.setStartDepot(user.getPostOffice().getDepot());
+        parcel.setStartPostOffice(currentUser.getPostOffice());
+        parcel.setStartDepot(currentUser.getPostOffice().getDepot());
         parcel.setEndPostOffice(endPostOffice);
         parcel.setEndDepot(endPostOffice.getDepot());
 

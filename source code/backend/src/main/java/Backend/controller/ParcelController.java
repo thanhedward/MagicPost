@@ -46,9 +46,8 @@ public class ParcelController {
     @GetMapping(value = "/get/post-office/depot")
     @PreAuthorize("hasRole('POST_OFFICE_EMPLOYEE')")
     public List<ParcelResultDto> getParcelByPostOfficeToDepot() {
-        String username = userService.getUserName();
-        User user = userService.getUserByUsername(username).get();
-        PostOffice postOffice = user.getPostOffice();
+        User currentUser = userService.getUserByUsername(userService.getUserName()).get();
+        PostOffice postOffice = currentUser.getPostOffice();
         Depot depot = postOffice.getDepot();
         return parcelService.getParcelListByPostOfficeToDepot(postOffice, depot);
     }
@@ -56,27 +55,24 @@ public class ParcelController {
     @GetMapping(value = "/get/depot/depot")
     @PreAuthorize("hasRole('DEPOT_EMPLOYEE')")
     public List<ParcelResultDto> getParcelByDepotToDepot() {
-        String username = userService.getUserName();
-        User user = userService.getUserByUsername(username).get();
-        Depot startDepot = user.getDepot();
+        User currentUser = userService.getUserByUsername(userService.getUserName()).get();
+        Depot startDepot = currentUser.getDepot();
         return parcelService.getParcelListByDepotToDepot(startDepot);
     }
 
     @GetMapping(value = "/get/depot/post-office")
     @PreAuthorize("hasRole('DEPOT_EMPLOYEE')")
     public List<ParcelResultDto> getParcelByDepotToPostOffice() {
-        String username = userService.getUserName();
-        User user = userService.getUserByUsername(username).get();
-        Depot endDepot = user.getDepot();
+        User currentUser = userService.getUserByUsername(userService.getUserName()).get();
+        Depot endDepot = currentUser.getDepot();
         return parcelService.getParcelListByDepotToPostOffice(endDepot);
     }
 
     @GetMapping(value = "/get/post-office/home")
     @PreAuthorize("hasRole('POST_OFFICE_EMPLOYEE')")
     public List<ParcelResultDto> getParcelByPostOfficeToHome() {
-        String username = userService.getUserName();
-        User user = userService.getUserByUsername(username).get();
-        PostOffice postOffice = user.getPostOffice();
+        User currentUser = userService.getUserByUsername(userService.getUserName()).get();
+        PostOffice postOffice = currentUser.getPostOffice();
         return parcelService.getParcelListByPostOfficeToHome(postOffice);
     }
 
