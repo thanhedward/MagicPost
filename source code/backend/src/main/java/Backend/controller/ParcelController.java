@@ -65,14 +65,14 @@ public class ParcelController {
 
     @GetMapping(value = "/get/depot/depot/get/province")
     @PreAuthorize("hasRole('DEPOT_EMPLOYEE')")
-    public List<String> getProvinceHaveParcelFromDepotToDepot() {
+    public List<Province> getProvinceHaveParcelFromDepotToDepot() {
         User currentUser = userService.getUserByUsername(userService.getUserName()).get();
         Depot startDepot = currentUser.getDepot();
         List<ParcelResultDto> parcelResults = parcelService.getParcelListByDepotToDepot(startDepot);
 
-        Set<String> province = new HashSet<>();
+        Set<Province> province = new HashSet<>();
         for(ParcelResultDto parcel: parcelResults) {
-            province.add(parcel.getToAddress());
+            province.add(new Province(parcel.getToAddress()));
         }
         return province.stream().toList();
     }
@@ -90,14 +90,14 @@ public class ParcelController {
 
     @GetMapping(value = "/get/depot/post-office/get/district")
     @PreAuthorize("hasRole('DEPOT_EMPLOYEE')")
-    public List<String> getDistrictHaveParcelFromDepotToPostOffice() {
+    public List<Province> getDistrictHaveParcelFromDepotToPostOffice() {
         User currentUser = userService.getUserByUsername(userService.getUserName()).get();
         Depot startDepot = currentUser.getDepot();
         List<ParcelResultDto> parcelResults = parcelService.getParcelListByDepotToDepot(startDepot);
 
-        Set<String> district = new HashSet<>();
+        Set<Province> district = new HashSet<>();
         for(ParcelResultDto parcel: parcelResults) {
-            district.add(parcel.getToAddress().replaceAll("\\.,*", ""));
+            district.add(new Province(parcel.getToAddress().replaceAll("\\.,*", "")));
         }
         return district.stream().toList();
     }
