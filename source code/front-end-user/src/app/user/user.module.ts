@@ -20,7 +20,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import { StatisticsComponent } from './statistics/statistics.component';
 import {NgApexchartsModule} from 'ng-apexcharts';
 import {BreadcrumbModule} from 'xng-breadcrumb';
-
+import { PDFInvoiceComponent } from './pdf-invoice/pdf-invoice.component';
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
   interactionPlugin
@@ -28,7 +28,7 @@ FullCalendarModule.registerPlugins([
 
 @NgModule({
   declarations: [
-    UserComponent, DashboardComponent, ExamCardComponent, FooterComponent, LeftSideComponent, ProfileComponent, ExamDetailComponent, ExamQuestionComponent, ExamResultComponent, ScheduleComponent, StatisticsComponent],
+    UserComponent, DashboardComponent, ExamCardComponent, FooterComponent, LeftSideComponent, ProfileComponent, ExamDetailComponent, ExamQuestionComponent, ExamResultComponent, ScheduleComponent, StatisticsComponent, PDFInvoiceComponent],
   imports: [
     CommonModule,
     SharedModule,
@@ -37,8 +37,7 @@ FullCalendarModule.registerPlugins([
     ReactiveFormsModule,
     FullCalendarModule,
     NgApexchartsModule,
-    BreadcrumbModule,
-   
+
   ]
 })
 export class UserModule {
