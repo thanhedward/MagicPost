@@ -42,35 +42,22 @@ export class LoginComponent implements OnInit {
     });
 
     this.isLoggedIn = !!this.tokenStorageService?.getToken();
-    this.returnUrl = this.activatedRoute.snapshot.queryParams['returnUrl'] || '/';
+    this.returnUrl = this.activatedRoute.snapshot.queryParams['returnUrl'] || '/admin';
 
     if (this.isLoggedIn) {
       const user = this.tokenStorageService.getUser();
       this.roles = user.roles;
       console.log(user);
       if (this.roles.includes(UserRole.ROLE_CEO)) {
-        this.toLogin(UserRole.ROLE_CEO);
+        this.router.navigateByUrl(this.returnUrl);
       } else if (this.roles.includes(UserRole.ROLE_DEPOT_MANAGER)) {
-        this.toLogin(UserRole.ROLE_CEO);
-      } else if (this.roles.includes(UserRole.ROLE_USER)) {
-        this.toLogin(UserRole.ROLE_USER);
-      }
-    }
-  }
-
-  toLogin(role: string) {
-    switch (role) {
-      case UserRole.ROLE_USER: {
         this.router.navigateByUrl(this.returnUrl);
-        break;
-      }
-      case UserRole.ROLE_CEO: {
+      } else if (this.roles.includes(UserRole.ROLE_POST_OFFICE_MANAGER)) {
         this.router.navigateByUrl(this.returnUrl);
-        break;
-      }
-      case UserRole.ROLE_DEPOT_MANAGER: {
-        this.router.navigateByUrl(this.returnUrl);
-        break;
+      } else if (this.roles.includes(UserRole.ROLE_DEPOT_EMPLOYEE)) {
+        this.router.navigateByUrl(this.returnUrl+'/add-invoice');
+      } else if (this.roles.includes(UserRole.ROLE_POST_OFFICE_EMPLOYEE)) {
+        this.router.navigateByUrl(this.returnUrl+'/add-invoice');
       }
     }
   }
@@ -85,11 +72,15 @@ export class LoginComponent implements OnInit {
         this.isLoggedIn = true;
         this.roles = this.tokenStorageService.getUser().roles;
         if (this.roles.includes(UserRole.ROLE_CEO)) {
-          this.toLogin(UserRole.ROLE_CEO);
-        } else if (this.roles.includes(UserRole.ROLE_USER)) {
-          this.toLogin(UserRole.ROLE_USER);
+          this.router.navigateByUrl(this.returnUrl);
         } else if (this.roles.includes(UserRole.ROLE_DEPOT_MANAGER)) {
-          this.toLogin(UserRole.ROLE_DEPOT_MANAGER);
+          this.router.navigateByUrl(this.returnUrl);
+        } else if (this.roles.includes(UserRole.ROLE_POST_OFFICE_MANAGER)) {
+          this.router.navigateByUrl(this.returnUrl);
+        } else if (this.roles.includes(UserRole.ROLE_DEPOT_EMPLOYEE)) {
+          this.router.navigateByUrl('/admin/add-invoice');
+        } else if (this.roles.includes(UserRole.ROLE_POST_OFFICE_EMPLOYEE)) {
+          this.router.navigateByUrl('/admin/add-invoice');
         }
       },
       err => {
