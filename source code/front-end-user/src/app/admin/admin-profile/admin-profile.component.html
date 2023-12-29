@@ -44,12 +44,6 @@
                     [ngClass]="{'bg-blue-700 shadow-lg': toggleEmail}"
                     (click)="toggleUpdateEmail()"
                   ><i class="fa fa-envelope"></i></div>
-                  <div
-                    class="mx-2 w-8 h-8 flex justify-center items-center rounded-full bg-blue-500 hover:bg-blue-700 text-white text-lg cursor-pointer"
-                    [tooltip]="'Change avatar'" show-delay="100" hide-delay="100"
-                    (click)="toggleChangeAvatar()"
-                    [ngClass]="{'bg-blue-700 shadow-lg': toggleAvatar}"
-                  ><i class="fa fa-image"></i></div>
                 </div>
               </div>
               <div class="mx-8 md:w-1/2">
@@ -60,9 +54,6 @@
 
                 <ng-template [ngIf]="toggleEmail">
                   <app-update-email [userProfile]="userProfile" (emailUpdate)="updateEmail($event)"></app-update-email>
-                </ng-template>
-                <ng-template [ngIf]="toggleAvatar">
-                  <app-update-avatar (avatarUploadUrl)="getAvatarUpload($event)"></app-update-avatar>
                 </ng-template>
               </div>
             </div>

@@ -34,4 +34,7 @@ export class AddressService {
   getNewProvince():  Observable<any[]>{
     return this.http.get<any[]>(`${this.baseUrl}/province/available`);
   }
+  getProvinceHasParcel():  Observable<any[]>{
+    return this.http.get<any[]>(`${this.baseUrl}/parcel/get/depot/depot/get/province`);
+  }
 }

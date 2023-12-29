@@ -16,7 +16,6 @@ export class AdminProfileComponent implements OnInit {
 
   togglePwd = false;
   toggleEmail = false;
-  toggleAvatar = true;
   imgUpload = '';
   userProfile: UserAccount;
   @ViewChild(FileUploadComponent) fileUploadViewChild: FileUploadComponent;
@@ -44,13 +43,11 @@ export class AdminProfileComponent implements OnInit {
 
   toggleChangePwd() {
     this.toggleEmail = false;
-    this.toggleAvatar = false;
     this.togglePwd = true;
   }
 
   toggleUpdateEmail() {
     this.togglePwd = false;
-    this.toggleAvatar = false;
     this.toggleEmail = true;
 
   }
@@ -58,7 +55,6 @@ export class AdminProfileComponent implements OnInit {
   toggleChangeAvatar() {
     this.togglePwd = false;
     this.toggleEmail = false;
-    this.toggleAvatar = true;
 
   }
 
