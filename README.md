@@ -1,5 +1,5 @@
 # MAGIC POST
-> Build a web application for courier management
+> Build a web application for delivery management
 
 ## Table of contents
 * [General info](#general-info)
@@ -9,22 +9,19 @@
 * [Contact](#contact)
 
 ## General info
-This project supports for my final project in university,re-built based on my intern project at ISC Quang trung
+This is the final project of 'Web Development' Subject - Fall 2023
 
 ## Technologies
-* Spring Boot - version 2.0.1
+* Spring Boot - version 2.6.4
 * Angular - version 9
 * MySQL - version 8
 * Tailwindcss - version 1.2.0
 
 ## Demo
-[Click to view on youtube](https://www.youtube.com/watch?v=7MYMoGLcaMU)
 
 ## Features
-* Manage users, courses, parts
-* Manage exams, grade charts
+* Manage users, parcels, invoices
+* Manage branches (post offices, depots), employees
 * Login, reset password followed by email
-* Do exams, view answers, grade, schedule of exams, exam's process by charts
+* Send and receive parcel
 
-## Contact
-Created by [@matth0998](https://twitter.com/matth0998) - feel free to contact me!
