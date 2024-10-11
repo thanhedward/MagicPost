@@ -9,7 +9,7 @@
 * [Contact](#contact)
 
 ## General info
-This is the final project of 'Web Development' Subject - Fall 2023
+This is the final project of 'Web Development' Subject - Fall 2023!
 
 ## Technologies
 * Spring Boot - version 2.6.4
